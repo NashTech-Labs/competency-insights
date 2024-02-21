@@ -1,4 +1,4 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a User-friendly Nashar-Insights platform capable of gathering social insights from internal activities like blogs, Knolex, and certifications..
 
 ## Getting Started
 
