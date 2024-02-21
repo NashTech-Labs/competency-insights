@@ -1,2 +1,2 @@
 # Report Service
-Developing a user-friendly Nashar-Insights platform capable of gathering social insights from platforms such as LinkedIn, as well as internal activities like blogs, Knolex, and certifications.
+The Report Service retrieves data from the Snowflake GOLD table and presents it on the user interface (UI). This service is responsible for fetching information from a designated Snowflake table and displaying it in a user-friendly manner.

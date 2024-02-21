@@ -1,2 +1,2 @@
 # Master Service
-Developing a user-friendly Nashar-Insights platform capable of gathering social insights from platforms such as LinkedIn, as well as internal activities like blogs, Knolex, and certifications.
+The Master Service processes an Excel file containing Nasher information, such as names and relationship manager details, from the UI. It then saves this data to the Snowflake RAW table. This service manages the import of Nasher-related data from an Excel file, handling the extraction and storage process in the designated Snowflake table.

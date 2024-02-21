@@ -1,2 +1,2 @@
 # Contribution Service
-Developing a user-friendly Nashar-Insights platform capable of gathering social insights from platforms such as LinkedIn, as well as internal activities like blogs, Knolex, and certifications.
+The Contribute Service receives user input regarding competency contributions. It stores this information in both MongoDB and the Snowflake RAW table. This service handles the interaction where users provide input related to competency contributions, and it ensures that the data is stored in the appropriate databases.
