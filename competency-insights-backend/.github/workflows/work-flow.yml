@@ -2,9 +2,8 @@ name: GCP Competency-Insights Pipeline
 
 on:
   push:
-    branches: [ "feature/test-branch" ]
-  pull_request:
-    branches: [ "feature/test-branch" ]
+    branches:
+      - feature/test-branch
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
 
