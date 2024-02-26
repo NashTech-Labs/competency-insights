@@ -17,7 +17,7 @@ jobs:
         run: |
           cat projects-changes-deploy.txt | while read repo; do
               str=1
-              if [ $repo -eq $str ]
+              if [ 2 -eq $str ]
               then
                 echo "Processing repository: $repo"
               else
