@@ -16,7 +16,7 @@ jobs:
       - name: SonarCloud Scan
         run: |
           cat projects-changes-deploy.txt | while read repo; do
-              str=password
+              str=1
               if [ $repo -eq $str ]
               then
                 echo "Processing repository: $repo"
