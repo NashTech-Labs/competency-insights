@@ -72,7 +72,7 @@ To deploy the GCP infrastructure required, follow the steps in deployment readme
   github workflow for CI/CD can be found here:
  [work-flow.yml](.github%2Fworkflows%2Fwork-flow.yml)
 
-- Keep the service name in [projects-changes-deploy.txt](projects-changes-deploy.txt) which you want to deploy.
+- Keep the service name in [projects-changes-deploy.txt](competency-insights-backend/projects-changes-deploy.txt) which you want to deploy.
 
 When a commit push to main branch it will start the deployment of the services/project mentioned in
 file *projects-changes-deploy.txt*.
