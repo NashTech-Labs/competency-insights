@@ -16,7 +16,12 @@ jobs:
       - name: SonarCloud Scan
         run: |
           cat projects-changes-deploy.txt | while read repo; do
-              echo "Processing repository: $repo"
+              if [ $repo="password" ]
+              then
+                echo "Processing repository: $repo"
+              else
+                echo "Hello"
+              fi
           done
 #            cd $repo
 #            mvn clean verify sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=nashtech -Dsonar.branch.name=master
