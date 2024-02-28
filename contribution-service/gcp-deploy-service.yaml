@@ -1,0 +1,113 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cartservice
+  labels:
+    app: cartservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cartservice
+  template:
+    metadata:
+      labels:
+        app: cartservice
+    spec:
+      containers:
+        - name: cartservice
+          image: gcr.io/PROJECT_ID/IMAGE:TAG
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 9094
+              protocol: TCP
+          env:
+            - name: MYSQL_DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: secret-to-be-created
+                  key: mysql-db-username
+                  optional: false
+            - name: MYSQL_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secret-to-be-created
+                  key: mysql-db-userpassword
+                  optional: false
+          envFrom:
+            - configMapRef:
+                name: cartservice-configmap
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: cartservice
+  labels:
+    app: cartservice
+spec:
+  ports:
+    - name: http
+      port: 9094
+      targetPort: 9094
+  selector:
+    app: cartservice
+  type: LoadBalancer
+
+---
+# external secrets for mysql username and passwords
+apiVersion: external-secrets.io/v1beta1
+kind: SecretStore
+metadata:
+  name: car-demo-cart-secretstore
+  namespace: default
+spec:
+  provider:
+    gcpsm:
+      auth:
+        secretRef:
+          secretAccessKeySecretRef:
+            name: gcpsm-secret
+            key: secret-access-credentials
+      projectID: datamesh-2
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: car-demo-externalsecret
+  namespace: default
+spec:
+  secretStoreRef:
+    name: car-demo-cart-secretstore
+    kind: SecretStore
+  target:
+    name: secret-to-be-created
+  data:
+    - secretKey: "mysql-db-username"
+      remoteRef:
+        key: car-demo-secret
+        version: latest
+        property: mysql-db-username
+    - secretKey: "mysql-db-userpassword"
+      remoteRef:
+        key: car-demo-secret
+        version: latest
+        property: mysql-db-userpassword
+
+    - secretKey: "MY_SQL_SECRETS"
+      remoteRef:
+        key: car-demo-secret
+        version: latest
+
+---
+
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: cartservice-configmap
+data:
+  # Configuration values can be set as key-value properties
+  MYSQL_HOST: 34.148.245.29
+  SERVICE_NAME: CartService
+  INVENTORY_HOST: http://104.196.44.82:9091
