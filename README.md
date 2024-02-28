@@ -54,11 +54,15 @@ To deploy the GCP infrastructure required, follow the steps in deployment readme
 - Add required secrets in https://github.com/NashTech-Labs/competency-insights/settings/secrets/actions
 - GKE_KEY : the service account json key having these permission:
   ```
+    Cloud Datastore Owner
+    Cloud Functions Admin
     Compute Admin
     Container Registry Service Agent
     Create Service Accounts
+    Firestore Service Agent
     Kubernetes Engine Admin
     Project IAM Admin
+    Pub/Sub Admin
     Secret Manager Admin
     Secret Manager Secret Accessor
     Security Reviewer
