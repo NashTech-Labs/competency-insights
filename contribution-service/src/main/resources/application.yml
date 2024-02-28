@@ -1,0 +1,26 @@
+server:
+  port: 8081
+
+spring:
+  profiles:
+    active: ${ACTIVE_PROFILE:local}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+---
+spring:
+  config:
+    activate:
+      on-profile: gcp
+  cloud:
+    gcp:
+        project-id: ${GCP_PROJECT_ID:sonarqube-289802}
+#        credentials:
+#          location: file:/home/nashtech/IdeaProjects/competency-insights/infrastructure/terraform/key.json
+
+pubsub:
+  topic-id: nasher.info

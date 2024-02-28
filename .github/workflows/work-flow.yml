@@ -3,8 +3,6 @@ name: GCP Competency-Insights Pipeline
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
 
@@ -25,7 +23,7 @@ jobs:
           cat projects-changes-deploy.txt | while read repo; do
             echo "Processing repository: $repo"
             cd $repo
-            mvn clean verify sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=nashtech -Dsonar.branch.name=master
+           # mvn clean verify sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=nashtech -Dsonar.branch.name=master
             cd ..
           done
         env:
