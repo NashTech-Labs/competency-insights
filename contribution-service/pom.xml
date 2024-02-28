@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.nashtech</groupId>
-	<artifactId>contributionservice</artifactId>
+	<artifactId>contribution-service</artifactId>
 	<version>1.0.0</version>
 	<name>contribution-service</name>
 

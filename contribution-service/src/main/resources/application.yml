@@ -19,8 +19,6 @@ spring:
   cloud:
     gcp:
         project-id: ${GCP_PROJECT_ID:sonarqube-289802}
-#        credentials:
-#          location: file:/home/nashtech/IdeaProjects/competency-insights/infrastructure/terraform/key.json
 
 pubsub:
   topic-id: nasher.info

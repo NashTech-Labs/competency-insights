@@ -56,17 +56,17 @@ do
   case $project in
   # case 1 build and deploy okr-insights
   "contribution-service")
-    build_and_deploy_service okr-insights $GKE_CLUSTER contributionservice
+    build_and_deploy_service contribution-service $GKE_CLUSTER contributionservice
     cd ..;;
 
   # case 1 build and deploy report-service
   "report-service")
-    build_and_deploy_service okr-insights $GKE_CLUSTER resortservice
+    build_and_deploy_service report-service $GKE_CLUSTER resortservice
     cd ..;;
 
   # case 1 build and deploy master-service
   "master-service")
-    build_and_deploy_service okr-insights $GKE_CLUSTER masterservice
+    build_and_deploy_service master-service $GKE_CLUSTER masterservice
     cd ..;;
 
   # case 2 build and deploy competency-insights-ui
