@@ -41,6 +41,9 @@ build_and_deploy_service(){
    #echo "Docker Image Tag[$DOCKER_IMAGE_TAG]"
    echo "Artifact Image Tag[$ARTIFACT_IMAGE_TAG]"
 
+   #Docker to authenticate with Google Cloud
+   gcloud auth configure-docker
+   
    # Build and tag the Docker image
    docker build -f Dockerfile --tag $ARTIFACT_IMAGE_TAG .
    
