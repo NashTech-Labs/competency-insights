@@ -43,13 +43,10 @@ gcloud auth configure-docker us-east1-docker.pkg.dev
 docker tag ${GCR_REPOSITORY}:latest us-east1-docker.pkg.dev/${PROJECT_ID}/contribution-service:latest
 
 # Verify Project and Repository Permissions
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-    --member=user:$(gcloud config get-value account) \
-    --role=roles/artifactregistry.writer
+gcloud projects add-iam-policy-binding ${PROJECT_ID} --member=user:$(gcloud config get-value account) --role=roles/artifactregistry.writer
 
 # Verify Artifact Registry Repository Existence
-gcloud artifacts repositories create contribution-service \
-    --repository-format=docker --location=us-east1
+gcloud artifacts repositories create contribution-service --repository-format=docker --location=us-east1
 
 # Push Docker image to GCR (Artifact Registry)
 docker push ${GCR_REPOSITORY}:latest
