@@ -33,7 +33,7 @@ build_and_deploy_service(){
    
    echo "---------packaging done, start docker build-----------"
    #DOCKER_IMAGE_TAG=gcr.io/"$PROJECT_ID"/"$SERVICE_NAME":"$GITHUB_SHA"
-   ARTIFACT_IMAGE_TAG=$REGION-docker.pkg.dev/"$PROJECT_ID"/"$SERVICE_NAME":"$GITHUB_SHA"
+   ARTIFACT_IMAGE_TAG="$REGION"-docker.pkg.dev/"$PROJECT_ID"/"$SERVICE_NAME":"$GITHUB_SHA"
    echo "Service[$SERVICE_NAME]"
    echo "Cluster[$CLUSTER_NAME]"
    echo "Deployment[$DEPLOYMENT_NAME]"
