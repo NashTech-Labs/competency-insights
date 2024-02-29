@@ -37,7 +37,7 @@ build_and_deploy_service(){
    echo "Project[$PROJECT_ID]"
    echo "Docker Image Tag[$DOCKER_IMAGE_TAG]"
    
-   docker build -f Dockerfile --tag "$DOCKER_IMAGE_TAG" .
+   docker build -f Dockerfile --tag $DOCKER_IMAGE_TAG .
    echo  "--------docker build done, docker push---------------"
    docker push $DOCKER_IMAGE_TAG
    echo  "--------pushed docker image, deploy to gke cluster--------------------------"
@@ -48,7 +48,7 @@ build_and_deploy_service(){
     chmod u+x ./kustomize
 
     # set docker image for kustomize
-   ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE:"$DOCKER_IMAGE_TAG"
+   ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE:$DOCKER_IMAGE_TAG
    # deploy through kubectl
    ./kustomize build . | kubectl apply -f -
     kubectl rollout status deployment/"$DEPLOYMENT_NAME"
