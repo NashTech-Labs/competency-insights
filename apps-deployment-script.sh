@@ -32,22 +32,24 @@ build_and_deploy_service(){
    fi
    
    echo "---------packaging done, start docker build-----------"
-   DOCKER_IMAGE_TAG=gcr.io/"$PROJECT_ID"/"$SERVICE_NAME":"$GITHUB_SHA"
+   #DOCKER_IMAGE_TAG=gcr.io/"$PROJECT_ID"/"$SERVICE_NAME":"$GITHUB_SHA"
+   ARTIFACT_IMAGE_TAG=$REGION-docker.pkg.dev/"$PROJECT_ID"/"$SERVICE_NAME":"$GITHUB_SHA"
    echo "Service[$SERVICE_NAME]"
    echo "Cluster[$CLUSTER_NAME]"
    echo "Deployment[$DEPLOYMENT_NAME]"
    echo "Project[$PROJECT_ID]"
-   echo "Docker Image Tag[$DOCKER_IMAGE_TAG]"
+   #echo "Docker Image Tag[$DOCKER_IMAGE_TAG]"
+   echo "Artifact Image Tag[$ARTIFACT_IMAGE_TAG]"
 
    # Build and tag the Docker image
-   docker build -f Dockerfile --tag $DOCKER_IMAGE_TAG .
+   docker build -f Dockerfile --tag $ARTIFACT_IMAGE_TAG .
    
    echo  "--------docker build done, docker push---------------"
    # Authenticate Docker with Google Artifact Registry
    gcloud auth configure-docker "$REGION-docker.pkg.dev"
 
    # Push the Docker image to Artifact Registry
-   docker push $DOCKER_IMAGE_TAG
+   docker push  $ARTIFACT_IMAGE_TAG
    
     echo  "--------pushed docker image, deploy to gke cluster--------------------------"
     gcloud container clusters get-credentials "$CLUSTER_NAME" --region "$REGION"
@@ -56,7 +58,7 @@ build_and_deploy_service(){
     chmod u+x ./kustomize
 
     # set docker image for kustomize
-   ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE:$DOCKER_IMAGE_TAG
+   ./kustomize edit set image $REGION-docker.pkg.dev/PROJECT_ID/IMAGE:$ARTIFACT_IMAGE_TAG
    # deploy through kubectl
    ./kustomize build . | kubectl apply -f -
     kubectl rollout status deployment/"$DEPLOYMENT_NAME"
