@@ -24,13 +24,19 @@ build_and_deploy_service(){
    SERVICE_NAME=$1
    CLUSTER_NAME=$2
    DEPLOYMENT_NAME=$3
-   echo "---------build and deploy Serive[$SERVICE_NAME] on Cluster[$CLUSTER_NAME] deplyment[$DEPLOYMENT_NAME]-----------"
+   echo "---------build and deploy Service[$SERVICE_NAME] on Cluster[$CLUSTER_NAME] deployment[$DEPLOYMENT_NAME]-----------"
    cd "$SERVICE_NAME" || exit
    if [  $SERVICE_NAME != "competency-insights-ui" ]; then
        mvn clean install -s $GITHUB_WORKSPACE/settings.xml -X
    fi
    echo "---------packaging done, start docker build-----------"
    DOCKER_IMAGE_TAG=gcr.io/"$PROJECT_ID"/"$SERVICE_NAME":"$GITHUB_SHA"
+   echo "Service[$SERVICE_NAME]"
+   echo "Cluster[$CLUSTER_NAME]"
+   echo "Deployment[$DEPLOYMENT_NAME]"
+   echo "Project[$PROJECT_ID]"
+   echo "Docker Image Tag[$DOCKER_IMAGE_TAG]"
+   
    docker build -f Dockerfile --tag $DOCKER_IMAGE_TAG .
    echo  "--------docker build done, docker push---------------"
    docker push $DOCKER_IMAGE_TAG
