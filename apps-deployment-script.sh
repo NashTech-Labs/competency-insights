@@ -24,15 +24,16 @@ build_and_deploy_service(){
    SERVICE_NAME=$1
    CLUSTER_NAME=$2
    DEPLOYMENT_NAME=$3
-   echo "---------build and deploy $SERVICE_NAME-----------"
+   echo "---------build and deploy Serive[$SERVICE_NAME] on Cluster[$CLUSTER_NAME] deplyment[$DEPLOYMENT_NAME]-----------"
    cd "$SERVICE_NAME" || exit
    if [  $SERVICE_NAME != "competency-insights-ui" ]; then
        mvn clean install -s $GITHUB_WORKSPACE/settings.xml -X
    fi
    echo "---------packaging done, start docker build-----------"
-   docker build -f Dockerfile --tag gcr.io/"$PROJECT_ID"/"$SERVICE_NAME":"$GITHUB_SHA" .
+   DOCKER_IMAGE_TAG=gcr.io/"$PROJECT_ID"/"$SERVICE_NAME":"$GITHUB_SHA"
+   docker build -f Dockerfile --tag $DOCKER_IMAGE_TAG .
    echo  "--------docker build done, docker push---------------"
-   docker push gcr.io/"$PROJECT_ID"/"$SERVICE_NAME":"$GITHUB_SHA"
+   docker push $DOCKER_IMAGE_TAG
    echo  "--------pushed docker image, deploy to gke cluster--------------------------"
 
     gcloud container clusters get-credentials "$CLUSTER_NAME" --region "$REGION"
@@ -41,7 +42,7 @@ build_and_deploy_service(){
     chmod u+x ./kustomize
 
     # set docker image for kustomize
-   ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE:TAG=gcr.io/"$PROJECT_ID"/"$SERVICE_NAME":"$GITHUB_SHA"
+   ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE:TAG=$DOCKER_IMAGE_TAG
    # deploy through kubectl
    ./kustomize build . | kubectl apply -f -
     kubectl rollout status deployment/"$DEPLOYMENT_NAME"
