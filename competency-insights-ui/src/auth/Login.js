@@ -9,7 +9,7 @@ function Login() {
 
     const handleLogin = () => {
         instance.loginRedirect({
-            scopes: ["openid", "profile", "email"], // Add scopes as needed
+            scopes: ["openid", "profile", "email"],
             interactionType: InteractionType.Redirect,
         });
     };
@@ -18,11 +18,6 @@ function Login() {
         handleLogin();
         navigate("/dashboard");
     };
-
-  /*  <div>
-        <h1>Login Page</h1>
-        <button onClick={handleLoginAndRedirect}>Login via Microsoft</button>
-    </div>*/
 
     return (
             <div className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden">

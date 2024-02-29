@@ -18,8 +18,9 @@ function Dashboard() {
     }, [accounts]);
 
     const handleLogout = () => {
-        instance.logoutPopup();
-        navigate("/");
+        instance.logoutRedirect({
+            postLogoutRedirectUri: "/",
+        });
     };
 
     if (m_strUser !== "") {
