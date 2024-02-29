@@ -53,11 +53,15 @@ build_and_deploy_service(){
    
     echo  "--------pushed docker image, deploy to gke cluster--------------------------"
     gcloud container clusters get-credentials "$CLUSTER_NAME" --region "$REGION"
+
+    gcloud artifacts repositories create $SERVICE_NAME --repository-format=docker --location=$REGION
+    
     # setup kustomize
     curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
     chmod u+x ./kustomize
 
     # set docker image for kustomize
+    #LOCATION-docker.pkg.dev/PROJECT_ID/IMAGE:TAG
    ./kustomize edit set image LOCATION-docker.pkg.dev/PROJECT_ID/IMAGE:TAG=$ARTIFACT_IMAGE_TAG
    #  ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE:TAG=gcr.io/"$PROJECT_ID"/"$SERVICE_NAME":"$GITHUB_SHA"
    # deploy through kubectl
