@@ -20,15 +20,17 @@ build_and_deploy_service1(){
 }
 
 build_and_deploy_service(){
-
    SERVICE_NAME=$1
    CLUSTER_NAME=$2
    DEPLOYMENT_NAME=$3
+   
    echo "---------build and deploy Service[$SERVICE_NAME] on Cluster[$CLUSTER_NAME] deployment[$DEPLOYMENT_NAME]-----------"
+   
    cd "$SERVICE_NAME" || exit
    if [  $SERVICE_NAME != "competency-insights-ui" ]; then
        mvn clean install -s $GITHUB_WORKSPACE/settings.xml -X
    fi
+   
    echo "---------packaging done, start docker build-----------"
    DOCKER_IMAGE_TAG=gcr.io/"$PROJECT_ID"/"$SERVICE_NAME":"$GITHUB_SHA"
    echo "Service[$SERVICE_NAME]"
@@ -36,12 +38,18 @@ build_and_deploy_service(){
    echo "Deployment[$DEPLOYMENT_NAME]"
    echo "Project[$PROJECT_ID]"
    echo "Docker Image Tag[$DOCKER_IMAGE_TAG]"
-   
-   docker build -f Dockerfile --tag $DOCKER_IMAGE_TAG .
-   echo  "--------docker build done, docker push---------------"
-   docker push $DOCKER_IMAGE_TAG
-   echo  "--------pushed docker image, deploy to gke cluster--------------------------"
 
+   # Build and tag the Docker image
+   docker build -f Dockerfile --tag $DOCKER_IMAGE_TAG .
+   
+   echo  "--------docker build done, docker push---------------"
+   # Authenticate Docker with Google Artifact Registry
+   gcloud auth configure-docker "$REGION-docker.pkg.dev"
+
+   # Push the Docker image to Artifact Registry
+   docker push $DOCKER_IMAGE_TAG
+   
+    echo  "--------pushed docker image, deploy to gke cluster--------------------------"
     gcloud container clusters get-credentials "$CLUSTER_NAME" --region "$REGION"
     # setup kustomize
     curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
@@ -61,7 +69,7 @@ for project in $(cat projects-changes-deploy.txt)
 do
    :
   case $project in
-  # case 1 build and deploy okr-insights
+  # case 1 build and deploy contribution-service
   "contribution-service")
     build_and_deploy_service contribution-service $GKE_CLUSTER contributionservice
     cd ..;;
