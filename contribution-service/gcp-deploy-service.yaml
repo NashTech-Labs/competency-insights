@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: contributionservice
-          image: gcr.io/PROJECT_ID/IMAGE:TAG
+          image: LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY/IMAGE:TAG
           imagePullPolicy: Always
           ports:
             - name: http
