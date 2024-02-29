@@ -24,6 +24,12 @@ build_and_deploy_service(){
 SERVICE_NAME=$1
 CLUSTER_NAME=$2
 DEPLOYMENT_NAME=$3
+
+cd "$SERVICE_NAME" || exit
+if [  $SERVICE_NAME != "competency-insights-ui" ]; then
+      mvn clean install -s $GITHUB_WORKSPACE/settings.xml -X
+fi
+
 # GCR Repository in Artifact Registry
 GCR_REPOSITORY="$REGION-docker.pkg.dev/${PROJECT_ID}/$SERVICE_NAME"
 
