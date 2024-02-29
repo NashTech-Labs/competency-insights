@@ -20,6 +20,74 @@ build_and_deploy_service1(){
 }
 
 build_and_deploy_service(){
+# Set your project, region, GKE cluster, and service name
+SERVICE_NAME=$1
+CLUSTER_NAME=$2
+DEPLOYMENT_NAME=$3
+# GCR Repository in Artifact Registry
+GCR_REPOSITORY="$REGION-docker.pkg.dev/${PROJECT_ID}/$SERVICE_NAME"
+
+# Build Docker image
+docker build -t ${GCR_REPOSITORY}/${SERVICE_NAME}:latest .
+
+# Authenticate Docker to GCR (Artifact Registry)
+gcloud auth configure-docker ${GCR_REPOSITORY}
+
+# Push Docker image to GCR (Artifact Registry)
+docker push ${GCR_REPOSITORY}/${SERVICE_NAME}:latest
+
+# Set the Kubernetes context to the desired GKE cluster
+gcloud container clusters get-credentials ${GKE_CLUSTER} --region=${REGION} --project=${PROJECT_ID}
+
+# Create and apply Kubernetes Deployment and Service from the combined YAML
+kubectl apply -f - <<EOF
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${SERVICE_NAME}-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ${SERVICE_NAME}
+  template:
+    metadata:
+      labels:
+        app: ${SERVICE_NAME}
+    spec:
+      containers:
+        - name: ${SERVICE_NAME}
+          image: ${GCR_REPOSITORY}/${SERVICE_NAME}:latest
+          ports:
+            - containerPort: 8081
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${SERVICE_NAME}-service
+spec:
+  selector:
+    app: ${SERVICE_NAME}
+  ports:
+    - protocol: TCP
+      port: 81
+      targetPort: 8081
+  type: LoadBalancer
+EOF
+
+# Wait for the deployment to complete
+kubectl rollout status deployment/${SERVICE_NAME}-deployment
+
+# Output the external IP address once available
+echo "Waiting for external IP..."
+while [ -z "$(kubectl get svc ${SERVICE_NAME}-service -o jsonpath='{.status.loadBalancer.ingress[0].ip}')" ]; do
+  sleep 5
+done
+EXTERNAL_IP=$(kubectl get svc ${SERVICE_NAME}-service -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+echo "Service deployed. Access it at: http://${EXTERNAL_IP}"
+}
+
+build_and_deploy_service2(){
    SERVICE_NAME=$1
    CLUSTER_NAME=$2
    DEPLOYMENT_NAME=$3
