@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: contributionservice
-          image: LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY/IMAGE:TAG
+          image: LOCATION-docker.pkg.dev/PROJECT_ID/REPOSITORY/IMAGE:TAG
           imagePullPolicy: Always
           ports:
             - name: http
