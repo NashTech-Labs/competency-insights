@@ -24,7 +24,7 @@ build_and_deploy_service(){
 SERVICE_NAME=$1
 CLUSTER_NAME=$2
 DEPLOYMENT_NAME=$3
-
+REPOSITORY_NAME=$SERVICE_NAME
 cd "$SERVICE_NAME" || exit
 if [  $SERVICE_NAME != "competency-insights-ui" ]; then
       mvn clean install -s $GITHUB_WORKSPACE/settings.xml -X
@@ -39,8 +39,17 @@ docker build -t ${GCR_REPOSITORY}:latest .
 # Authenticate Docker to GCR (Artifact Registry)
 gcloud auth configure-docker us-east1-docker.pkg.dev
 
+# Check if the repository exists
+if gcloud artifacts repositories describe "$REPOSITORY_NAME" --location="$REGION" &>/dev/null; then
+    echo "Repository '$REPOSITORY_NAME' already exists."
+else
+    # Create the repository
+    gcloud artifacts repositories create "$REPOSITORY_NAME" --repository-format=docker --location="$REGION"
+    echo "Repository '$REPOSITORY_NAME' created successfully."
+fi
+
 # Verify Artifact Registry Repository Existence
-gcloud artifacts repositories create contribution-service --repository-format=docker --location=us-east1
+#gcloud artifacts repositories create contribution-service --repository-format=docker --location=us-east1
 
 # Tag Docker image correctly
 docker tag ${GCR_REPOSITORY}:latest ${GCR_REPOSITORY}/contribution-service:latest
