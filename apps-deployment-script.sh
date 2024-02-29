@@ -31,16 +31,28 @@ if [  $SERVICE_NAME != "competency-insights-ui" ]; then
 fi
 
 # GCR Repository in Artifact Registry
-GCR_REPOSITORY="$REGION-docker.pkg.dev/${PROJECT_ID}/$SERVICE_NAME"
+GCR_REPOSITORY="us-east1-docker.pkg.dev/${PROJECT_ID}/contribution-service"
 
 # Build Docker image
-docker build -t ${GCR_REPOSITORY}/${SERVICE_NAME}:latest .
+docker build -t ${GCR_REPOSITORY}:latest .
 
 # Authenticate Docker to GCR (Artifact Registry)
-gcloud auth configure-docker ${GCR_REPOSITORY}
+gcloud auth configure-docker us-east1-docker.pkg.dev
+
+# Check Docker image tagging
+docker tag ${GCR_REPOSITORY}:latest us-east1-docker.pkg.dev/${PROJECT_ID}/contribution-service:latest
+
+# Verify Project and Repository Permissions
+gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+    --member=user:$(gcloud config get-value account) \
+    --role=roles/artifactregistry.writer
+
+# Verify Artifact Registry Repository Existence
+gcloud artifacts repositories create contribution-service \
+    --repository-format=docker --location=us-east1
 
 # Push Docker image to GCR (Artifact Registry)
-docker push ${GCR_REPOSITORY}/${SERVICE_NAME}:latest
+docker push ${GCR_REPOSITORY}:latest
 
 # Set the Kubernetes context to the desired GKE cluster
 gcloud container clusters get-credentials ${GKE_CLUSTER} --region=${REGION} --project=${PROJECT_ID}
@@ -52,7 +64,7 @@ kind: Deployment
 metadata:
   name: ${SERVICE_NAME}-deployment
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: ${SERVICE_NAME}
@@ -63,9 +75,9 @@ spec:
     spec:
       containers:
         - name: ${SERVICE_NAME}
-          image: ${GCR_REPOSITORY}/${SERVICE_NAME}:latest
+          image: ${GCR_REPOSITORY}:latest
           ports:
-            - containerPort: 8081
+            - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
@@ -76,8 +88,8 @@ spec:
     app: ${SERVICE_NAME}
   ports:
     - protocol: TCP
-      port: 81
-      targetPort: 8081
+      port: 80
+      targetPort: 8080
   type: LoadBalancer
 EOF
 
@@ -91,6 +103,7 @@ while [ -z "$(kubectl get svc ${SERVICE_NAME}-service -o jsonpath='{.status.load
 done
 EXTERNAL_IP=$(kubectl get svc ${SERVICE_NAME}-service -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 echo "Service deployed. Access it at: http://${EXTERNAL_IP}"
+
 }
 
 build_and_deploy_service2(){
