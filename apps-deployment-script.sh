@@ -61,7 +61,7 @@ do
 
   # case 1 build and deploy report-service
   "report-service")
-    build_and_deploy_service report-service $GKE_CLUSTER resortservice
+    build_and_deploy_service report-service $GKE_CLUSTER reportservice
     cd ..;;
 
   # case 1 build and deploy master-service
