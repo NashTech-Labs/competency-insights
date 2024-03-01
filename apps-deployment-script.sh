@@ -58,6 +58,7 @@ else
     echo "Repository '$REPOSITORY_NAME' created successfully."
 fi
 
+
 # Tag Docker image correctly
 docker tag ${GCR_REPOSITORY}/${SERVICE_NAME}:latest ${GCR_REPOSITORY}/${SERVICE_NAME}:latest
 
