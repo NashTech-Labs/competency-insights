@@ -35,9 +35,9 @@ GCR_REPOSITORY="$REGION-docker.pkg.dev/${PROJECT_ID}/$REPOSITORY_NAME"
 # us-east1-docker.pkg.dev/competency-insights/contribution-service:$GITHUB_SHA
 
 # Build Docker image
-docker build -t ${GCR_REPOSITORY}/$SERVICE_NAME:latest .
+docker build -t ${GCR_REPOSITORY}/$SERVICE_NAME:$GITHUB_SHA .
 
-#gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://$REGION-docker.pkg.dev
+gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://$REGION-docker.pkg.dev
 
 # Check if the repository exists
 if gcloud artifacts repositories describe "$REPOSITORY_NAME" --location="$REGION" &>/dev/null; then
@@ -49,10 +49,10 @@ else
 fi
 
 # Tag Docker image correctly
-docker tag ${GCR_REPOSITORY}/${SERVICE_NAME}:latest ${GCR_REPOSITORY}/${SERVICE_NAME}:latest
+docker tag ${GCR_REPOSITORY}/${SERVICE_NAME}:$GITHUB_SHA ${GCR_REPOSITORY}/${SERVICE_NAME}:latest
 
 # Push Docker image to GCR (Artifact Registry)
-docker push ${GCR_REPOSITORY}/$SERVICE_NAME:latest
+docker push ${GCR_REPOSITORY}/$SERVICE_NAME:$GITHUB_SHA
 
 # Authenticate Docker to GCR (Artifact Registry)
 gcloud auth configure-docker $REGION-docker.pkg.dev
