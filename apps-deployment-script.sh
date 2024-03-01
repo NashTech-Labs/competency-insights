@@ -78,9 +78,7 @@ spec:
     spec:
       containers:
         - name: ${SERVICE_NAME}
-          image: ${GCR_REPOSITORY}:latest
-          #imagePullSecrets:
-            #- name: regcred
+          image: ${GCR_REPOSITORY}/$SERVICE_NAME:latest
           ports:
             - containerPort: 8080
 ---
