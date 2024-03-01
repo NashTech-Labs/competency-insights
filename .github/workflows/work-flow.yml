@@ -51,7 +51,6 @@ jobs:
         with:
           project_id: ${{ env.GKE_PROJECT }}
 
-
         # Configure Docker to use the gcloud command-line tool as a credential
         # helper for authentication
       - name: configure docker
