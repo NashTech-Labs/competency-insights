@@ -6,6 +6,7 @@ GKE_CLUSTER="competency-insights-cluster"
 # install gke-gcloud-auth-plugin to install kubectl and authenticate gke.
 gcloud --quiet components install gke-gcloud-auth-plugin
 
+
 build_and_deploy_service1(){
 # NON GCP deployment
    SERVICE_NAME=$1
