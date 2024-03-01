@@ -31,7 +31,7 @@ if [  $SERVICE_NAME != "competency-insights-ui" ]; then
 fi
 
 # GCR Repository in Artifact Registry
-GCR_REPOSITORY="$REGION-docker.pkg.dev/${PROJECT_ID}/$SERVICE_NAME"
+GCR_REPOSITORY="$REGION-docker.pkg.dev/${PROJECT_ID}/$REPOSITORY_NAME/$SERVICE_NAME"
 
 # Build Docker image
 docker build -t ${GCR_REPOSITORY}:latest .
