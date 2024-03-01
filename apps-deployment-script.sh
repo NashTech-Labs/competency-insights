@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 PROJECT_ID="$(gcloud config get-value project)"
 REGION="$1"
 SECRETS="$2"
