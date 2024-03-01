@@ -52,7 +52,7 @@ else
 fi
 
 # Tag Docker image correctly
-docker tag ${GCR_REPOSITORY}/$SERVICE_NAME:latest
+docker tag ${GCR_REPOSITORY}/$SERVICE_NAME:latest ${GCR_REPOSITORY}/$SERVICE_NAME:latest
 
 # Push Docker image to GCR (Artifact Registry)
 docker push ${GCR_REPOSITORY}/$SERVICE_NAME:latest
