@@ -39,7 +39,9 @@ GCR_REPOSITORY="$REGION-docker.pkg.dev/${PROJECT_ID}/$REPOSITORY_NAME"
 # Build Docker image
 docker build -t ${GCR_REPOSITORY}/$SERVICE_NAME:latest .
 
-gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://$REGION-docker.pkg.dev
+#gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://$REGION-docker.pkg.dev
+# Authenticate Docker to GCR (Artifact Registry)
+gcloud auth configure-docker $REGION-docker.pkg.dev
 
 # Check if the repository exists
 if gcloud artifacts repositories describe "$REPOSITORY_NAME" --location="$REGION" &>/dev/null; then
@@ -60,8 +62,8 @@ docker push ${GCR_REPOSITORY}/$SERVICE_NAME:latest
 #echo "$SECRETS" | base64 -d > /tmp/gcp_sa_key.json
 #gcloud auth activate-service-account competency-insights@sonarqube-289802.iam.gserviceaccount.com --key-file=/tmp/gcp_sa_key.json
 
-# Authenticate Docker to GCR (Artifact Registry)
-gcloud auth configure-docker $REGION-docker.pkg.dev
+## Authenticate Docker to GCR (Artifact Registry)
+#gcloud auth configure-docker $REGION-docker.pkg.dev
 
 # Set the Kubernetes context to the desired GKE cluster
 gcloud container clusters get-credentials ${GKE_CLUSTER} --region=${REGION} --project=${PROJECT_ID}
