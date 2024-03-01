@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 PROJECT_ID="$(gcloud config get-value project)"
 REGION="$1"
 SECRETS="$2"
@@ -57,6 +58,7 @@ else
     echo "Repository '$REPOSITORY_NAME' created successfully."
 fi
 
+
 # Tag Docker image correctly
 docker tag ${GCR_REPOSITORY}/${SERVICE_NAME}:latest ${GCR_REPOSITORY}/${SERVICE_NAME}:latest
 
@@ -91,6 +93,7 @@ spec:
       containers:
         - name: ${SERVICE_NAME}
           image: ${GCR_REPOSITORY}/${SERVICE_NAME}:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
 ---
