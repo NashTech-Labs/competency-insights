@@ -78,7 +78,7 @@ spec:
     spec:
       containers:
         - name: ${SERVICE_NAME}
-          image: us-east1-docker.pkg.dev/sonarqube-289802/competency-insights/contribution-service:latest #${GCR_REPOSITORY}/${SERVICE_NAME}:latest
+          image: ${GCR_REPOSITORY}/${SERVICE_NAME}:latest
           ports:
             - containerPort: 8080
 ---
