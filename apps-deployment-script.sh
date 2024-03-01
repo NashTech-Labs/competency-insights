@@ -60,7 +60,7 @@ docker push ${GCR_REPOSITORY}/contribution-service:latest
 # Set the Kubernetes context to the desired GKE cluster
 gcloud container clusters get-credentials ${GKE_CLUSTER} --region=${REGION} --project=${PROJECT_ID}
 
-kubectl create secret generic regcred --from-file=.dockerconfigjson=/home/runner/.docker/config.json --type=kubernetes.io/dockerconfigjson
+#kubectl create secret generic regcred --from-file=.dockerconfigjson=/home/runner/.docker/config.json --type=kubernetes.io/dockerconfigjson
 
 # Create and apply Kubernetes Deployment and Service from the combined YAML
 kubectl apply -f - <<EOF
@@ -81,8 +81,8 @@ spec:
       containers:
         - name: ${SERVICE_NAME}
           image: ${GCR_REPOSITORY}:latest
-          imagePullSecrets:
-           - name: regcred
+          #imagePullSecrets:
+            #- name: regcred
           ports:
             - containerPort: 8080
 ---
