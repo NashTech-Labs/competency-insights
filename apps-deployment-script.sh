@@ -2,6 +2,7 @@
 
 PROJECT_ID="$(gcloud config get-value project)"
 REGION="$1"
+SECRETS"$2"
 GKE_CLUSTER="competency-insights-cluster"
 # install gke-gcloud-auth-plugin to install kubectl and authenticate gke.
 gcloud --quiet components install gke-gcloud-auth-plugin
@@ -54,6 +55,9 @@ docker tag ${GCR_REPOSITORY}/${SERVICE_NAME}:latest ${GCR_REPOSITORY}/${SERVICE_
 
 # Push Docker image to GCR (Artifact Registry)
 docker push ${GCR_REPOSITORY}/$SERVICE_NAME:latest
+
+echo "secrets: '$SECRETS'"
+gcloud auth activate-service-account competency-insights@sonarqube-289802.iam.gserviceaccount.com --key-file=$SECRETS
 
 # Authenticate Docker to GCR (Artifact Registry)
 gcloud auth configure-docker $REGION-docker.pkg.dev
