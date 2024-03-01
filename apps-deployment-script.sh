@@ -60,6 +60,8 @@ docker push ${GCR_REPOSITORY}/contribution-service:latest
 # Set the Kubernetes context to the desired GKE cluster
 gcloud container clusters get-credentials ${GKE_CLUSTER} --region=${REGION} --project=${PROJECT_ID}
 
+kubectl create secret generic regcred --from-file=.dockerconfigjson=/home/runner/.docker/config.json --type=kubernetes.io/dockerconfigjson
+
 # Create and apply Kubernetes Deployment and Service from the combined YAML
 kubectl apply -f - <<EOF
 apiVersion: apps/v1
@@ -97,8 +99,6 @@ spec:
       targetPort: 8080
   type: LoadBalancer
 EOF
-
-kubectl create secret generic regcred --from-file=.dockerconfigjson=/home/runner/.docker/config.json --type=kubernetes.io/dockerconfigjson
 
 # Wait for the deployment to complete
 kubectl rollout status deployment/${SERVICE_NAME}-deployment
