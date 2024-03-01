@@ -76,7 +76,7 @@ spec:
       labels:
         app: ${SERVICE_NAME}
     spec:
-      serviceAccountName: competency-insights@sonarqube-289802.iam.gserviceaccount.com
+      #serviceAccountName: competency-insights@sonarqube-289802.iam.gserviceaccount.com
       containers:
         - name: ${SERVICE_NAME}
           image: ${GCR_REPOSITORY}/${SERVICE_NAME}:latest
