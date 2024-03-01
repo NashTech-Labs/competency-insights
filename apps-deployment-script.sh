@@ -76,7 +76,7 @@ spec:
       labels:
         app: ${SERVICE_NAME}
     spec:
-      serviceAccountName: competency-insights
+      #serviceAccountName: competency-insights
       containers:
         - name: ${SERVICE_NAME}
           image: ${GCR_REPOSITORY}/${SERVICE_NAME}:latest
