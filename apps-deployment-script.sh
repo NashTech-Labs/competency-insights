@@ -91,6 +91,7 @@ spec:
       containers:
         - name: ${SERVICE_NAME}
           image: ${GCR_REPOSITORY}/${SERVICE_NAME}:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
 ---
