@@ -24,45 +24,41 @@ build_and_deploy_service(){
 SERVICE_NAME=$1
 CLUSTER_NAME=$2
 DEPLOYMENT_NAME=$3
-REPOSITORY_NAME=$SERVICE_NAME
+REPOSITORY_NAME=competency-insights
 cd "$SERVICE_NAME" || exit
 if [  $SERVICE_NAME != "competency-insights-ui" ]; then
       mvn clean install -s $GITHUB_WORKSPACE/settings.xml -X
 fi
 
 # GCR Repository in Artifact Registry
-GCR_REPOSITORY="us-east1-docker.pkg.dev/${PROJECT_ID}/contribution-service"
+GCR_REPOSITORY="$REGION-docker.pkg.dev/${PROJECT_ID}/$SERVICE_NAME"
 
 # Build Docker image
 docker build -t ${GCR_REPOSITORY}:latest .
 
 # Authenticate Docker to GCR (Artifact Registry)
-gcloud auth configure-docker us-east1-docker.pkg.dev
+gcloud auth configure-docker $REGION-docker.pkg.dev
 
-gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://us-east1-docker.pkg.dev
+gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://$REGION-docker.pkg.dev
 
 # Check if the repository exists
 if gcloud artifacts repositories describe "$REPOSITORY_NAME" --location="$REGION" &>/dev/null; then
-    echo "Repository '$REPOSITORY_NAME' already exists."
+    echo "Repository '$REPOSITORY_NAME' already exists no need to create."
 else
     # Create the repository
     gcloud artifacts repositories create "$REPOSITORY_NAME" --repository-format=docker --location="$REGION"
     echo "Repository '$REPOSITORY_NAME' created successfully."
 fi
 
-# Verify Artifact Registry Repository Existence
-#gcloud artifacts repositories create contribution-service --repository-format=docker --location=us-east1
-
 # Tag Docker image correctly
-docker tag ${GCR_REPOSITORY}:latest ${GCR_REPOSITORY}/contribution-service:latest
+docker tag ${GCR_REPOSITORY}:latest ${GCR_REPOSITORY}/$SERVICE_NAME:latest
 
 # Push Docker image to GCR (Artifact Registry)
-docker push ${GCR_REPOSITORY}/contribution-service:latest
+docker push ${GCR_REPOSITORY}/$SERVICE_NAME:latest
 
 # Set the Kubernetes context to the desired GKE cluster
 gcloud container clusters get-credentials ${GKE_CLUSTER} --region=${REGION} --project=${PROJECT_ID}
 
-#kubectl create secret generic regcred --from-file=.dockerconfigjson=/home/runner/.docker/config.json --type=kubernetes.io/dockerconfigjson
 
 # Create and apply Kubernetes Deployment and Service from the combined YAML
 kubectl apply -f - <<EOF
