@@ -2,6 +2,7 @@ package com.nashtech.contributionservice.rest;
 
 import com.nashtech.contributionservice.entity.Nasher;
 import com.nashtech.contributionservice.service.PasGo1Service;
+import com.nashtech.contributionservice.service.gcp.PasGo1ServiceImpl;
 import com.nashtech.contributionservice.service.Processor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

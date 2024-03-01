@@ -1,4 +1,4 @@
-package com.nashtech.contributionservice.service;
+package com.nashtech.contributionservice.service.gcp;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
