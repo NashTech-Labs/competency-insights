@@ -31,10 +31,11 @@ if [  $SERVICE_NAME != "competency-insights-ui" ]; then
 fi
 
 # GCR Repository in Artifact Registry
-GCR_REPOSITORY="$REGION-docker.pkg.dev/${PROJECT_ID}/$REPOSITORY_NAME/$SERVICE_NAME"
+GCR_REPOSITORY="$REGION-docker.pkg.dev/${PROJECT_ID}/$REPOSITORY_NAME"
+# us-east1-docker.pkg.dev/competency-insights/contribution-service:$GITHUB_SHA
 
 # Build Docker image
-docker build -t ${GCR_REPOSITORY}:latest .
+docker build -t ${GCR_REPOSITORY}/$SERVICE_NAME:latest .
 
 # Authenticate Docker to GCR (Artifact Registry)
 gcloud auth configure-docker $REGION-docker.pkg.dev
@@ -51,7 +52,7 @@ else
 fi
 
 # Tag Docker image correctly
-docker tag ${GCR_REPOSITORY}:latest ${GCR_REPOSITORY}/$SERVICE_NAME:latest
+docker tag ${GCR_REPOSITORY}/$SERVICE_NAME:latest
 
 # Push Docker image to GCR (Artifact Registry)
 docker push ${GCR_REPOSITORY}/$SERVICE_NAME:latest
@@ -78,7 +79,7 @@ spec:
     spec:
       containers:
         - name: ${SERVICE_NAME}
-          image: ${GCR_REPOSITORY}/$SERVICE_NAME:latest
+          image: ${GCR_REPOSITORY}/$SERVICE_NAME:latest 
           ports:
             - containerPort: 8080
 ---
