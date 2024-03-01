@@ -37,9 +37,6 @@ GCR_REPOSITORY="$REGION-docker.pkg.dev/${PROJECT_ID}/$REPOSITORY_NAME"
 # Build Docker image
 docker build -t ${GCR_REPOSITORY}/$SERVICE_NAME:latest .
 
-# Authenticate Docker to GCR (Artifact Registry)
-gcloud auth configure-docker $REGION-docker.pkg.dev
-
 gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://$REGION-docker.pkg.dev
 
 # Check if the repository exists
@@ -57,9 +54,11 @@ docker tag ${GCR_REPOSITORY}/${SERVICE_NAME}:latest ${GCR_REPOSITORY}/${SERVICE_
 # Push Docker image to GCR (Artifact Registry)
 docker push ${GCR_REPOSITORY}/$SERVICE_NAME:latest
 
+# Authenticate Docker to GCR (Artifact Registry)
+gcloud auth configure-docker $REGION-docker.pkg.dev
+
 # Set the Kubernetes context to the desired GKE cluster
 gcloud container clusters get-credentials ${GKE_CLUSTER} --region=${REGION} --project=${PROJECT_ID}
-
 
 # Create and apply Kubernetes Deployment and Service from the combined YAML
 kubectl apply -f - <<EOF
@@ -79,7 +78,7 @@ spec:
     spec:
       containers:
         - name: ${SERVICE_NAME}
-          image: ${GCR_REPOSITORY}/${SERVICE_NAME}:latest
+          image: us-east1-docker.pkg.dev/sonarqube-289802/competency-insights/contribution-service:latest #${GCR_REPOSITORY}/${SERVICE_NAME}:latest
           ports:
             - containerPort: 8080
 ---
