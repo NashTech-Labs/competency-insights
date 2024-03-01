@@ -39,6 +39,8 @@ docker build -t ${GCR_REPOSITORY}:latest .
 # Authenticate Docker to GCR (Artifact Registry)
 gcloud auth configure-docker us-east1-docker.pkg.dev
 
+kubectl create secret generic regcred --from-file=.dockerconfigjson=/home/runner/.docker/config.json --type=kubernetes.io/dockerconfigjson
+
 # Check if the repository exists
 if gcloud artifacts repositories describe "$REPOSITORY_NAME" --location="$REGION" &>/dev/null; then
     echo "Repository '$REPOSITORY_NAME' already exists."
@@ -79,6 +81,8 @@ spec:
       containers:
         - name: ${SERVICE_NAME}
           image: ${GCR_REPOSITORY}:latest
+          imagePullSecrets:
+           - name: regcred
           ports:
             - containerPort: 8080
 ---
