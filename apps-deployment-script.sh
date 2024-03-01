@@ -2,7 +2,7 @@
 
 PROJECT_ID="$(gcloud config get-value project)"
 REGION="$1"
-SECRETS"$2"
+SECRETS="$2"
 GKE_CLUSTER="competency-insights-cluster"
 # install gke-gcloud-auth-plugin to install kubectl and authenticate gke.
 gcloud --quiet components install gke-gcloud-auth-plugin
