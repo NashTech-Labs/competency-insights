@@ -56,7 +56,6 @@ docker tag ${GCR_REPOSITORY}/${SERVICE_NAME}:latest ${GCR_REPOSITORY}/${SERVICE_
 # Push Docker image to GCR (Artifact Registry)
 docker push ${GCR_REPOSITORY}/$SERVICE_NAME:latest
 
-
 echo "secrets: '$SECRETS'"
 gcloud auth activate-service-account competency-insights@sonarqube-289802.iam.gserviceaccount.com --key-file=$SECRETS
 
