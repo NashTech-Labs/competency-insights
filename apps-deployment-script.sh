@@ -57,7 +57,8 @@ docker tag ${GCR_REPOSITORY}/${SERVICE_NAME}:latest ${GCR_REPOSITORY}/${SERVICE_
 docker push ${GCR_REPOSITORY}/$SERVICE_NAME:latest
 
 echo "secrets: '$SECRETS'"
-gcloud auth activate-service-account competency-insights@sonarqube-289802.iam.gserviceaccount.com --key-file=$SECRETS
+echo "$SECRETS" | base64 -d > /tmp/gcp_sa_key.json
+gcloud auth activate-service-account competency-insights@sonarqube-289802.iam.gserviceaccount.com --key-file=/tmp/gcp_sa_key.json
 
 # Authenticate Docker to GCR (Artifact Registry)
 gcloud auth configure-docker $REGION-docker.pkg.dev
