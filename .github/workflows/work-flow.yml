@@ -1,8 +1,10 @@
-name: GCP Competency-Insights CI/CD Pipeline
+name: CI/CD Pipeline
+
 on:
   push:
     branches:
       - main
+
 env:
   PROJECT_ID: '${{ secrets.GKE_PROJECT }}'
   SERVICE_ACCOUNT_KEY: '${{ secrets.GKE_KEY }}'
@@ -10,9 +12,11 @@ env:
   CLUSTER_ZONE: us-east1-b
   REGISTRY_REGION: us-east1
   REGISTRY_NAME: competency-insights
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -35,17 +39,12 @@ jobs:
         run: |
           for SERVICE_NAME in $(echo ${{ steps.read-service-names.outputs.service_names }} | tr ',' ' '); do
             echo "Building and deploying $SERVICE_NAME"
-            
+
+            # Set the build context to the root directory
+            cd $SERVICE_NAME
+
             # Build Docker image
             docker build -t ${{ env.REGISTRY_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/$SERVICE_NAME .
 
-            # Configure Docker
-            gcloud auth configure-docker ${{ env.REGISTRY_REGION }}-docker.pkg.dev
-
-            # Push Docker image to Google Artifact Registry
-            docker push ${{ env.REGISTRY_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/$SERVICE_NAME
-
-            # Deploy to GKE
-            gcloud container clusters get-credentials ${{ env.CLUSTER_NAME }} --zone ${{ env.CLUSTER_ZONE }}
-            kubectl apply -f gcp-deploy-service.yaml
+            # ... rest of your workflow ...
           done
