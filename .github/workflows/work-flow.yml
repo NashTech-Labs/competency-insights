@@ -43,7 +43,7 @@ jobs:
             # Set the build context to the root directory
             cd $SERVICE_NAME
             if [  $SERVICE_NAME != "competency-insights-ui" ]; then
-                mvn clean install -s settings.xml -X
+                mvn clean install
             fi
 
             # Build Docker image
