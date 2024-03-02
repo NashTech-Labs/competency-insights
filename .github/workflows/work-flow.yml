@@ -1,63 +1,51 @@
-name: GCP Competency-Insights Pipeline
-
+name: GCP Competency-Insights CI/CD Pipeline
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
 env:
-  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-
+  PROJECT_ID: '${{ secrets.GKE_PROJECT }}'
+  SERVICE_ACCOUNT_KEY: '${{ secrets.GKE_KEY }}'
+  CLUSTER_NAME: competency-insights-cluster
+  CLUSTER_ZONE: us-east1-b
+  REGISTRY_REGION: us-east1
+  REGISTRY_NAME: competency-insights
 jobs:
-  sonarcloud:
-    name: SonarCloud
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 19
-        uses: actions/setup-java@v3
-        with:
-          java-version: '19'
-          distribution: 'temurin'
-          cache: maven
-      - name: SonarCloud Scan
-        run: |
-          cat projects-changes-deploy.txt | while read repo; do
-            echo "Processing repository: $repo"
-            cd $repo
-           # mvn clean verify sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=nashtech -Dsonar.branch.name=master
-            cd ..
-          done
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  setup-build-publish-deploy:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-      id-token: write
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 19
-        uses: actions/setup-java@v3
-        with:
-          java-version: '19'
-          distribution: 'temurin'
-          server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
-          settings-path: ${{ github.workspace }}
-      - uses: 'google-github-actions/auth@v1'
-        with:
-          credentials_json: ${{ secrets.GKE_KEY }}
-      - uses: google-github-actions/setup-gcloud@v1
-        with:
-          project_id: ${{ env.GKE_PROJECT }}
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-        # Configure Docker to use the gcloud command-line tool as a credential
-        # helper for authentication
-      - name: configure docker
-        run: |-
-          gcloud --quiet auth configure-docker
-      - name: Build, Publish, and Deploy
+      - name: Set up gcloud CLI
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          service_account_key: '${{ env.SERVICE_ACCOUNT_KEY }}'
+          project_id: '${{ env.PROJECT_ID }}'
+          export_default_credentials: true
+
+      - name: Read service names from file
+        id: read-service-names
         run: |
-          . apps-deployment-script.sh "us-east1" ${{ secrets.GKE_KEY }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SERVICE_NAMES=$(cat projects-changes-deploy.txt)
+          echo "Service Names: $SERVICE_NAMES"
+          echo "::set-output name=service_names::$SERVICE_NAMES"
+
+      - name: Build and deploy services
+        run: |
+          for SERVICE_NAME in $(echo ${{ steps.read-service-names.outputs.service_names }} | tr ',' ' '); do
+            echo "Building and deploying $SERVICE_NAME"
+            
+            # Build Docker image
+            docker build -t ${{ env.REGISTRY_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/$SERVICE_NAME .
+
+            # Configure Docker
+            gcloud auth configure-docker ${{ env.REGISTRY_REGION }}-docker.pkg.dev
+
+            # Push Docker image to Google Artifact Registry
+            docker push ${{ env.REGISTRY_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/$SERVICE_NAME
+
+            # Deploy to GKE
+            gcloud container clusters get-credentials ${{ env.CLUSTER_NAME }} --zone ${{ env.CLUSTER_ZONE }}
+            kubectl apply -f gcp-deploy-service.yaml
+          done
