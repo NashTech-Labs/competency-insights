@@ -48,7 +48,7 @@ jobs:
             # Set the build context to the root directory
             cd $SERVICE_NAME
             if [  $SERVICE_NAME != "competency-insights-ui" ]; then
-                mvn clean install
+                mvn clean install -B -V
             fi
 
             # Build Docker image
@@ -56,11 +56,14 @@ jobs:
                   
             # Configure Docker
               gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
-            
+
+            # Docker Image Tag
+              docker tag ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/$SERVICE_NAME:latest ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/$SERVICE_NAME:${{ github.sha }}
+
             # Push Docker image to Google Artifact Registry
               docker push ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/$SERVICE_NAME
             
             # Deploy to GKE
-              gcloud container clusters get-credentials ${{ env.CLUSTER_NAME }} --zone ${{ env.REGION }}
+              gcloud container clusters get-credentials ${{ env.CLUSTER_NAME }} --region ${{ env.REGION }}
               kubectl apply -f gcp-deploy-service.yaml
           done
