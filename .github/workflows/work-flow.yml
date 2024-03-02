@@ -42,6 +42,9 @@ jobs:
 
             # Set the build context to the root directory
             cd $SERVICE_NAME
+            if [  $SERVICE_NAME != "competency-insights-ui" ]; then
+                mvn clean install -s $GITHUB_WORKSPACE/settings.xml -X
+            fi
 
             # Build Docker image
             docker build -t ${{ env.REGISTRY_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/$SERVICE_NAME  -f Dockerfile .
