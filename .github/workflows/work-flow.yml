@@ -44,14 +44,14 @@ jobs:
             cd $SERVICE_NAME
 
             # Build Docker image
-            docker build -t ${{ env.REGISTRY_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/$SERVICE_NAME .
+            docker build -t ${{ env.REGISTRY_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/$SERVICE_NAME  -f Dockerfile .
                   
             # Configure Docker
               gcloud auth configure-docker ${{ env.REGISTRY_REGION }}-docker.pkg.dev
-    
+            
             # Push Docker image to Google Artifact Registry
               docker push ${{ env.REGISTRY_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/$SERVICE_NAME
-    
+            
             # Deploy to GKE
               gcloud container clusters get-credentials ${{ env.CLUSTER_NAME }} --zone ${{ env.CLUSTER_ZONE }}
               kubectl apply -f gcp-deploy-service.yaml
