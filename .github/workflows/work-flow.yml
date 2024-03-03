@@ -42,7 +42,7 @@ jobs:
 
       - name: Decode Docker Password
         id: decode-password
-        run: echo -n "${{ secrets.GKE_KEY }}" | base64 -d
+        run: echo -n "${{ secrets.GKE_KEY }}" | base64 --decode
 
       - name: Build and deploy services
         run: |
