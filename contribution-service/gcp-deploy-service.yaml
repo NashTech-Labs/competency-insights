@@ -13,7 +13,6 @@ spec:
     metadata:
       labels:
         app: contributionservice
-        redeploy: "$(date +%s)"
     spec:
       containers:
         - name: contributionservice
