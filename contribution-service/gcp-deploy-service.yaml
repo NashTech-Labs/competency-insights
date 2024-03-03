@@ -22,8 +22,8 @@ spec:
             - name: http
               containerPort: 8081
               protocol: TCP
-      imagePullSecrets:
-        - name: regcred
+#      imagePullSecrets:
+#        - name: regcred
 ---
 
 

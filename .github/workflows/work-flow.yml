@@ -62,7 +62,7 @@ jobs:
               gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
           
               gcloud components install gke-gcloud-auth-plugin
-
+              gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://${{ env.REGION }}-docker.pkg.dev 
             # Docker Image Tag
             # Docker Image Tag
               docker tag ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/$SERVICE_NAME:latest ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/$SERVICE_NAME:${{ github.sha }}
@@ -72,8 +72,9 @@ jobs:
           
             # Deploy to GKE
               gcloud container clusters get-credentials ${{ env.CLUSTER_NAME }} --region ${{ env.REGION }} --project ${{ env.PROJECT_ID }}
-              
-              
+              kubectl create secret docker-registry regcred --docker-server=${{ env.REGION }}-docker.pkg.dev --docker-username=oauth2accesstoken --docker-password=$(gcloud auth print-access-token) --docker-email=sushant.gupta@knoldus.com
+              kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "regcred"}]}'
+          
             # Creates a kubernetes secret using the GitHub secret as the docker password
               kubectl apply -f gcp-deploy-service.yaml
           done
