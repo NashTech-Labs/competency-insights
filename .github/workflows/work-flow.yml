@@ -63,7 +63,7 @@ jobs:
           
               gcloud components install gke-gcloud-auth-plugin
 
-
+            # Docker Image Tag
             # Docker Image Tag
               docker tag ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/$SERVICE_NAME:latest ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/$SERVICE_NAME:${{ github.sha }}
 
