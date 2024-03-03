@@ -40,6 +40,10 @@ jobs:
           echo "Service Names: $SERVICE_NAMES"
           echo "::set-output name=service_names::$SERVICE_NAMES"
 
+      - name: Decode Docker Password
+        id: decode-password
+        run: echo -n "${{ secrets.GKE_KEY }}" | base64 -d
+
       - name: Build and deploy services
         run: |
           for SERVICE_NAME in $(echo ${{ steps.read-service-names.outputs.service_names }} | tr ',' ' '); do
@@ -62,12 +66,11 @@ jobs:
 
             # Push Docker image to Google Artifact Registry
               docker push ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/$SERVICE_NAME
-            
-             # Creates a kubernetes secret using the GitHub secret as the docker password
-              
           
             # Deploy to GKE
               gcloud container clusters get-credentials ${{ env.CLUSTER_NAME }} --region ${{ env.REGION }} --project ${{ env.PROJECT_ID }}
-              kubectl create secret docker-registry regcred  --docker-server=${{ env.REGION }}-docker.pkg.dev  --docker-username=_json_key --docker-email=sushant.gupta@nashtechglobal.com  --docker-password=${{ env.SERVICE_ACCOUNT_KEY }}
+              
+            # Creates a kubernetes secret using the GitHub secret as the docker password
+              kubectl create secret docker-registry regcred  --docker-server=${{ env.REGION }}-docker.pkg.dev  --docker-username=_json_key --docker-email=sushant.gupta@nashtechglobal.com  --docker-password=${{ steps.decode-password.outputs.stdout }}
               kubectl apply -f gcp-deploy-service.yaml
           done
