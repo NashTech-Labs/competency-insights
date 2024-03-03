@@ -72,8 +72,8 @@ jobs:
           
             # Deploy to GKE
               gcloud container clusters get-credentials ${{ env.CLUSTER_NAME }} --region ${{ env.REGION }} --project ${{ env.PROJECT_ID }}
-              #kubectl create secret docker-registry regcred --docker-server=${{ env.REGION }}-docker.pkg.dev --docker-username=oauth2accesstoken --docker-password=$(gcloud auth print-access-token) --docker-email=sushant.gupta@knoldus.com
-              kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "regcred"}]}'
+              kubectl create secret docker-registry regcred1 --docker-server=${{ env.REGION }}-docker.pkg.dev --docker-username=oauth2accesstoken --docker-password=$(gcloud auth print-access-token) --docker-email=sushant.gupta@knoldus.com
+              kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "regcred1"}]}'
           
             # Creates a kubernetes secret using the GitHub secret as the docker password
               kubectl apply -f gcp-deploy-service.yaml
