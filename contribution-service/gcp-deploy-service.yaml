@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: contributionservice
-          image: LOCATION-docker.pkg.dev/PROJECT_ID/IMAGE:TAG
+          image: us-east1-docker.pkg.dev/sonarqube-289802/competency-insights/contribution-service:latest
           imagePullPolicy: Always
           ports:
             - name: http
