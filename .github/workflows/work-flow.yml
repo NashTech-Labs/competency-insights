@@ -77,5 +77,5 @@ jobs:
               kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "regcred"}]}'
           
             # Creates a kubernetes secret using the GitHub secret as the docker password
-              kubectl apply -f gcp-deploy-service.yaml
+              kubectl apply -f gcp-deploy-service.yaml --force
           done
