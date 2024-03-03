@@ -60,6 +60,9 @@ jobs:
                   
             # Configure Docker
               gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
+          
+              gcloud components install gke-gcloud-auth-plugin
+
 
             # Docker Image Tag
               docker tag ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/$SERVICE_NAME:latest ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/$SERVICE_NAME:${{ github.sha }}
@@ -69,6 +72,7 @@ jobs:
           
             # Deploy to GKE
               gcloud container clusters get-credentials ${{ env.CLUSTER_NAME }} --region ${{ env.REGION }} --project ${{ env.PROJECT_ID }}
+              
               
             # Creates a kubernetes secret using the GitHub secret as the docker password
               kubectl apply -f gcp-deploy-service.yaml
