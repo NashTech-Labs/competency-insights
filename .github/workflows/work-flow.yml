@@ -42,7 +42,7 @@ jobs:
 
       - name: Decode Docker Password
         id: decode-password
-        run: echo -n ${{ env.SERVICE_ACCOUNT_KEY }} | base64 --decode
+        run: echo "${{ env.SERVICE_ACCOUNT_KEY }}" | base64 --decode
 
       - name: Build and deploy services
         run: |
