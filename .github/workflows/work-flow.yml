@@ -7,7 +7,7 @@ on:
 
 env:
   PROJECT_ID: '${{ secrets.GKE_PROJECT }}'
-  SERVICE_ACCOUNT_KEY: '${{ secrets.GKE_KEY }}'
+  SERVICE_ACCOUNT_KEY: '${{ secrets.SERVICE_ACCOUNT_KEY }}'
   CLUSTER_NAME: competency-insights-cluster
   CLUSTER_ZONE: us-east1-b
   REGION: us-east1
