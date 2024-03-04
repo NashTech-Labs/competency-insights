@@ -69,8 +69,8 @@ jobs:
           
             # Deploy to GKE
               gcloud container clusters get-credentials ${{ env.CLUSTER_NAME }} --region ${{ env.REGION }} --project ${{ env.PROJECT_ID }}
-              echo 'going to delete secret'
-              kubectl delete secret regcred
+              #echo 'going to delete secret'
+              #kubectl delete secret regcred
               echo 'creating secret'
               kubectl create secret docker-registry regcred --docker-server=${{ env.REGION }}-docker.pkg.dev --docker-username=oauth2accesstoken --docker-password=$(gcloud auth print-access-token) --docker-email=sushant.gupta@knoldus.com
               echo 'adding secret to service account default'
