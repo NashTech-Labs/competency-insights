@@ -42,6 +42,6 @@ resource "google_artifact_registry_repository" "competency-insights-repository" 
   format        = "DOCKER"
 
   docker_config {
-    immutable_tags = true
+    immutable_tags = false
   }
 }

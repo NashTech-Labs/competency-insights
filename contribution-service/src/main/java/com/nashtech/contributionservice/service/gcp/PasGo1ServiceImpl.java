@@ -1,6 +1,7 @@
 package com.nashtech.contributionservice.service.gcp;
 
 import com.nashtech.contributionservice.service.PasGo1Service;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -11,13 +12,9 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @Profile("gcp")
+@AllArgsConstructor
 public class PasGo1ServiceImpl implements PasGo1Service {
     private final PubSubService pubSubService;
-
-    public PasGo1ServiceImpl(PubSubService pubSubService) {
-        this.pubSubService = pubSubService;
-    }
-
 
     @Override
     public void callPassService(){

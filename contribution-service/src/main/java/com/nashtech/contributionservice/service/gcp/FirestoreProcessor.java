@@ -4,21 +4,23 @@ package com.nashtech.contributionservice.service.gcp;
 import com.nashtech.contributionservice.entity.Nasher;
 import com.nashtech.contributionservice.repo.FirestoreRepository;
 import com.nashtech.contributionservice.service.Processor;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
 @Profile("gcp")
+@AllArgsConstructor
 public class FirestoreProcessor implements Processor {
 
     private final FirestoreRepository firestoreRepository;
-    public FirestoreProcessor(FirestoreRepository firestoreRepository) {
-        this.firestoreRepository = firestoreRepository;
-    }
 
     @Override
     public void saveNasher(Nasher info) {
@@ -26,14 +28,12 @@ public class FirestoreProcessor implements Processor {
     }
 
     @Override
-    public Nasher getNasherInfo(String empId) {
-        return firestoreRepository.findByEmpId(empId).orElse(null);
+    public Mono<Nasher> getNasherInfo(String empId) {
+        return firestoreRepository.findByEmpId(empId);
     }
 
     @Override
-    public List<Nasher> getNashers() {
-        List<Nasher> nasherList = new ArrayList<>();
-        firestoreRepository.findAll().collectList().subscribe(nasherList::addAll);
-        return nasherList;
+    public Flux<Nasher> getNashers() {
+        return firestoreRepository.findAll();
     }
 }
