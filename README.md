@@ -52,7 +52,7 @@ To deploy the GCP infrastructure required, follow the steps in deployment readme
 
 ### Deploy Services via Github Action
 - Add required secrets in https://github.com/NashTech-Labs/competency-insights/settings/secrets/actions
-- GKE_KEY : the service account json key having these permission:
+- SERVICE_ACCOUNT_KEY : the service account json key having these permission:
   ```
     Cloud Datastore Owner
     Cloud Functions Admin

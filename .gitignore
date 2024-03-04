@@ -5,6 +5,9 @@ target/
 .mvn/
 kustomize
 
+# ignore key.json
+infrastructure/terraform/key.json
+
 # Log file
 *.log
 
