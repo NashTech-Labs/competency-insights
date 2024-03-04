@@ -16,14 +16,17 @@ spec:
     spec:
       containers:
         - name: contributionservice
-          image: LOCATION-docker.pkg.dev/PROJECT_ID/IMAGE:TAG
+          image: us-east1-docker.pkg.dev/sonarqube-289802/competency-insights/contribution-service:latest
           imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 8081
               protocol: TCP
----
+          envFrom:
+            - configMapRef:
+                name: contribution-configmap
 
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -38,3 +41,11 @@ spec:
   selector:
     app: contributionservice
   type: LoadBalancer
+
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: contribution-configmap
+data:
+  ACTIVE_PROFILE: gcp

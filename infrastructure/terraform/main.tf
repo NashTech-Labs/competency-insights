@@ -28,9 +28,20 @@ resource "google_project_service" "firestore" {
 
 resource "google_firestore_database" "firestore_db" {
   project     = var.app_project
-  name        = "competency-insights"
+  name        = "(default)"
   location_id = var.gcp_region_1
   type        = "FIRESTORE_NATIVE"
   depends_on = [google_project_service.firestore]
 }
 
+#----------------Artifact Registry Repository Docker--------------
+resource "google_artifact_registry_repository" "competency-insights-repository" {
+  location = var.gcp_region_1
+  repository_id = "competency-insights-repository"
+  description   = "competency-insights docker repository"
+  format        = "DOCKER"
+
+  docker_config {
+    immutable_tags = false
+  }
+}

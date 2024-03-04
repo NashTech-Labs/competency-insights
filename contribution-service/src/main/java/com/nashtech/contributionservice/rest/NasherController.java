@@ -3,33 +3,31 @@ package com.nashtech.contributionservice.rest;
 import com.nashtech.contributionservice.entity.Nasher;
 import com.nashtech.contributionservice.service.PasGo1Service;
 import com.nashtech.contributionservice.service.Processor;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/nasher")
+@AllArgsConstructor
 public class NasherController {
     private final Processor processor;
     private final PasGo1Service pasGo1Service;
 
-    public NasherController(Processor processor, PasGo1Service pasGo1Service) {
-        this.processor = processor;
-        this.pasGo1Service = pasGo1Service;
-    }
-
     @GetMapping
-    public List<Nasher> getAllNasher() {
+    public Flux<Nasher> getAllNasher() {
         return processor.getNashers();
     }
 
     @GetMapping("get/{empId}")
-    public Nasher getNasherById(@PathVariable String empId) {
+    public Mono<Nasher> getNasherById(@PathVariable String empId) {
         return processor.getNasherInfo(empId);
     }
 

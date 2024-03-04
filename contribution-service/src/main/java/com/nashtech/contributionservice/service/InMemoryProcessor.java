@@ -3,9 +3,10 @@ package com.nashtech.contributionservice.service;
 import com.nashtech.contributionservice.entity.Nasher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
-
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import java.util.HashMap;
-import java.util.List;
+
 
 @Profile("local")
 @Service
@@ -18,12 +19,12 @@ public class InMemoryProcessor implements Processor {
     }
 
     @Override
-    public Nasher getNasherInfo(String empId) {
-        return inMemoryData.get(empId);
+    public Mono<Nasher> getNasherInfo(String empId) {
+       return Mono.just(inMemoryData.get(empId));
     }
 
     @Override
-    public List<Nasher> getNashers() {
-        return inMemoryData.values().stream().toList();
+    public Flux<Nasher> getNashers() {
+        return Flux.fromStream(inMemoryData.values().stream());
     }
 }

@@ -1,4 +1,4 @@
-package com.nashtech.contributionservice.service;
+package com.nashtech.contributionservice.service.gcp;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -6,6 +6,7 @@ import com.google.cloud.pubsub.v1.Publisher;
 import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.PubsubMessage;
 import com.nashtech.contributionservice.entity.Nasher;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -13,15 +14,12 @@ import org.springframework.stereotype.Service;
 @Profile("gcp")
 @Service
 @Slf4j
+@AllArgsConstructor
 public class PubSubService {
 
     private final Publisher publisher;
     private final ObjectMapper mapper;
 
-    public PubSubService(Publisher publisher, ObjectMapper mapper) {
-        this.mapper = mapper;
-        this.publisher = publisher;
-    }
     public void publishMessage(Nasher info) {
         String data;
         try {
