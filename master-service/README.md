@@ -1,2 +1,0 @@
-# Master Service
-The Master Service processes an Excel file containing Nasher information, such as names and relationship manager details, from the UI. It then saves this data to the Snowflake RAW table. This service manages the import of Nasher-related data from an Excel file, handling the extraction and storage process in the designated Snowflake table.

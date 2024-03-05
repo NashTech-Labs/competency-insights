@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: ${ACTIVE_PROFILE:local}
+    active: ${ACTIVE_PROFILE}
 
 ---
 spring:
@@ -21,4 +21,4 @@ spring:
         project-id: ${GCP_PROJECT_ID:sonarqube-289802}
 
 pubsub:
-  topic-id: nasher.info
+  topic-id: ${PUB_SUB_TOPIC:nasher.info}
