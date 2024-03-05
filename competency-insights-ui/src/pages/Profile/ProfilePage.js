@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useMsal } from "@azure/msal-react";
 import {useNavigate} from "react-router-dom";
 
-function Dashboard() {
+export const ProfilePage = () => {
     const [m_strUser, setm_strUser] = useState("");
     const { instance , accounts } = useMsal();
     const navigate = useNavigate()
@@ -34,5 +34,3 @@ function Dashboard() {
         return <div>Please wait...</div>;
     }
 }
-
-export default Dashboard;

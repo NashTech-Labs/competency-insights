@@ -1,9 +1,8 @@
-import React from "react";
 import { useMsal } from "@azure/msal-react";
 import { InteractionType } from "@azure/msal-browser";
 import {useNavigate} from "react-router-dom";
 
-function Login() {
+export const Login = () => {
     const navigate = useNavigate()
     const { instance } = useMsal();
 
@@ -16,7 +15,7 @@ function Login() {
 
     const handleLoginAndRedirect = () => {
         handleLogin();
-        navigate("/dashboard");
+        navigate("/profile");
     };
 
     return (
@@ -65,5 +64,3 @@ function Login() {
             </div>
         )
 }
-
-export default Login;
