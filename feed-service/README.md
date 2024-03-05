@@ -8,3 +8,6 @@ Please ensure that the Excel file includes the following headers and maintains t
 1-Employee Number | 2-Full Name | 3-Email | 4-Jop Title | 5-Reporting Manager | 6-GitHub User
 
 ```
+
+### Swagger UI for Test Rest-Endpoint
+Test with Swagger: Run feed-service, and access the swagger UI at http://localhost:8082/swagger-ui.html. You’ll see the /upload endpoint, where you can test file uploads.

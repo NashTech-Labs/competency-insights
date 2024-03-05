@@ -24,6 +24,9 @@ public class ExcelHelper {
     private static final String SHEET = "Nashers";
 
     public static boolean hasExcelFormat(MultipartFile file) {
+        if (file.isEmpty()) {
+            return false;
+        }
         return TYPE.equals(file.getContentType());
     }
 
