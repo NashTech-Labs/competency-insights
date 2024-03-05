@@ -9,17 +9,32 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.nashtech</groupId>
-	<artifactId>feeds-service</artifactId>
+	<artifactId>feed-service</artifactId>
 	<version>1.0.0</version>
-	<name>feeds-service</name>
+	<name>feed-service</name>
 
 	<properties>
 		<java.version>19</java.version>
+		<google-cloud-pubsub.version>1.126.6</google-cloud-pubsub.version>
+		<spring-gcp-firestore.version>5.0.4</spring-gcp-firestore.version>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>google-cloud-pubsub</artifactId>
+			<version>${google-cloud-pubsub.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>spring-cloud-gcp-starter-data-firestore</artifactId>
+			<version>${spring-gcp-firestore.version}</version>
 		</dependency>
 
 		<dependency>

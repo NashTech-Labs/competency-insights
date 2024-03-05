@@ -1,16 +1,18 @@
 package com.nashtech.feedservice.model;
 
+import com.google.cloud.firestore.annotation.DocumentId;
+import com.google.cloud.spring.data.firestore.Document;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
+@Document(collectionName = "nashers")
 public class Nasher {
+    @DocumentId
     private String empId;
     private String name;
     private String email;

@@ -1,7 +1,5 @@
 package com.nashtech.feedservice.rest;
 
-import java.util.List;
-
 import com.nashtech.feedservice.helper.ExcelHelper;
 import com.nashtech.feedservice.model.Nasher;
 import com.nashtech.feedservice.service.ExcelService;
@@ -13,14 +11,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-@CrossOrigin("http://localhost:8081")
+import java.util.List;
+
 @Controller
 @RequestMapping("/api/excel")
 public class ExcelController {
@@ -35,7 +32,6 @@ public class ExcelController {
     if (ExcelHelper.hasExcelFormat(file)) {
       try {
         fileService.save(file);
-
         message = "Uploaded the file successfully: " + file.getOriginalFilename();
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
       } catch (Exception e) {
@@ -48,24 +44,24 @@ public class ExcelController {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
   }
 
-  @GetMapping("/tutorials")
-  public ResponseEntity<List<Nasher>> getAllTutorials() {
+ // @GetMapping("/nashers")
+  public ResponseEntity<List<Nasher>> getAllNashers() {
     try {
-      List<Nasher> tutorials = fileService.getAllTutorials();
+      List<Nasher> nashers = fileService.getAllNashers();
 
-      if (tutorials.isEmpty()) {
+      if (nashers.isEmpty()) {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
       }
 
-      return new ResponseEntity<>(tutorials, HttpStatus.OK);
+      return new ResponseEntity<>(nashers, HttpStatus.OK);
     } catch (Exception e) {
       return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
-  @GetMapping("/download")
+  //@GetMapping("/download")
   public ResponseEntity<Resource> getFile() {
-    String filename = "tutorials.xlsx";
+    String filename = "Nashers.xlsx";
     InputStreamResource file = new InputStreamResource(fileService.load());
 
     return ResponseEntity.ok()

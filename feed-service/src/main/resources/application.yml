@@ -1,0 +1,11 @@
+server:
+  port: 8082
+spring:
+  cloud:
+    gcp:
+      project-id: ${GCP_PROJECT_ID:sonarqube-289802}
+
+pubsub:
+  topic-id: ${PUB_SUB_TOPIC:nasher.info}
+
+
