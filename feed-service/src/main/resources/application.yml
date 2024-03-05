@@ -7,5 +7,3 @@ spring:
 
 pubsub:
   topic-id: ${PUB_SUB_TOPIC:nasher.info}
-
-

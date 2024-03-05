@@ -15,23 +15,23 @@ import reactor.core.publisher.Mono;
 
 
 @RestController
-@RequestMapping("/api/nasher")
+@RequestMapping("/api")
 @AllArgsConstructor
 public class NasherController {
     private final Processor processor;
     private final PasGo1Service pasGo1Service;
 
-    @GetMapping
+    @GetMapping("nashers")
     public Flux<Nasher> getAllNasher() {
         return processor.getNashers();
     }
 
-    @GetMapping("get/{empId}")
+    @GetMapping("nasher/{empId}")
     public Mono<Nasher> getNasherById(@PathVariable String empId) {
         return processor.getNasherInfo(empId);
     }
 
-    @PostMapping("save") // Temp basis to check firestore insertion
+    @PostMapping("nasher/save") // Temp basis to check firestore insertion
     public void saveNasher(@RequestBody Nasher nasher) {
         processor.saveNasher(nasher);
     }

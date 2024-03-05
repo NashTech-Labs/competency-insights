@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Profile("gcp")
 @Service
 @Slf4j
@@ -20,12 +22,12 @@ public class PubSubService {
     private final Publisher publisher;
     private final ObjectMapper mapper;
 
-    public void publishMessage(Nasher info) {
+    public void publishMessage(List<Nasher> info) {
         String data;
         try {
             data = mapper.writeValueAsString(info);
         } catch (JsonProcessingException e) {
-            log.error("Unable to parse Nasher data {} ", info.getEmpId());
+            log.error("Unable to parse Nashers data ");
             throw new RuntimeException(e);
         }
         PubsubMessage pubsubMessage = PubsubMessage.newBuilder()
