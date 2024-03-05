@@ -1,8 +1,13 @@
 import './App.css';
-import Login from './pages/Login';
+import {AppRouters} from "./routes/AppRouters";
 
 function App() {
-  return ( <Login />);
+  return (
+      <div className="App">
+        <AppRouters />
+      </div>
+  );
 }
 
 export default App;
+
