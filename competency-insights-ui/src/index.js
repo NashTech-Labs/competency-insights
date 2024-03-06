@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter as Router } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import { MsalProvider } from '@azure/msal-react';
@@ -12,8 +13,10 @@ const msalInstance = new PublicClientApplication(msalConfig);
 
 root.render(
   <React.StrictMode>
+    <Router>
       <MsalProvider instance={msalInstance}>
       <App />
       </MsalProvider>
+      </Router>
   </React.StrictMode>
 );

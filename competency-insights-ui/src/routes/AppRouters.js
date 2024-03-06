@@ -1,14 +1,12 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from '../components/Layout/NavBar';
+import { Routes, Route } from "react-router-dom";
 import {Login, ProfilePage} from "../pages";
 export const AppRouters = () => {
     return (
-        <Router>
-              <Navbar/>
-            <Routes>
+        <Routes>
+            <Route>
                 <Route path="/" element={<Login />} />
                 <Route path="/profile" element={<ProfilePage />} />
-            </Routes>
-        </Router>
+            </Route>
+        </Routes>
     )
 }
