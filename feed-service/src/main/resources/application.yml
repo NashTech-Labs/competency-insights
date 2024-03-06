@@ -5,5 +5,13 @@ spring:
     gcp:
       project-id: ${GCP_PROJECT_ID:sonarqube-289802}
 
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+
 pubsub:
   topic-id: ${PUB_SUB_TOPIC:nasher.info}
+

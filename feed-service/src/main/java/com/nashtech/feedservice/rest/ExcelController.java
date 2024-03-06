@@ -4,6 +4,7 @@ import com.nashtech.feedservice.helper.ExcelHelper;
 import com.nashtech.feedservice.model.Nasher;
 import com.nashtech.feedservice.service.ExcelService;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/excel")
+@Slf4j
 public class ExcelController {
 
   @Autowired
@@ -25,13 +27,14 @@ public class ExcelController {
 
   @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
+    log.info("Enter into ExcelController: File Upload request");
     String message;
 
     if (file.isEmpty()) {
       message = "You must select a file!";
       return new ResponseEntity<>(new ResponseMessage(message), HttpStatus.OK);
     }
-
+    log.info("File name: {}", file.getOriginalFilename());
     if (ExcelHelper.hasExcelFormat(file)) {
       try {
         fileService.save(file);
