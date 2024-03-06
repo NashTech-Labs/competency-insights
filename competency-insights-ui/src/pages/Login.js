@@ -19,7 +19,7 @@ export const Login = () => {
     };
 
     return (
-            <div className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden">
+            <div className="bg-white dark:bg-gray-800 relative flex flex-col items-center justify-center min-h-screen overflow-hidden">
                 <div className="w-full p-6 bg-white rounded-md shadow-md lg:max-w-xl">
                     <img className="w-24 h-24 mx-auto" src="/nashtech_logo.png" alt="" width="384" height="512" />
                     <h1 className="text-3xl font-bold text-center text-gray-700">Login to Company Insights</h1>
