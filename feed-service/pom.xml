@@ -45,11 +45,12 @@
             <version>${apache.poi.version}</version>
         </dependency>
 
+             <!--
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>${swagger-openapi.version}</version>
-        </dependency>
+        </dependency> -->
 
         <dependency>
             <groupId>org.projectlombok</groupId>
