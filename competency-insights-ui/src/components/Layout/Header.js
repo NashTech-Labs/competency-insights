@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useMsal } from "@azure/msal-react";
 import { Link } from 'react-router-dom';
+import {useNavigate} from "react-router-dom";
 
 export const Header = () => {
+    const [m_strUser, setm_strUser] = useState("");
+    const { instance , accounts } = useMsal();
+    const navigate = useNavigate();
 
     const [darkMode, setDarkMode] = useState(JSON.parse(localStorage.getItem("darkMode")) || false);
     const [shouldDropDownOpen, setShouldDropDownOpen] = useState(false);
@@ -15,6 +20,22 @@ export const Header = () => {
         }
     }, [darkMode]);
 
+    useEffect(() => {
+        try {
+            const username = accounts[0].username;
+            const profileName = username.substring(0, username.indexOf('@'));
+            setm_strUser(profileName.split("."));
+        } catch (e) {
+            console.error("Error while fetching username:", e);
+        }
+    }, [accounts]);
+
+    const handleLogout = () => {
+        instance.logoutRedirect({
+            postLogoutRedirectUri: "/",
+        });
+    };
+
     return (
         <header >
             <nav className="bg-white dark:bg-gray-900">
@@ -22,7 +43,7 @@ export const Header = () => {
 
                     <Link to="/" className="flex items-center">
                         <img src="/nashtech_logo.png" className="h-8" alt="Logo" />
-                        <span className="text-2xl font-semibold whitespace-nowrap dark:text-white">Java Competency</span>
+                        <span className="text-2xl font-semibold whitespace-nowrap dark:text-white">Competency Insights</span>
                     </Link>
 
                     {/* <form className="flex items-center max-w-sm mx-auto">
@@ -47,18 +68,15 @@ export const Header = () => {
 
                         {shouldDropDownOpen && <div id="dropdownAvatar" className="select-none	absolute top-10 right-0 z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
                             <div className="py-3 px-4 text-sm text-gray-900 dark:text-white">
-                                <div className="font-medium truncate">sabia</div>
+                                <div className="font-medium truncate">{m_strUser[0]} {m_strUser[1]}</div>
                             </div>
                             <ul className="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownUserAvatarButton">
                                 <li>
-                                    <Link to="/" className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</Link>
-                                </li>
-                                <li>
-                                    <Link to="/" className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</Link>
+                                    <Link to="/profile" className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</Link>
                                 </li>
                             </ul>
                             <div className="py-1">
-                                <span className="cursor-pointer block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Log out</span>
+                                <span onClick={handleLogout} className="cursor-pointer block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Log out</span>
                             </div>
                         </div>}
 
@@ -68,5 +86,3 @@ export const Header = () => {
         </header>
     );
 };
-
-export default Header;

@@ -3,15 +3,13 @@ import AddHomeIcon from '@mui/icons-material/AddHome';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import Groups2RoundedIcon from '@mui/icons-material/Groups2Rounded';
 import '../../../src/styles/navbar.css';  
-import LogoutIcon from '@mui/icons-material/Logout';
 import MessageIcon from '@mui/icons-material/Message';
-import logo from '../../assets/nashtech_logo.png';
 
 /**
  * Navbar component representing a sidebar with navigation links and dropdown menus.
  * @returns {JSX.Element} Navbar component
  */
-const Navbar = () => {
+export const Navbar = () => {
   const [teamDropdownOpen, setTeamDropdownOpen] = useState(false);
   const [meDropdownOpen, setMeDropdownOpen] = useState(false);
 
@@ -47,7 +45,7 @@ const Navbar = () => {
     <div className={"bg-gray-800 h-screen fixed left-0 top-0 flex flex-col"} style={{ width: '100px' }}>
       <ul className='flex flex-col space-y-2 my-0'>
         <li className="bg-gray-400 p-1">
-          <img src={logo} alt="Logo" className="mx-auto" style={{ maxWidth: '90%', maxHeight: '90%'}}/>
+          <img src="/nashtech_logo.png" alt="Logo" className="mx-auto" style={{ maxWidth: '90%', maxHeight: '90%'}}/>
         </li>
         <li>
           <a href="#" className="text-gray-300 hover:text-white px-4 py-2 block flex flex-col items-center sidebar-link">
@@ -97,5 +95,3 @@ const Navbar = () => {
     </div>
   );
 }
-
-export default Navbar;
