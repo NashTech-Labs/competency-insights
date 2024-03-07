@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import {Login} from "../pages";
-import ProfileDetails from "../pages/Profile/ProfileDetails";
+import {Login, ProfileDetails} from "../pages";
 export const AppRouters = () => {
     return (
         <Routes>
@@ -11,3 +10,4 @@ export const AppRouters = () => {
         </Routes>
     )
 }
+                                                                             

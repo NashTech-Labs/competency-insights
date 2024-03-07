@@ -4,12 +4,16 @@ import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
 import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
 import { Contribution } from "./components/Contribution";
 import { Footer, Header, Navbar } from "../../components";
+import { useMsal } from "@azure/msal-react";
+import {useNavigate} from "react-router-dom";
 
-
-const ProfileDetails = () => {
+export const ProfileDetails = () => {
     const [user, setUser] = useState({});
     const[categories,setCategories] =useState({});
     const [category, setCategory] = useState("Blogs");
+    const [m_strUser, setm_strUser] = useState("");
+    const { accounts } = useMsal();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -44,6 +48,7 @@ const ProfileDetails = () => {
 
     return (
         <>
+        <Header />
             <section className="bg-gray-200 p-4 min-h-screen">
                 <div className="flex flex-col sm:flex-row items-center bg-white">
                     <div className="w-40 m-4">
@@ -119,8 +124,7 @@ const ProfileDetails = () => {
                     <Contribution contributionType={user.Contributions[category]} />
                 )}
             </section>
+        <Footer />
         </>
-    );
-};
-
-export default ProfileDetails;
+    )
+}
