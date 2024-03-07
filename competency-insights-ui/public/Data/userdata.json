@@ -1,0 +1,113 @@
+{
+    "EmpId": 1883,
+    "Name": "Sahil Babbar",
+    "Email": "sahil.babbar@nashtechglobal.com",
+    "contact": 9968200729,
+    "location": "Noida",
+    "DateOfBirth": "12-09-1997",
+    "DateOfJoinig": "09-02-2023",
+    "Designation": "Software Consultant",
+    "ReportingManager": "Shiv Suraj Oberoi",
+    "Department": "Java Competency",
+    "ReportingMembers": ["ReporteeName1", "ReporteeName2"],
+    "Contributions": {
+             "Blogs": [ 
+                    {
+                      "Title":"Introduction to JAVA",
+                      "link":"URL",
+                      "RadarTechnology": "JAVA",
+                      "DueDate": "12-09-2024",
+                      "SubmissionDate": "12-09-2024",
+                      "Comments": "Review comments recevied by the Reviewer",
+                      "Status":["Approved", "In-Review","Published"]
+                    },
+                    {
+                      "Title":"Introduction to Databricks",
+                      "link":"URL",
+                      "RadarTechnology": "Databricks",
+                      "DueDate": "12-09-2024",
+                      "SubmissionDate": "12-09-2024",
+                      "Comments": "Review comments recevied by the Reviewer",
+                      "Status":["Approved", "In-Review","Published"]
+                    },
+                    {
+                      "Title":"Clusters in Databricks",
+                      "link":"URL",
+                      "RadarTechnology": "Databricks",
+                      "DueDate": "12-09-2024",
+                      "SubmissionDate": "12-09-2024",
+                      "Comments": "Review comments recevied by the Reviewer",
+                      "Status":["Approved", "In-Review","Published"]
+                    },
+                     {
+                      "Title":"Getting Started with Reactjs",
+                      "link":"URL",
+                      "RadarTechnology": "Reactjs",
+                      "DueDate": "12-09-2024",
+                      "SubmissionDate": "12-09-2024",
+                      "Comments": "Review comments recevied by the Reviewer",
+                      "Status":["Approved", "In-Review","Published"]
+                    }
+                ],
+            "Techhubs": [ 
+                    {
+                      "Title":"Title of Techhub",
+                      "link":"URL",
+                      "RadarTechnology": "Name of Tech Stack",
+                      "DueDate": "12-09-2024",
+                      "SubmissionDate": "12-09-2024",
+                      "Comments": "Review comments recevied by the Reviewer",
+                      "Status":["Approved", "In-Review","Published"]
+                    },
+                    {
+                      "Title":"Title of Techhub",
+                      "link":"URL",
+                      "RadarTechnology": "Name of Tech Stack",
+                      "DueDate": "12-09-2024",
+                      "SubmissionDate": "12-09-2024",
+                      "Comments": "Review comments recevied by the Reviewer",
+                      "Status":["Approved", "In-Review","Published"]
+                    }
+                ],
+             "Knolxs": [ 
+                    {
+                      "Title":"Title of Knolx",
+                      "link":"URL",
+                      "RadarTechnology": "Name of Tech Stack",
+                      "DueDate": "12-09-2024",
+                      "SubmissionDate": "12-09-2024",
+                      "Comments": "Review comments recevied by the Reviewer",
+                      "Status":["Approved", "In-Review","Published"]
+                    },
+                    {
+                      "Title":"Title of Knolx",
+                      "link":"URL",
+                      "RadarTechnology": "Name of Tech Stack",
+                      "DueDate": "12-09-2024",
+                      "SubmissionDate": "12-09-2024",
+                      "Comments": "Review comments recevied by the Reviewer",
+                      "Status":["Approved", "In-Review","Published"]
+                    }
+                ],
+             "Certifications": [ 
+                    {
+                      "Title":"Title of Certificate",
+                      "link":"URL",
+                      "RadarTechnology": "Name of Tech Stack",
+                      "DueDate": "12-09-2024",
+                      "SubmissionDate": "12-09-2024",
+                      "Comments": "Review comments recevied by the Reviewer",
+                      "Status":["Approved", "In-Review","Published"]
+                    },
+                    {
+                      "Title":"Title of Certificate",
+                      "link":"URL",
+                      "RadarTechnology": "Name of Tech Stack",
+                      "DueDate": "12-09-2024",
+                      "SubmissionDate": "12-09-2024",
+                      "Comments": "Review comments recevied by the Reviewer",
+                      "Status":["Approved", "In-Review","Published"]
+                    }
+                ]
+          }
+ }
