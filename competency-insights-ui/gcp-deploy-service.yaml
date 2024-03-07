@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: competency-insights-ui
+  labels:
+    app: competency-insights-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: competency-insights-ui
+  template:
+    metadata:
+      labels:
+        app: competency-insights-ui
+    spec:
+      containers:
+        - name: competency-insights-ui
+          image: us-east1-docker.pkg.dev/sonarqube-289802/competency-insights/competency-insights-ui:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: competency-insights-ui-configmap
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: competency-insights-ui
+  labels:
+    app: competency-insights-ui
+spec:
+  ports:
+    - name: http
+      port: 3000
+      targetPort: 3000
+  selector:
+    app: competency-insights-ui
+  type: LoadBalancer
+
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: competency-insights-ui-configmap
+data:
+  ACTIVE_PROFILE: gcp
+  GCP_PROJECT_ID: sonarqube-289802
+  PUB_SUB_TOPIC: nasher.info
