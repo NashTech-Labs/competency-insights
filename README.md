@@ -1,3 +1,4 @@
+[![GCP CI/CD Pipeline](https://github.com/NashTech-Labs/competency-insights/actions/workflows/work-flow.yml/badge.svg)](https://github.com/NashTech-Labs/competency-insights/actions/workflows/work-flow.yml)
 # Competency Insights
 Developing a user-friendly Nashar-Insights platform capable of gathering social insights from platforms such as LinkedIn, as well as internal activities like blogs, Knolex, and certifications.
 
