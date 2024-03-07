@@ -1,7 +1,7 @@
 import React from 'react';
-import './FlipCard.css';
+import '../styles/FlipCard.css';
 
-function Reports() {
+export const Reports = () => {
     return (
         <div className='page-container'>
         <div className='buttons-container flex'>
@@ -12,5 +12,3 @@ function Reports() {
         </div>
     );
 }
-
-export default Reports;

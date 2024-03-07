@@ -1,11 +1,13 @@
 import React from 'react';
-import ReportingMembers from './ReportingMembers';
+import {ReportingMembers} from './components/ReportingMembers';
 import employeesData from '../../data/employees.json';
-import Reports from './Reports';
+import {Reports} from './components/Reports';
+import { Footer, Header, Navbar } from "../../components";
 
-function TeamPage() {
+export const TeamPage = () => {
   return (
     <div>
+    <Navbar /> <Header />
       <div>
         <Reports/>
       </div>
@@ -14,8 +16,7 @@ function TeamPage() {
           <ReportingMembers key={index} employee={employee} />
         ))}
       </div>
+      <Footer />
     </div>
   );
 }
-
-export default TeamPage;

@@ -1,8 +1,8 @@
 import React from 'react';
-import './FlipCard.css';
+import '../styles/FlipCard.css';
 
-function ReportingMembers({ employee }) {
-    const { name, position, employeeNo, profileImage } = employee;
+export const ReportingMembers = ({ employee }) => {
+    const { name, position, employeeNo } = employee;
 
     return (
         <div className="flex-shrink-0 w-64 mx-4">
@@ -10,7 +10,7 @@ function ReportingMembers({ employee }) {
                 <div className="flip-card-2">
                     <div className="flip-card-inner">
                         <div className="flip-card-front">
-                            <img src={profileImage} alt="Profile" className="profile-photo" />
+                            <img src="/nashtech_logo.png" alt="Profile" className="profile-photo" />
                             <div className='card-content'>
                                 <div className="profile-info">
                                     <h2 className="name">{name}</h2>
@@ -44,5 +44,3 @@ function ReportingMembers({ employee }) {
         </div>
     );
 }
-
-export default ReportingMembers;

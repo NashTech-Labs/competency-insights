@@ -48,8 +48,9 @@ export const ProfileDetails = () => {
 
     return (
         <>
-        <Header />
+        <Navbar />
             <section className="bg-gray-200 p-4 min-h-screen">
+            <Header />
                 <div className="flex flex-col sm:flex-row items-center bg-white">
                     <div className="w-40 m-4">
                         <img
@@ -123,8 +124,8 @@ export const ProfileDetails = () => {
                 {user.Contributions && user.Contributions[category] && (
                     <Contribution contributionType={user.Contributions[category]} />
                 )}
-            </section>
-        <Footer />
+                <Footer />
+                </section>
         </>
     )
 }
