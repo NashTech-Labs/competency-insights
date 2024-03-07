@@ -1,6 +1,7 @@
 import { useMsal } from "@azure/msal-react";
 import { InteractionType } from "@azure/msal-browser";
 import {useNavigate} from "react-router-dom";
+import {msalConfig} from "../auth/authConfig";
 
 export const Login = () => {
     const navigate = useNavigate()
@@ -8,7 +9,7 @@ export const Login = () => {
 
     const handleLogin = () => {
         instance.loginRedirect({
-            scopes: ["openid", "profile", "email"],
+             scopes: [`${msalConfig.auth.clientId}/.default`],
             interactionType: InteractionType.Redirect,
         });
     };
