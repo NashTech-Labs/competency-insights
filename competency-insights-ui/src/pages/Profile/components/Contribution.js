@@ -1,6 +1,6 @@
-import DropdownMenu from "./DropdownMenu";
+import {DropdownMenu} from "./DropdownMenu";
 
-export function Contribution({ contributionType }) {
+export const Contribution = ({ contributionType }) => {
   if (!contributionType) {
     return <div>No data available</div>;
   }

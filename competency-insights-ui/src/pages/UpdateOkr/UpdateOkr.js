@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { Footer, Header, Navbar } from '../../components';
+import {useNavigate} from "react-router-dom";
 
-export function UpdateOkr() {
+export const UpdateOkr = () => {
   const currentDate = new Date().toISOString().split('T')[0];
+  const navigate = useNavigate();
 
   const [dropdown1, setDropdown1] = useState('');
   const [dropdown2, setDropdown2] = useState('');
@@ -59,14 +62,14 @@ export function UpdateOkr() {
     console.log('Form canceled');
   };
   const handleAddOKRClick = () => {
-
+    navigate("/addokr");
   };
   const handleUpdateOKRClick = () => {
-
+    navigate("/updateokr");
   };
-  return (
-    
+  return (  
     <div className="flex flex-col items-center min-h-screen bg-gray-200 bg-opacity-30">
+    <Navbar />
       <div className="w-1/2 flex justify-center mt-20 mb-0">
         <div className="bg-gray-300 py-4 px-6 w-full mb-0 rounded-t-md flex justify-between items-center">
           <button onClick={handleAddOKRClick} className="w-1/2 py-2 px-4 mb-0 rounded focus:outline-none focus:shadow-outline font-bold text-lg"> {/* Adjusted button width, font weight, and font size */}
@@ -125,4 +128,3 @@ export function UpdateOkr() {
     </div>
   );
 }
-
