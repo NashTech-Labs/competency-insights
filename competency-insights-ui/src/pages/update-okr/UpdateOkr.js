@@ -40,6 +40,7 @@ export function UpdateOkr() {
   };
 
   const handleSubmit = (event) => {
+    alert('OkR Updated')
     event.preventDefault();
     console.log('Form submitted with values:', {
       dropdown1,
