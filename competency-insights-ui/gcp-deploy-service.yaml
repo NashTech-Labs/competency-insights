@@ -19,7 +19,7 @@ spec:
           image: us-east1-docker.pkg.dev/sonarqube-289802/competency-insights/competency-insights-ui:latest
           imagePullPolicy: Always
           ports:
-            - name: http
+            - name: https
               containerPort: 3000
               protocol: TCP
           envFrom:
@@ -35,7 +35,7 @@ metadata:
     app: competency-insights-ui
 spec:
   ports:
-    - name: http
+    - name: https
       port: 3000
       targetPort: 3000
   selector:
