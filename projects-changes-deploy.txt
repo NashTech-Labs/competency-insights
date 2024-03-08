@@ -1,3 +1,1 @@
-feed-service
 contribution-service
-competency-insights-ui
