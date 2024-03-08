@@ -1,0 +1,7 @@
+organization=nashtech
+projectKey=competency-insights
+serverUrl=https://sonarcloud.io
+serverVersion=8.0.0.53287
+dashboardUrl=https://sonarcloud.io/dashboard?id=competency-insights
+ceTaskId=AY4cl5IeieHP0NdKjhpL
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AY4cl5IeieHP0NdKjhpL
