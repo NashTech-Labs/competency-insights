@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import {FormElement} from './components/FormElement';
 import { Footer, Header, Navbar } from '../../components';
+import {useNavigate} from "react-router-dom";
 
 export const AddOkrPage = () => {
+  const navigate = useNavigate();
   const [formData] = useState({
     activity: '',
     radarTechnology: '',
@@ -18,10 +20,12 @@ export const AddOkrPage = () => {
 
   const handleAddOKRClick = () => {
     console.log("Add OKR button clicked");
+    navigate("/addokr");
   };
 
   const handleUpdateOKRClick = () => {
     console.log("Update OKR button clicked");
+    navigate("/updateokr");
   };
 
   return (
