@@ -1,7 +1,7 @@
 import React from "react";
 import '../styles/modal.css';
 
-export default function DialogSizes({ open, onClose }) {
+export const DialogSizes = ({ open, onClose }) => {
   return (
     <div className={open ? "modal-overlay flex items-center justify-center" : "hidden"}>
       <div className="modal-dialog">

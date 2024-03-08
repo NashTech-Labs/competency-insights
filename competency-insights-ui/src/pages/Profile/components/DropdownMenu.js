@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import SignalCellularAltOutlinedIcon from '@mui/icons-material/SignalCellularAltOutlined';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
-import DialogSizes from "./Modal";
+import {DialogSizes} from "./Modal";
 
-const DropdownMenu = () => {
+export const DropdownMenu = () => {
   const [openDropdown, setOpenDropdown] = useState(false);
   const [openModal, setOpenModal] = useState(false);
 

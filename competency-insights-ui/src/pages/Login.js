@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom";
 import {msalConfig} from "../auth/authConfig";
 
 export const Login = () => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const { instance } = useMsal();
 
     const handleLogin = async () => {
