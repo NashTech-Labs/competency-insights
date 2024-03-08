@@ -65,7 +65,7 @@ export const Navbar = () => {
           {meDropdownOpen && (
             <div className="absolute top-6 left-full bg-gray-700" >
               {/* Dropdown content */}
-              <a href="#" className="text-gray-300 hover:text-white block py-1 px-2 sidebar-link w-40">Add OKRs</a>
+              <Link to="/addokr" className="text-gray-300 hover:text-white block py-1 px-2 sidebar-link w-40">Add OKRs</Link>
               <a href="#" className="text-gray-300 hover:text-white block py-1 px-2 sidebar-link">Update OKRs</a>
             </div>
           )}

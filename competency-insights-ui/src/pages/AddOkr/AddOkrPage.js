@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import FormElement from './FormElement';
+import {FormElement} from './components/FormElement';
+import { Footer, Header, Navbar } from '../../components';
 
-export const CreateOkrPage = () => {
+export const AddOkrPage = () => {
   const [formData] = useState({
     activity: '',
     radarTechnology: '',
@@ -25,6 +26,7 @@ export const CreateOkrPage = () => {
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-200 bg-opacity-30">
+    <Navbar /> 
       <div className="w-1/2 flex justify-center mt-20 mb-0">
         <div className="bg-gray-300 py-4 px-6 w-full mb-0 rounded-t-md flex justify-between items-center">
           <button onClick={handleAddOKRClick} className="w-1/2 py-2 px-4 mb-0 rounded focus:outline-none focus:shadow-outline font-bold text-lg"> 
@@ -57,9 +59,8 @@ export const CreateOkrPage = () => {
         <div className="flex justify-between">
           <button type="submit" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Submit</button>
           <button type="button" className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Cancel</button>
-        </div>
+          </div>
       </form>
     </div>
   );
 }
-

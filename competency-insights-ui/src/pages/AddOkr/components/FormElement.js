@@ -1,6 +1,6 @@
 import React from 'react';
 
-function FormElement({ label, name, options, type }) {
+export const FormElement = ({ label, name, options, type }) => {
   return (
     <div className="form-group">
       <label htmlFor={name} className="form-label text-lg font-bold mb-2">{label}</label>
@@ -42,5 +42,3 @@ function FormElement({ label, name, options, type }) {
     </div>
   );
 }
-
-export default FormElement;
