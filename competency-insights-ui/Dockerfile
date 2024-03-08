@@ -9,7 +9,7 @@ COPY public/ /competency-insights-ui/public
 COPY src/ /competency-insights-ui/src
 COPY package.json /competency-insights-ui/
 COPY tailwind.config.js /competency-insights-ui/
-COPY .cert/ /competency-insights-ui/.cert
+#COPY .cert/ /competency-insights-ui/.cert
 
 # Install app dependencies
 RUN npm install
