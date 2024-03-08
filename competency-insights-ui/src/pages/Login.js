@@ -1,22 +1,46 @@
 import { useMsal } from "@azure/msal-react";
 import { InteractionType } from "@azure/msal-browser";
 import {useNavigate} from "react-router-dom";
+import {msalConfig} from "../auth/authConfig";
 
 export const Login = () => {
     const navigate = useNavigate()
     const { instance } = useMsal();
 
-    const handleLogin = () => {
-        instance.loginRedirect({
-            scopes: ["openid", "profile", "email"],
-            interactionType: InteractionType.Redirect,
-        });
+    const handleLogin = async () => {
+        try {
+            // Initiate the login process using Microsoft authentication
+            const loginResponse = await instance.loginPopup({
+                scopes: [`${msalConfig.auth.clientId}/.default`],
+            });
+
+            // Check for errors in the login response
+            if (loginResponse && loginResponse.error) {
+                console.error("Login failed:", loginResponse.error);
+                return;
+            }
+
+            // Retrieve user ID and user name after successful login
+            const account = instance.getActiveAccount();
+            const userId = account?.idTokenClaims?.oid;
+            const userName = account?.idTokenClaims?.name;
+
+            // Store user ID and user name in session storage
+            sessionStorage.setItem("userId", userId);
+            sessionStorage.setItem("userName", userName);
+        } catch (error) {
+            console.error("Login failed:", error);
+        }
     };
 
-    const handleLoginAndRedirect = () => {
-        handleLogin();
+    const handleLoginAndRedirect = async () => {
+        // Handle login and redirect to the profile page
+        await handleLogin();
+        
+        // Redirect to the profile page after successful login
         navigate("/profile");
     };
+
 
     return (
             <div className="bg-white dark:bg-gray-800 relative flex flex-col items-center justify-center min-h-screen overflow-hidden">

@@ -1,0 +1,21 @@
+[
+    {
+      "name": "Rahul Sinha",
+      "position": "Software Consultant",
+      "employeeNo": "1878",
+      "profileImage": "./assets/profile-photos/rahul.png"
+    },
+    {
+      "name": "Riya Sharma",
+      "position": "Software Consultant",
+      "employeeNo": "1881",
+      "profileImage": "./assets/profile-photos/riya.png"
+    },
+    {
+      "name": "Sahil Babbar",
+      "position": "Software Consultant",
+      "employeeNo": "1883",
+      "profileImage": "./assets/profile-photos/sahil.png"
+    }
+  ]
+  

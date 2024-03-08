@@ -1,9 +1,20 @@
 server:
   port: 8081
 
+logging:
+  level:
+    org.springframework.security: DEBUG
+
 spring:
   profiles:
     active: ${ACTIVE_PROFILE:local}
+  cloud:
+    azure:
+      active-directory:
+        enabled: true
+        credential:
+          client-id: 26a5cfe5-9be6-48d7-855c-a908dfbd3926
+        app-id-uri: api://26a5cfe5-9be6-48d7-855c-a908dfbd3926
 
 springdoc:
   api-docs:
@@ -25,7 +36,7 @@ spring:
       on-profile: gcp
   cloud:
     gcp:
-        project-id: ${GCP_PROJECT_ID:sonarqube-289802}
+      project-id: ${GCP_PROJECT_ID:sonarqube-289802}
 
 pubsub:
   topic-id: ${PUB_SUB_TOPIC:nasher.info}

@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import AddHomeIcon from '@mui/icons-material/AddHome';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import Groups2RoundedIcon from '@mui/icons-material/Groups2Rounded';
-import '../../../src/styles/navbar.css';  
+import './styles/navbar.css';  
 import MessageIcon from '@mui/icons-material/Message';
+import { Link } from 'react-router-dom';
 
 /**
  * Navbar component representing a sidebar with navigation links and dropdown menus.
@@ -48,10 +49,10 @@ export const Navbar = () => {
           <img src="/nashtech_logo.png" alt="Logo" className="mx-auto" style={{ maxWidth: '90%', maxHeight: '90%'}}/>
         </li>
         <li>
-          <a href="#" className="text-gray-300 hover:text-white px-4 py-2 block flex flex-col items-center sidebar-link">
+          <Link to="/profile" className="text-gray-300 hover:text-white px-4 py-2 block flex flex-col items-center sidebar-link">
             <AddHomeIcon />
             <span>Home</span>
-          </a>
+          </Link>
         </li>
         <li 
           onMouseEnter={handleMeMouseEnter}
@@ -64,7 +65,7 @@ export const Navbar = () => {
           {meDropdownOpen && (
             <div className="absolute top-6 left-full bg-gray-700" >
               {/* Dropdown content */}
-              <a href="#" className="text-gray-300 hover:text-white block py-1 px-2 sidebar-link w-40">Add OKRs</a>
+              <Link to="/addokr" className="text-gray-300 hover:text-white block py-1 px-2 sidebar-link w-40">Add OKRs</Link>
               <a href="#" className="text-gray-300 hover:text-white block py-1 px-2 sidebar-link">Update OKRs</a>
             </div>
           )}
@@ -86,8 +87,7 @@ export const Navbar = () => {
           {teamDropdownOpen && (
             <div className="absolute top-6 left-full bg-gray-700">
               {/* Dropdown content */}  
-              <a href="#" className="text-gray-300 hover:text-white block py-1 px-2 sidebar-link w-40">My team</a>
-              <a href="#" className="text-gray-300 hover:text-white block py-1 px-2 sidebar-link">Reporting Team</a>
+              <Link to="/team" className="text-gray-300 hover:text-white block py-1 px-2 sidebar-link w-40">My team</Link>
             </div>
           )}
         </li>   
