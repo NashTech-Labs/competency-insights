@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: contributionservice
   labels:
-    app: contributionservicetest
+    app: contributionservice-test
 spec:
   replicas: 1
   selector:
@@ -33,7 +33,7 @@ kind: Service
 metadata:
   name: contributionservice
   labels:
-    app: contributionservice
+    app: contributionservice-test
 spec:
   ports:
     - name: http
@@ -48,6 +48,8 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: contribution-configmap
+  labels:
+    app: contribution-configmap-test
 data:
   ACTIVE_PROFILE: gcp
   GCP_PROJECT_ID: sonarqube-289802
