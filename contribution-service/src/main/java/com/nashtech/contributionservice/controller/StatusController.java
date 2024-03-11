@@ -15,7 +15,7 @@ public class StatusController {
 
     @GetMapping
     @RequestMapping("cs")
-    public String appRunning(){
+    public String appRunningContextPath(){
         return "Contribution Service is Running...at context path";
     }
 }
