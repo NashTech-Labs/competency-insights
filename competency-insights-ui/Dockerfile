@@ -9,7 +9,9 @@ COPY public/ /competency-insights-ui/public
 COPY src/ /competency-insights-ui/src
 COPY package.json /competency-insights-ui/
 COPY tailwind.config.js /competency-insights-ui/
-#COPY .cert/ /competency-insights-ui/.cert
+
+# Passing URI Value
+ENV REACT_APP_URI https://competency.co.in:3000
 
 # Install app dependencies
 RUN npm install
