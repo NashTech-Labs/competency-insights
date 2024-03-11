@@ -1,6 +1,6 @@
 package com.nashtech.feedservice.exception;
 
-import com.nashtech.feedservice.rest.ResponseMessage;
+import com.nashtech.feedservice.controller.ResponseMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

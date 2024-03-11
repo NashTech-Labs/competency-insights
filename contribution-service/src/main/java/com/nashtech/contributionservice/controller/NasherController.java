@@ -1,4 +1,4 @@
-package com.nashtech.contributionservice.rest;
+package com.nashtech.contributionservice.controller;
 
 import com.nashtech.contributionservice.entity.Nasher;
 import com.nashtech.contributionservice.service.PasGo1Service;
@@ -17,7 +17,7 @@ import reactor.core.publisher.Mono;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/cs")
 @AllArgsConstructor
 @Slf4j
 public class NasherController {
