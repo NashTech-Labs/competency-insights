@@ -2,7 +2,7 @@ version: '3'
 
 services:
   mongodb:
-    image: mongo
+    image: mongo:jammy
     container_name: mongo_container
     ports:
       - "27017:27017"

@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: feedservice
+  labels:
+    app: feedservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: feedservice
+  template:
+    metadata:
+      labels:
+        app: feedservice
+    spec:
+      containers:
+        - name: feedservice
+          image: us-east1-docker.pkg.dev/sonarqube-289802/competency-insights/feed-service:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8082
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: contribution-configmap
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: feedservice
+  labels:
+    app: feedservice
+spec:
+  ports:
+    - name: http
+      port: 8082
+      targetPort: 8082
+  selector:
+    app: feedservice
+  type: LoadBalancer
+
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: feedservice-configmap
+data:
+  GCP_PROJECT_ID: sonarqube-289802
+  PUB_SUB_TOPIC: nasher.info
