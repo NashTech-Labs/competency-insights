@@ -26,6 +26,7 @@ spec:
           envFrom:
             - configMapRef:
                 name: contribution-configmap
+          serviceAccountName: competency-insights
 
 ---
 apiVersion: v1
