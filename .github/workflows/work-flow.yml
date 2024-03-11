@@ -78,4 +78,8 @@ jobs:
           
             # Creates a kubernetes secret using the GitHub secret as the docker password
               kubectl apply -f gcp-deploy-service.yaml --force
+          
+              # Call the restart script
+              chmod +x restart_deployment.sh
+              sh restart_deployment.sh
           done
