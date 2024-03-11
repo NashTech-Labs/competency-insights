@@ -1,4 +1,4 @@
-package com.nashtech.feedservice.rest;
+package com.nashtech.feedservice.controller;
 
 import com.nashtech.feedservice.helper.ExcelHelper;
 import com.nashtech.feedservice.model.Nasher;
@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/excel")
+@RequestMapping("/feed")
 @Slf4j
 public class ExcelController {
 
