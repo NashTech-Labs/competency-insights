@@ -24,6 +24,7 @@ public class NasherController {
     private final Processor processor;
     private final PasGo1Service pasGo1Service;
 
+
     @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
     @GetMapping("nashers")
     public Flux<Nasher> getAllNasher() {
