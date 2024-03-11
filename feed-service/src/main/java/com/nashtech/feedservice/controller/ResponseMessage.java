@@ -1,4 +1,4 @@
-package com.nashtech.feedservice.rest;
+package com.nashtech.feedservice.controller;
 
 
 import lombok.AllArgsConstructor;
