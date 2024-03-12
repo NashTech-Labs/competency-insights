@@ -5,6 +5,12 @@ logging:
   level:
     org.springframework.security: DEBUG
 
+management:
+  metrics:
+    tags:
+      app: contribution-service
+      instance: ${random.uuid}
+
 spring:
   application:
     name: ${SERVICE_NAME:Contribution Service}
