@@ -26,6 +26,10 @@ Architecture
 --
 ![insights-arch.png](documentation%2Finsights-arch.png)
 
+GCP Deployment Flow
+--
+![deployment-flow.png](documentation%2Fdeployment-flow.png)
+
 Get the source code:
 -------------------
 Clone the repository:
