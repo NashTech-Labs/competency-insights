@@ -1,0 +1,4 @@
+kubectl get serviceaccount default
+kubectl get serviceaccount default -o yaml
+kubectl get rolebinding -o yaml   // role binding in current namespace
+https://cloud.google.com/compute/docs/access/service-accounts

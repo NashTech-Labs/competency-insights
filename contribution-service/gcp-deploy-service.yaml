@@ -29,7 +29,7 @@ spec:
 #          volumeMounts:
 #            - name: service-account-key
 #              mountPath: /path/to/credentials  # Adjust mount path if needed
-      serviceAccountName: competency-insights@sonarqube-289802.iam.gserviceaccount.com  # Reference created service account
+      serviceAccountName: default  # Reference created service account
 #      volumes:
 #        - name: service-account-key
 #          secret:
