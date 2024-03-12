@@ -1,5 +1,4 @@
 import { useMsal } from "@azure/msal-react";
-import { InteractionType } from "@azure/msal-browser";
 import { useNavigate } from "react-router-dom";
 import { msalConfig } from "../auth/authConfig";
 
@@ -42,43 +41,47 @@ export const Login = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 relative flex flex-col items-center justify-center overflow-hidden">
-      <div className="w-full p-14 bg-white rounded-md shadow-md lg:max-w-xl">
-        <img
-          className="w-24 h-24 mx-auto"
-          src="/nashtech_logo.png"
-          alt=""
-          width="384"
-          height="512"
-        />
-        <h1 className="text-3xl font-bold text-center text-gray-700">
-          Login to Company Insights
-        </h1>
-        <form className="mt-6">
-          <div className="mb-4 border border-gray-600 rounded-md">
-            <label htmlFor="email" className="sr-only">
-              Email
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              required
-              className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-violet-500 focus:border-violet-500 focus:z-10 sm:text-sm"
-              placeholder="Email"
-            />
+    <div className="min-w-screen flex items-center justify-center bg-gray-50 py-20 px-4 sm:px-6 lg:px-20 rounded-lg shadow-lg">
+      <div className="max-w-md w-full space-y-8 ">
+        <div>
+          <img
+            className="mx-auto h-24 w-auto"
+            src="/nashtech_logo.png"
+            alt="Nashtech Logo"
+          />
+          <h1 className="text-center text-3xl font-extrabold text-gray-900">
+            Login to Company Insights
+          </h1>
+        </div>
+        <form className="mt-8 space-y-6">
+          <div className="rounded-md shadow-sm -space-y-px">
+            <div>
+              <label htmlFor="email" className="sr-only">
+                Email
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-violet-500 focus:border-violet-500 focus:z-10 sm:text-sm"
+                placeholder="Email"
+              />
+            </div>
           </div>
-          <div className="mt-2">
+
+          <div>
             <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600">
               Login
             </button>
           </div>
         </form>
         <div className="relative flex items-center justify-center w-full mt-6 border border-t">
-          <div className="absolute px-5 bg-white">Or</div>
+          <div className="absolute px-5 bg-gray-50">Or</div>
         </div>
-        <div className="flex mt-4 gap-x-2">
+
+        <div className="mt-4 flex gap-x-2">
           <button
             type="button"
             onClick={handleLoginAndRedirect}
