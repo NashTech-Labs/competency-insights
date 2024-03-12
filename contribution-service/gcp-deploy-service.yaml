@@ -15,6 +15,10 @@ spec:
       labels:
         app: contributionservice
     spec:
+      volumes:
+        - name: google-cloud-keys
+          secret:
+            secretName: gac-key
       containers:
         - name: contributionservice
           image: us-east1-docker.pkg.dev/sonarqube-289802/competency-insights/contribution-service:latest
@@ -23,13 +27,20 @@ spec:
             - name: http
               containerPort: 8081
               protocol: TCP
+          volumeMounts:
+            - name: google-cloud-keys
+              mountPath: /var/secrets/google
+              readOnly: true
+          env:
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /var/secrets/google/key.json
           envFrom:
             - configMapRef:
                 name: contribution-configmap
 #          volumeMounts:
 #            - name: service-account-key
 #              mountPath: /path/to/credentials  # Adjust mount path if needed
-      serviceAccountName: default  # Reference created service account
+#      serviceAccountName: default  # Reference created service account
 #      volumes:
 #        - name: service-account-key
 #          secret:

@@ -75,6 +75,9 @@ jobs:
               kubectl create secret docker-registry regcred --docker-server=${{ env.REGION }}-docker.pkg.dev --docker-username=oauth2accesstoken --docker-password=$(gcloud auth print-access-token) --docker-email=sushant.gupta@knoldus.com
               echo 'adding secret to service account default'
               kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "regcred"}]}'
+          
+           # Create GKE secret Key
+             kubectl create secret generic gac-key --from-file ${{ env.SERVICE_ACCOUNT_KEY }} 
             
             # Apply role binding to default service account
               #kubectl apply -f role-binding-default.yaml
