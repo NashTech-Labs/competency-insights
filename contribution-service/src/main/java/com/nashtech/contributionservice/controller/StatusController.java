@@ -6,16 +6,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/")
+@Slf4j
 public class StatusController {
 
     @GetMapping
     public String appRunning(){
+
+        log.info("-------------------appRunningContextPath");
         return "Contribution Service is Running...at root path";
     }
 
     @GetMapping
     @RequestMapping("cs")
     public String appRunningContextPath(){
+        log.info("-------------------appRunningContextPath");
         return "Contribution Service is Running...at context path";
     }
 }
