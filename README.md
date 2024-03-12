@@ -4,7 +4,7 @@ Developing a user-friendly Nashar-Insights platform capable of gathering social 
 
 Key technical benefits
 --
-- Scalability is ensured through GCP Kubernetes, supporting varying workloads.
+- Scalability is ensured through GCP Kubernetes, supporting varying workloads. 
 - Flexibility in data handling is achieved using MongoDB and Snowflake.
 - Real-time data ingestion is facilitated by Snowpipe streaming in Snowflake.
 - Efficient data retrieval, processing, and storage with Snowflake contribute to improved performance.
