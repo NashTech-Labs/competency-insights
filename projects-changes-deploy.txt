@@ -1,1 +1,1 @@
-competency-insights-ui
+feed-service
