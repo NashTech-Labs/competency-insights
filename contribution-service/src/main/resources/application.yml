@@ -8,7 +8,7 @@ logging:
 management:
   metrics:
     tags:
-      app: contribution-service
+      app: contributionservice
       instance: ${random.uuid}
 
 spring:
