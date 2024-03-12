@@ -76,13 +76,6 @@ jobs:
               echo 'adding secret to service account default'
               kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "regcred"}]}'
           
-           # Create GKE secret Key
-             #echo 'Start creating generic gac-key secret'
-             #kubectl create secret generic gac-key --from-file ${{ env.SERVICE_ACCOUNT_KEY }} 
-             #echo 'End created generic gac-key secret'
-            
-            # Apply role binding to default service account
-              #kubectl apply -f role-binding-default.yaml
 
             # Creates a kubernetes secret using the GitHub secret as the docker password
               kubectl apply -f gcp-deploy-service.yaml --force

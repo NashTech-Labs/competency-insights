@@ -37,14 +37,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: contribution-configmap
-#          volumeMounts:
-#            - name: service-account-key
-#              mountPath: /path/to/credentials  # Adjust mount path if needed
 #      serviceAccountName: default  # Reference created service account
-#      volumes:
-#        - name: service-account-key
-#          secret:
-#            secretName: competency-insights-credentials
+
 
 ---
 apiVersion: v1
