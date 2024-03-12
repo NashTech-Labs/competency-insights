@@ -78,7 +78,7 @@ jobs:
           
            # Create GKE secret Key
              echo 'Start creating generic gac-key secret'
-             kubectl create secret generic gac-key --from-file '${{ env.SERVICE_ACCOUNT_KEY }}' 
+             kubectl create secret generic gac-key --from-file ${{ env.SERVICE_ACCOUNT_KEY }} 
              echo 'End created generic gac-key secret'
             
             # Apply role binding to default service account
