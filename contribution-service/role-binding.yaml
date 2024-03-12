@@ -15,4 +15,3 @@ roleRef:
     - roles/logging.writer
     - roles/monitoring.metricDescriptors.list
     - roles/monitoring.metricDescriptors.create
-    # Add additional roles if needed (e.g., for writing logs or custom metrics)
