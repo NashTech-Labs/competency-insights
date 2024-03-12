@@ -32,6 +32,14 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+### `sonar-scanner` 
+
+Analyse the project and generate the report.\
+Open [https://sonarcloud.io/project/overview?id=competency-insights](https://sonarcloud.io/project/overview?id=competency-insights) to view it in your browser.
+
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
+
 ### `npm run eject`
 
 **Note: this is a one-way operation. Once you `eject`, you can't go back!**
