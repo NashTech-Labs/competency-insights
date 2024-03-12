@@ -27,10 +27,15 @@
 			<version>${spring-gcp-firestore.version}</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.google.cloud/spring-cloud-gcp-starter-logging -->
+<!--		<dependency>-->
+<!--			<groupId>com.google.cloud</groupId>-->
+<!--			<artifactId>spring-cloud-gcp-starter-logging</artifactId>-->
+<!--			<version>5.0.4</version>-->
+<!--		</dependency>-->
 		<dependency>
-			<groupId>com.google.cloud</groupId>
+			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-gcp-starter-logging</artifactId>
-			<version>5.0.4</version>
+			<version>1.2.1.RELEASE</version>
 		</dependency>
 
 		<dependency>

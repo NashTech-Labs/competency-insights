@@ -5,18 +5,28 @@ logging:
   level:
     org.springframework.security: DEBUG
 
+
+
 management:
   metrics:
     tags:
       app: contributionservice
       instance: ${random.uuid}
 
+
+
 spring:
+  sleuth:
+    sampler:
+      probability: 1.0
   application:
     name: ${SERVICE_NAME:Contribution Service}
   profiles:
     active: ${ACTIVE_PROFILE:local}
   cloud:
+    gcp:
+      logging:
+        enabled=true:
     azure:
       active-directory:
         enabled: true
