@@ -24,15 +24,21 @@ jobs:
           java-version: '19'
           distribution: 'temurin'
           cache: maven
+      - name: Read service names from file
+        id: read-service-names
+        run: |
+          SERVICE_NAMES=$(cat projects-changes-deploy.txt)
+          echo "Service Names: $SERVICE_NAMES"
+          echo "::set-output name=service_names::$SERVICE_NAMES"
       - name: SonarCloud Scan
         run: |
-           for repo in $(echo "${{ steps.read-repos.outputs.stdout }}" | tr -d '\r'); do
-            echo "Processing repository: $repo"
-            ls -al
-            cd $repo
-            pwd
+           for SERVICE_NAME in $(echo ${{ steps.read-service-names.outputs.service_names }} | tr ',' ' '); do
+            echo "Processing Service: $SERVICE_NAME"
+            #ls -al
+            cd $SERVICE_NAME
+            #pwd
             # Check if it's the ReactJS project
-            if [ "$repo" == "competency-insights-ui" ]; then
+            if [ "$SERVICE_NAME" == "competency-insights-ui" ]; then
               # ReactJS-specific commands
               npm install
           
@@ -46,7 +52,7 @@ jobs:
               sonar-scanner -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=nashtech -Dsonar.branch.name=main
             else
               # Maven Sonar
-               echo "Processing MVN repository: $repo"
+               echo "Processing MVN service: $SERVICE_NAME"
               mvn clean verify sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=nashtech -Dsonar.branch.name=main
             fi
            done 
