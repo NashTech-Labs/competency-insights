@@ -49,7 +49,7 @@ export const ProfileDetails = () => {
     return (
         <>
         <Navbar />
-            <section className="bg-gray-200 p-4 min-h-screen">
+            <section className="bg-gray-200 p-4 min-h-screen ml-24">
             <Header />
                 <div className="flex flex-col sm:flex-row items-center bg-white">
                     <div className="w-40 m-4">
