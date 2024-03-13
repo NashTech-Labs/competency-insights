@@ -6,6 +6,7 @@ import { Contribution } from "./components/Contribution";
 import { Footer, Header, Navbar } from "../../components";
 import { useMsal } from "@azure/msal-react";
 import {useNavigate} from "react-router-dom";
+import {PermanentDrawerLeft} from "../../components/Layout/Navbar/TestNavBar"
 
 export const ProfileDetails = () => {
     const [user, setUser] = useState({});
@@ -48,9 +49,9 @@ export const ProfileDetails = () => {
 
     return (
         <>
-        <Navbar />
+        {/* <Navbar /> */}
+        <PermanentDrawerLeft />
             <section className="bg-gray-200 p-4 min-h-screen">
-            <Header />
                 <div className="flex flex-col sm:flex-row items-center bg-white">
                     <div className="w-40 m-4">
                         <img
