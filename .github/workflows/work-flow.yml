@@ -46,6 +46,7 @@ jobs:
               sonar-scanner -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=nashtech -Dsonar.branch.name=main
             else
               # Maven Sonar
+               echo "Processing MVN repository: $repo"
               mvn clean verify sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=nashtech -Dsonar.branch.name=main
             fi
            done 
