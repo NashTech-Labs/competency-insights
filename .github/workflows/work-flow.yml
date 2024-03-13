@@ -26,7 +26,7 @@ jobs:
           cache: maven
       - name: SonarCloud Scan
         run: |
-          cat projects-changes-deploy.txt | while read repo; do
+           for repo in $(echo "${{ steps.read-repos.outputs.stdout }}" | tr -d '\r'); do
             echo "Processing repository: $repo"
             ls -al
             cd $repo
