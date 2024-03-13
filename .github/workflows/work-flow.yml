@@ -28,8 +28,9 @@ jobs:
         run: |
           cat projects-changes-deploy.txt | while read repo; do
             echo "Processing repository: $repo"
-            echo "========================"$repo
+            ls -al
             cd $repo
+            pwd
             # Check if it's the ReactJS project
             if [ "$repo" == "competency-insights-ui" ]; then
               # ReactJS-specific commands
