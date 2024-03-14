@@ -2,9 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useMsal } from "@azure/msal-react";
 import { Link } from 'react-router-dom';
 
-export const Header = () => {
-    const [m_strUser, setm_strUser] = useState("");
-    const { instance , accounts } = useMsal();
+export const Header = ({name}) => {
+    const { instance } = useMsal();
     const [darkMode, setDarkMode] = useState(JSON.parse(localStorage.getItem("darkMode")) || false);
     const [shouldDropDownOpen, setShouldDropDownOpen] = useState(false);
     const headerRef = useRef(null);
@@ -18,16 +17,6 @@ export const Header = () => {
             document.documentElement.classList.remove("dark");
         }
     }, [darkMode]);
-
-    useEffect(() => {
-        try {
-            const username = accounts[0].username;
-            const profileName = username.substring(0, username.indexOf('@'));
-            setm_strUser(profileName.split("."));
-        } catch (e) {
-            console.error("Error while fetching username:", e);
-        }
-    }, [accounts]);
 
     useEffect(() => {
         const handleOutsideClick = (event) => {
@@ -53,7 +42,7 @@ export const Header = () => {
 
     return (
         <header ref={headerRef}>
-            <nav className="bg-white dark:bg-gray-900 flex items-center" style={{ padding: '25px 0' }}>
+            <nav className={`flex items-center bg-white ${darkMode ? 'dark:bg-gray-900 text-white' : 'text-gray-700'}`} style={{ padding: '25px 0' }}>
                 <div className="w-full flex justify-between items-center mx-auto px-4 md:px-6 py-3">
                     <Link to="/" className="flex items-center">
                         <img src="/nashtech_logo.png" className="h-8" alt="Logo" />
@@ -65,7 +54,7 @@ export const Header = () => {
                         {shouldDropDownOpen && 
                             <div id="dropdownAvatar" className="select-none absolute top-full right-0 z-10 w-[200px]  bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600" style={{ top: headerHeight }}>
                                 <div className="py-3 px-4 text-[1rem] text-sm text-gray-900 dark:text-white">
-                                    <div className="font-medium truncate">{m_strUser[0]} {m_strUser[1]}</div>
+                                    <div className="font-medium truncate">{name}</div>
                                 </div>
                                 <ul className="py-1 text-[1rem] text-gray-700 dark:text-gray-200" aria-labelledby="dropdownUserAvatarButton">
                                     <li>

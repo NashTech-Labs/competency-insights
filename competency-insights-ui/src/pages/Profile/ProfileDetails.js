@@ -3,18 +3,12 @@ import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
 import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
 import { Contribution } from "./components/Contribution";
-import { Footer, Header, Navbar } from "../../components";
-import { useMsal } from "@azure/msal-react";
-import {useNavigate} from "react-router-dom";
-import {PermanentDrawerLeft} from "../../components/Layout/Navbar/TestNavBar"
+import {PermanentDrawerLeft} from "../../components/Layout/Navbar/TestNavBar";
 
-export const ProfileDetails = () => {
+export const ProfileDetails = ({emailAddress, name}) => {
     const [user, setUser] = useState({});
     const[categories,setCategories] =useState({});
     const [category, setCategory] = useState("Blogs");
-    const [m_strUser, setm_strUser] = useState("");
-    const { accounts } = useMsal();
-    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -49,8 +43,7 @@ export const ProfileDetails = () => {
 
     return (
         <>
-        {/* <Navbar /> */}
-        <PermanentDrawerLeft />
+        <PermanentDrawerLeft name = {name}/>
             <section className="bg-gray-200 p-4 min-h-screen ml-60 px-20 mt-10">
                 <div className="flex flex-col sm:flex-row items-center bg-white">
                     <div className="w-60 m-5">
@@ -125,7 +118,6 @@ export const ProfileDetails = () => {
                 {user.Contributions && user.Contributions[category] && (
                     <Contribution contributionType={user.Contributions[category]} />
                 )}
-                <Footer />
                 </section>
         </>
     )

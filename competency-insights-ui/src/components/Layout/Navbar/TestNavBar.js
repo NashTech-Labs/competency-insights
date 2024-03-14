@@ -5,19 +5,29 @@ import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import PersonIcon from "@mui/icons-material/Person";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import PeopleIcon from "@mui/icons-material/People";
 import { Header } from "../Header";
+import { Link } from "react-router-dom";
 
-const drawerWidth = 220;
+const drawerWidth = 200;
 
-export const PermanentDrawerLeft= () => {
+export const PermanentDrawerLeft= ({name}) => {
+
+  const sidebarItems = [
+    { text: "Profile", link: "/profile", icon: <PersonIcon /> },
+    { text: "OKR's", link: "/addokr", icon: <CheckCircleOutlineIcon /> },
+    { text: "Inbox", link: "#", icon: <InboxIcon /> },
+    { text: "Teams", link: "/team", icon: <PeopleIcon /> },
+  ];
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -30,7 +40,7 @@ export const PermanentDrawerLeft= () => {
             display: 'flex', 
         }}
         >
-      <Header />
+      <Header name = {name}/>
       </AppBar>
       <Drawer
         sx={{
@@ -49,13 +59,18 @@ export const PermanentDrawerLeft= () => {
         </Toolbar>
         <Divider />
         <List>
-          {["Home", "Me", "Send Message", "Teams"].map((text, index) => (
-            <ListItem key={text} disablePadding>
+          {sidebarItems.map((item) => (
+            <ListItem
+              key={item.text}
+              disablePadding
+              component={Link}
+              to={item.link}
+            >
               <ListItemButton>
                 <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  {item.icon}
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary={item.text} />
               </ListItemButton>
             </ListItem>
           ))}
