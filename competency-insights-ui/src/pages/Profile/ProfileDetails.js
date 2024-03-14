@@ -51,9 +51,9 @@ export const ProfileDetails = () => {
         <>
         {/* <Navbar /> */}
         <PermanentDrawerLeft />
-            <section className="bg-gray-200 p-4 min-h-screen">
+            <section className="bg-gray-200 p-4 min-h-screen ml-60 px-20 mt-10">
                 <div className="flex flex-col sm:flex-row items-center bg-white">
-                    <div className="w-40 m-4">
+                    <div className="w-60 m-5">
                         <img
                             src="https://8bf962be.rocketcdn.me/wp-content/uploads/2023/03/nashTech-logo-red.png"
                             className="mx-auto"
