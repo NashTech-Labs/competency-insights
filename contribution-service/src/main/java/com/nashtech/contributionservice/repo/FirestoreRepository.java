@@ -8,4 +8,5 @@ import reactor.core.publisher.Mono;
 @Profile("gcp")
 public interface FirestoreRepository extends FirestoreReactiveRepository<Nasher> {
         Mono<Nasher> findByEmpId(String empId);
+        Mono<Nasher> findByEmailId(String email);
 }

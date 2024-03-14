@@ -1,4 +1,4 @@
-package com.nashtech.contributionservice.rest;
+package com.nashtech.contributionservice.controller;
 
 import com.nashtech.contributionservice.entity.Nasher;
 import com.nashtech.contributionservice.service.PasGo1Service;
@@ -15,9 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/cs")
 @AllArgsConstructor
 @Slf4j
 public class NasherController {
@@ -38,7 +37,14 @@ public class NasherController {
         return processor.getNasherInfo(empId);
     }
 
-    @PreAuthorize("hasAuthority('APPROLE_competency_insights_admin')")
+    @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
+    @GetMapping("nasher/email/{email}")
+    public Mono<Nasher> getNasherByEmail(@PathVariable String email) {
+        log.info("Enter into NasherController: Get Nasher by email: {}", email);
+        return processor.getNasherByEmail(email);
+    }
+
+    @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
     @PostMapping("nasher/save") // Temp basis to check firestore insertion
     public void saveNasher(@RequestBody Nasher nasher) {
         log.info("Enter into NasherController: Saving Nasher with Employee Id: {} ", nasher.getEmpId());
