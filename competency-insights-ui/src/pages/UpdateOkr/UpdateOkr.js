@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Footer, Header, Navbar } from '../../components';
 import {useNavigate} from "react-router-dom";
 import {PermanentDrawerLeft} from "../../components/Layout/Navbar/TestNavBar"
 
