@@ -6,10 +6,10 @@ export const AppRouters = () => {
         <Routes>
             <Route>
                 <Route path="/" element={<Login />} />
-                <Route path="/profile" element={<ProtectedRoute><ProfileDetails /></ProtectedRoute>} />
-                <Route path="/team" element={<ProtectedRoute><TeamPage /></ProtectedRoute>} />
-                <Route path="/addokr" element={<ProtectedRoute><AddOkrPage /></ProtectedRoute>} />
-                <Route path="/updateokr" element={<ProtectedRoute><UpdateOkr/></ProtectedRoute>}/>
+                <Route path="/profile" element={<ProfileDetails />} />
+                <Route path="/team" element={<TeamPage />} />
+                <Route path="/addokr" element={<AddOkrPage/>} />
+                <Route path="/updateokr" element={<UpdateOkr/>}/>
             </Route>
         </Routes>
     )

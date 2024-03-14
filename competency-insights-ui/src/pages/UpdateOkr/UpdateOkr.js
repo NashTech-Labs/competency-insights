@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Footer, Header, Navbar } from '../../components';
 import {useNavigate} from "react-router-dom";
+import {PermanentDrawerLeft} from "../../components/Layout/Navbar/TestNavBar"
+
 
 export const UpdateOkr = () => {
   const currentDate = new Date().toISOString().split('T')[0];
@@ -69,7 +71,7 @@ export const UpdateOkr = () => {
   };
   return (  
     <div className="flex flex-col items-center min-h-screen bg-gray-200 bg-opacity-30">
-    <Navbar />
+    <PermanentDrawerLeft />
       <div className="w-1/2 flex justify-center mt-20 mb-0">
         <div className="bg-gray-300 py-4 px-6 w-full mb-0 rounded-t-md flex justify-between items-center">
           <button onClick={handleAddOKRClick} className="w-1/2 py-2 px-4 mb-0 rounded focus:outline-none focus:shadow-outline font-bold text-lg"> {/* Adjusted button width, font weight, and font size */}
