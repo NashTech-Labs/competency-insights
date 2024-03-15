@@ -19,6 +19,7 @@ export const Login = () => {
         return;
       }
 
+      sessionStorage.setItem("token", loginResponse.accessToken);
       // Retrieve user ID and user name after successful login
       const account = instance.getActiveAccount();
       const userId = account?.idTokenClaims?.oid;

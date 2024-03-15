@@ -4,42 +4,38 @@ import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
 import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
 import { Contribution } from "./components/Contribution";
 import {PermanentDrawerLeft} from "../../components/Layout/Navbar/TestNavBar";
+import { useMsal } from "@azure/msal-react";
+import {useNavigate} from "react-router-dom";
+import useDataFetching from "../../services/useDataFetching";
 
 export const ProfileDetails = ({emailAddress, name}) => {
     const [user, setUser] = useState({});
-    const[categories,setCategories] =useState({});
+    const [categories, setCategories] = useState({});
     const [category, setCategory] = useState("Blogs");
+    const { accounts, instance } = useMsal();
+    const navigate = useNavigate();
+    const apiUrl = process.env.REACT_APP_API_URL;
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const [userResponse, categoriesResponse] = await Promise.all([
-                    fetch('Data/userdata.json'),
-                    fetch('Data/categories.json')
-                ]);
+        // Using the custom hook for fetching user and categories data
+        const { data: userData, isLoading: userIsLoading, error: userError } = useDataFetching('Data/userdata.json', instance);
+        const { data: categoriesData, isLoading: categoriesIsLoading, error: categoriesError } = useDataFetching('Data/categories.json', instance);
 
-                if (!userResponse.ok) {
-                    throw new Error('Failed to fetch user data');
-                }
-                if (!categoriesResponse.ok) {
-                    throw new Error('Failed to fetch categories');
-                }
-
-                const userData = await userResponse.json();
-                const categoriesData = await categoriesResponse.json();
+        useEffect(() => {
+            if (userData) {
                 setUser(userData);
-                setCategories(categoriesData);
-            } catch (error) {
-                console.error('Error fetching data:', error);
             }
+            if (categoriesData) {
+                setCategories(categoriesData);
+            }
+        }, [userData, categoriesData]);
+
+        const handleCategoryClick = (selectedCategory) => {
+            setCategory(selectedCategory);
         };
 
-        fetchData();
-    }, []);
-
-    const handleCategoryClick = (selectedCategory) => {
-        setCategory(selectedCategory);
-    };
+        if (userIsLoading || categoriesIsLoading) {
+            return <div>Loading...</div>; // Render loading indicator while data is being fetched
+        }
 
     return (
         <>
