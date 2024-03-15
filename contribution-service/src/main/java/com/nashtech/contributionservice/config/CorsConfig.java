@@ -1,16 +1,20 @@
 package com.nashtech.contributionservice.config;
 
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@EnableWebMvc
-public class CorsConfig {
+@ComponentScan
+public class CorsConfig implements WebMvcConfigurer {
+    @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("*") // Allow requests from any origin
-                .allowedMethods("GET", "POST", "PUT", "DELETE") // Specify allowed HTTP methods
-                .allowedHeaders("*"); // Allow all headers
+                .allowedOrigins("*") // Allow requests from Angular app
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
+
+                .maxAge(3600);
     }
 }

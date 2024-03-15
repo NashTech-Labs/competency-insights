@@ -1,4 +1,4 @@
-package com.nashtech.contributionservice.rest;
+package com.nashtech.contributionservice.controller;
 
 import com.nashtech.contributionservice.entity.Nasher;
 import com.nashtech.contributionservice.service.PasGo1Service;
@@ -36,6 +36,13 @@ public class NasherController {
     public Mono<Nasher> getNasherById(@PathVariable String empId) {
         log.info("Enter into NasherController: Get Nasher by employee Id: {}",empId);
         return processor.getNasherInfo(empId);
+    }
+
+    @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
+    @GetMapping("nasher/email/{email}")
+    public Mono<Nasher> getNasherByEmail(@PathVariable String email) {
+        log.info("Enter into NasherController: Get Nasher by email: {}", email);
+        return processor.getNasherByEmail(email);
     }
 
     @PreAuthorize("hasAuthority('APPROLE_competency_insights_admin')")
