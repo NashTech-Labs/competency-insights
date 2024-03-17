@@ -5,35 +5,35 @@ import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
 import { Contribution } from "./components/Contribution";
 import {PermanentDrawerLeft} from "../../components/Layout/Navbar/TestNavBar";
 import { useMsal } from "@azure/msal-react";
-import {useNavigate} from "react-router-dom";
 import useDataFetching from "../../services/useDataFetching";
 
 export const ProfileDetails = ({emailAddress, name}) => {
     const [user, setUser] = useState({});
     const [categories, setCategories] = useState({});
-    const [category, setCategory] = useState("Blogs");
-    const { accounts, instance } = useMsal();
-    const navigate = useNavigate();
-    const apiUrl = process.env.REACT_APP_API_URL;
-
+    const [category, setCategory] = useState("blogs");
+    const { instance } = useMsal();
+    const profilePageUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/${encodeURIComponent(emailAddress)}`;
         // Using the custom hook for fetching user and categories data
-        const { data: userData, isLoading: userIsLoading, error: userError } = useDataFetching('Data/userdata.json', instance);
-        const { data: categoriesData, isLoading: categoriesIsLoading, error: categoriesError } = useDataFetching('Data/categories.json', instance);
+    const { data: userData } = useDataFetching(profilePageUrl, instance);
+    const { data: sampleData } = useDataFetching('Data/userdata.json', instance);
+    const { data: categoriesData, isLoading: categoriesIsLoading} = useDataFetching('Data/categories.json', instance);
 
-        useEffect(() => {
-            if (userData) {
-                setUser(userData);
-            }
-            if (categoriesData) {
-                setCategories(categoriesData);
-            }
-        }, [userData, categoriesData]);
+    useEffect(() => {
+        if (userData) {
+            setUser(userData);
+        } else {
+            setUser(sampleData);
+        }
+        if (categoriesData) {
+            setCategories(categoriesData);
+        }
+    }, [userData, categoriesData, sampleData]);
 
         const handleCategoryClick = (selectedCategory) => {
             setCategory(selectedCategory);
         };
 
-        if (userIsLoading || categoriesIsLoading) {
+        if (!sampleData || !userData || categoriesIsLoading ) {
             return <div>Loading...</div>; // Render loading indicator while data is being fetched
         }
 
@@ -44,13 +44,13 @@ export const ProfileDetails = ({emailAddress, name}) => {
                 <div className="flex flex-col sm:flex-row items-center bg-white">
                     <div className="w-60 m-5">
                         <img
-                            src="https://8bf962be.rocketcdn.me/wp-content/uploads/2023/03/nashTech-logo-red.png"
+                            src="/no_profile_photo.jpeg"
                             className="mx-auto"
                             alt="User"
                         />
                     </div>
                     <div className="lg:order-2 lg:w-full lg:p-4 text-center sm:text-left">
-                        <div className="sm:items-center font-bold text-xl mb-2">{user.Name}</div>
+                        <div className="sm:items-center font-bold text-xl mb-2">{user.name}</div>
                         <div className="flex flex-wrap justify-center sm:justify-start">
                             <div className="mr-4 mb-2">
                                 <FmdGoodOutlinedIcon/>
@@ -58,7 +58,7 @@ export const ProfileDetails = ({emailAddress, name}) => {
                             </div>
                             <div className="mr-4 mb-2">
                                 <MailOutlineOutlinedIcon/>
-                                {user.Email}
+                                {user.email}
                             </div>
                             <div className="mr-4 mb-2">
                                 <CallOutlinedIcon/>
@@ -69,27 +69,27 @@ export const ProfileDetails = ({emailAddress, name}) => {
                         <div className="grid grid-cols-3 gap-4">
                             <div className="flex flex-col">
                                 <label className="text-gray-700 text-sm">EMP NO</label>
-                                <p>{user.EmpId}</p>
+                                <p>{user.empId}</p>
                             </div>
                             <div className="flex flex-col">
                                 <label className="text-gray-700 text-sm">Job title</label>
-                                <p>{user.Designation}</p>
+                                <p>{user.designation}</p>
                             </div>
                             <div className="flex flex-col">
                                 <label className="text-gray-700 text-sm">Department</label>
-                                <p>{user.Department}</p>
+                                <p>{user.department}</p>
                             </div>
                             <div className="flex flex-col">
                                 <label className="text-gray-700 text-sm">DOB</label>
-                                <p>{user.DateOfBirth}</p>
+                                <p>{user.dateOfBirth}</p>
                             </div>
                             <div className="flex flex-col">
                                 <label className="text-gray-700 text-sm">Date of Joining</label>
-                                <p>{user.DateOfJoinig}</p>
+                                <p>{user.dateOfJoining}</p>
                             </div>
                             <div className="flex flex-col">
                                 <label className="text-gray-700 text-sm">Reporting To</label>
-                                <p>{user.ReportingManager}</p>
+                                <p>{user.reportingManager}</p>
                             </div>
                         </div>
                     </div>
@@ -97,6 +97,7 @@ export const ProfileDetails = ({emailAddress, name}) => {
                 <section className="w-full bg-white mt-4">
                     <div className="lg:order-2 lg:w-1/2 p-2">
                         <table className="w-full">
+                            <tbody>
                             <tr>
                                 {Object.keys(categories).map((key) => (
                                     <th
@@ -108,11 +109,12 @@ export const ProfileDetails = ({emailAddress, name}) => {
                                     </th>
                                 ))}
                             </tr>
+                            </tbody>
                         </table>
                     </div>
                 </section>
-                {user.Contributions && user.Contributions[category] && (
-                    <Contribution contributionType={user.Contributions[category]} />
+                {user.contributions && user.contributions[category] && (
+                    <Contribution contributionType={user.contributions[category]} />
                 )}
                 </section>
         </>
