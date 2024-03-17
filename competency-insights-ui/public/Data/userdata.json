@@ -69,7 +69,7 @@
                       "status":["Approved", "In-Review","Published"]
                     }
                 ],
-             "knolxs": [
+             "knolx": [
                     {
                       "title":"Title of Knolx",
                       "link":"URL",
