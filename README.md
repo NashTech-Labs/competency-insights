@@ -1,3 +1,4 @@
+[![GCP CI/CD Pipeline](https://github.com/NashTech-Labs/competency-insights/actions/workflows/work-flow.yml/badge.svg)](https://github.com/NashTech-Labs/competency-insights/actions/workflows/work-flow.yml)
 # Competency Insights
 Developing a user-friendly Nashar-Insights platform capable of gathering social insights from platforms such as LinkedIn, as well as internal activities like blogs, Knolex, and certifications.
 
@@ -52,13 +53,17 @@ To deploy the GCP infrastructure required, follow the steps in deployment readme
 
 ### Deploy Services via Github Action
 - Add required secrets in https://github.com/NashTech-Labs/competency-insights/settings/secrets/actions
-- GKE_KEY : the service account json key having these permission:
+- SERVICE_ACCOUNT_KEY : the service account json key having these permission:
   ```
+    Cloud Datastore Owner
+    Cloud Functions Admin
     Compute Admin
     Container Registry Service Agent
     Create Service Accounts
+    Firestore Service Agent
     Kubernetes Engine Admin
     Project IAM Admin
+    Pub/Sub Admin
     Secret Manager Admin
     Secret Manager Secret Accessor
     Security Reviewer

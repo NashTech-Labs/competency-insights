@@ -1,0 +1,81 @@
+name: GCP CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  PROJECT_ID: '${{ secrets.GKE_PROJECT }}'
+  SERVICE_ACCOUNT_KEY: '${{ secrets.SERVICE_ACCOUNT_KEY }}'
+  CLUSTER_NAME: competency-insights-cluster
+  REGION: us-east1
+  REGISTRY_NAME: competency-insights
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up JDK 19
+        uses: actions/setup-java@v3
+        with:
+          java-version: '19'
+          distribution: 'temurin'
+          server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+          settings-path: ${{ github.workspace }}
+      - name: Set up gcloud CLI
+        uses: google-github-actions/setup-gcloud@v0.3.0
+        with:
+          service_account_key: '${{ env.SERVICE_ACCOUNT_KEY }}'
+          project_id: '${{ env.PROJECT_ID }}'
+          export_default_credentials: true
+      - run: gcloud components update
+      - name: Read service names from file
+        id: read-service-names
+        run: |
+          SERVICE_NAMES=$(cat projects-changes-deploy.txt)
+          echo "Service Names: $SERVICE_NAMES"
+          echo "::set-output name=service_names::$SERVICE_NAMES"
+      - name: Build and deploy services
+        run: |
+          for SERVICE_NAME in $(echo ${{ steps.read-service-names.outputs.service_names }} | tr ',' ' '); do
+            echo "Building and deploying $SERVICE_NAME"
+
+            # Set the build context to the root directory
+            cd $SERVICE_NAME
+            if [  $SERVICE_NAME != "competency-insights-ui" ]; then
+                mvn clean install -B -V
+            fi
+
+            # Build Docker image
+            docker build -t ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/$SERVICE_NAME  -f Dockerfile .
+                  
+            # Configure Docker
+              gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
+          
+            # Install GKE gcloud Auth Plugin
+              gcloud components install gke-gcloud-auth-plugin
+          
+            # Authenticate Docker to Google Artifact Registry
+              gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://${{ env.REGION }}-docker.pkg.dev 
+
+            # Docker Image Tag
+              docker tag ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/$SERVICE_NAME:latest ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/$SERVICE_NAME:${{ github.sha }}
+
+            # Push Docker image to Google Artifact Registry
+              docker push ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REGISTRY_NAME }}/$SERVICE_NAME
+          
+            # Deploy to GKE
+              gcloud container clusters get-credentials ${{ env.CLUSTER_NAME }} --region ${{ env.REGION }} --project ${{ env.PROJECT_ID }}
+              echo 'going to delete secret'
+              kubectl delete secret regcred &>/dev/null
+              echo 'creating secret'
+              kubectl create secret docker-registry regcred --docker-server=${{ env.REGION }}-docker.pkg.dev --docker-username=oauth2accesstoken --docker-password=$(gcloud auth print-access-token) --docker-email=sushant.gupta@knoldus.com
+              echo 'adding secret to service account default'
+              kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "regcred"}]}'
+          
+            # Creates a kubernetes secret using the GitHub secret as the docker password
+              kubectl apply -f gcp-deploy-service.yaml --force
+          done

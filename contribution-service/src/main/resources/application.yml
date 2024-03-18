@@ -1,0 +1,44 @@
+server:
+  port: 8081
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+
+spring:
+  application:
+    name: ${SERVICE_NAME:Contribution Service}
+  profiles:
+    active: ${ACTIVE_PROFILE:local}
+  cloud:
+    azure:
+      active-directory:
+        enabled: true
+        credential:
+          client-id: 26a5cfe5-9be6-48d7-855c-a908dfbd3926
+        app-id-uri: api://26a5cfe5-9be6-48d7-855c-a908dfbd3926
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+---
+spring:
+  config:
+    activate:
+      on-profile: gcp
+  cloud:
+    gcp:
+      project-id: ${GCP_PROJECT_ID:sonarqube-289802}
+
+pubsub:
+  topic-id: ${PUB_SUB_TOPIC:nasher.info}
