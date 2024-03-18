@@ -28,6 +28,7 @@ public class StatusController {
 
     @GetMapping("/cs/swagger-ui.html")
     public RedirectView redirectToSwaggerUi() {
+        LOGGER.info("-------------------redirecting to swagger");
         return new RedirectView("/swagger-ui/index.html");
     }
 
