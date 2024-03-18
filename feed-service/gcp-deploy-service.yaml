@@ -14,6 +14,10 @@ spec:
       labels:
         app: feedservice
     spec:
+      volumes:
+        - name: google-cloud-keys
+          secret:
+            secretName: gac-key
       containers:
         - name: feedservice
           image: us-east1-docker.pkg.dev/sonarqube-289802/competency-insights/feed-service:latest
@@ -22,6 +26,13 @@ spec:
             - name: http
               containerPort: 8082
               protocol: TCP
+          volumeMounts:
+            - name: google-cloud-keys
+              mountPath: /var/secrets/google
+              readOnly: true
+          env:
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /var/secrets/google/key.json
           envFrom:
             - configMapRef:
                 name: contribution-configmap
