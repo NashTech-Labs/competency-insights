@@ -27,9 +27,9 @@ export const AppRouters = () => {
             <Route>
             <Route path="/" element={<Login />} />
             <Route path="/profile" element={<ProtectedRoute><ProfileDetails emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]} /></ProtectedRoute>} />
-            <Route path="/team" element={<ProtectedRoute><TeamPage /></ProtectedRoute>} />
-            <Route path="/addokr" element={<ProtectedRoute><AddOkrPage emailAddress={email} /></ProtectedRoute>} />
-            <Route path="/updateokr" element={<ProtectedRoute><UpdateOkr emailAddress={email} /></ProtectedRoute>}/>
+            <Route path="/team" element={<ProtectedRoute><TeamPage emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]} /></ProtectedRoute>} />
+            <Route path="/addokr" element={<ProtectedRoute><AddOkrPage emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]} /></ProtectedRoute>} />
+            <Route path="/updateokr" element={<ProtectedRoute><UpdateOkr emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]} /></ProtectedRoute>}/>
             </Route>
         </Routes>
     )
