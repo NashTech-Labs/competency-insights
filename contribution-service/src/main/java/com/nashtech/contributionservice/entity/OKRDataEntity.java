@@ -1,6 +1,5 @@
 package com.nashtech.contributionservice.entity;
 
-import com.google.cloud.firestore.annotation.DocumentId;
 import com.google.cloud.spring.data.firestore.Document;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,8 +12,7 @@ import lombok.Setter;
 @Setter
 @Document(collectionName = "okrData")
 public class OKRDataEntity {
-    @DocumentId
-    private String employeeId;
+
     private String emailId;
     private String activity;
     private String radarTechnology;

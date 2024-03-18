@@ -8,8 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -28,12 +28,15 @@ class OKRController {
     public ResponseEntity<String> addOKR(@RequestBody OKRDataEntity okrData) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String email = authentication.getName();
+            if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof Jwt) {
+                Jwt jwt = (Jwt) authentication.getPrincipal();
+                String emailId = jwt.getClaim("email").toString();
+                firestoreService.saveOKRData(okrData, emailId);
 
-            okrData.setEmailId(email);
-
-            String updateTime = firestoreService.saveOKRData(okrData);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Data saved. Update time: " + updateTime);
+                return ResponseEntity.status(HttpStatus.CREATED).body("OKR data saved successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized access");
+            }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error saving data to Firestore");
         }
@@ -46,6 +49,16 @@ class OKRController {
             return ResponseEntity.ok(okrDataList);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @DeleteMapping("/deleteokrdata")
+    public ResponseEntity<String> deleteAllOKRData() {
+        try {
+            firestoreService.deleteAllOKRData(); // Delete all OKR data from Firestore
+            return ResponseEntity.ok("All OKR data deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting OKR data");
         }
     }
 }
