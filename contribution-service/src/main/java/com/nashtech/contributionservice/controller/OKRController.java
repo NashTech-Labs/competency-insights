@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +27,11 @@ class OKRController {
     @PostMapping("/addokr")
     public ResponseEntity<String> addOKR(@RequestBody OKRDataEntity okrData) {
         try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String email = authentication.getName();
+
+            okrData.setEmailId(email);
+
             String updateTime = firestoreService.saveOKRData(okrData);
             return ResponseEntity.status(HttpStatus.CREATED).body("Data saved. Update time: " + updateTime);
         } catch (Exception e) {
