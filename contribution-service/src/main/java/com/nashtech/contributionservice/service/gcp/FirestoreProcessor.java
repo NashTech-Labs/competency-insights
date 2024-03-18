@@ -36,4 +36,6 @@ public class FirestoreProcessor implements Processor {
     public Flux<Nasher> getNashers() {
         return firestoreRepository.findAll();
     }
+
+
 }

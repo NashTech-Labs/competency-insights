@@ -1,32 +1,44 @@
 package com.nashtech.contributionservice.controller;
 
 import com.nashtech.contributionservice.entity.OKRDataEntity;
+import com.nashtech.contributionservice.service.FirestoreService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
 class OKRController {
 
-    // Ensure that only users with 'APPROLE_competency_insights_user' authority can access this method
+    private final FirestoreService firestoreService;
+
+    @Autowired
+    public OKRController(FirestoreService firestoreService) {
+        this.firestoreService = firestoreService;
+    }
+
     @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
     @PostMapping("/addokr")
-    public ResponseEntity<OKRDataEntity> addOKR(@RequestBody OKRDataEntity okrData) {
-        // Process the received OKR data, you can print it for testing
-        System.out.println("Received OKR Data:");
-        System.out.println("Employee ID: " + okrData.getEmployeeId());
-        System.out.println("Activity: " + okrData.getActivity());
-        System.out.println("Radar Technology: " + okrData.getRadarTechnology());
-        System.out.println("Title: " + okrData.getTitle());
-        System.out.println("Due Date: " + okrData.getDueDate());
-        System.out.println("Description: " + okrData.getDescription());
+    public ResponseEntity<String> addOKR(@RequestBody OKRDataEntity okrData) {
+        try {
+            String updateTime = firestoreService.saveOKRData(okrData);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Data saved. Update time: " + updateTime);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error saving data to Firestore");
+        }
+    }
 
-        // Return a response indicating success
-        return ResponseEntity.status(HttpStatus.CREATED).body(okrData);
+    @GetMapping("/okrdata")
+    public ResponseEntity<Object> getOKRData() {
+        try {
+            List<OKRDataEntity> okrDataList = firestoreService.getOKRData();
+            return ResponseEntity.ok(okrDataList);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 }
