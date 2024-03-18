@@ -1,43 +1,71 @@
 import React from 'react';
+import TextField from '@mui/material/TextField';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
-export const FormElement = ({ label, name, options, type }) => {
+
+export const FormElement = ({ label, name, options, type, onChange }) => {
+  const handleChange = (event) => {
+    onChange(event);
+  };
+
   return (
     <div className="form-group">
       <label htmlFor={name} className="form-label text-lg font-bold mb-2">{label}</label>
       {type === 'text' ? (
-        <input
+        <TextField
           type={type}
           name={name}
           id={name}
+          onChange={handleChange}
           placeholder={`Enter ${label}`}
-          className="bg-gray-100 shadow-md rounded px-4 py-2 mb-4 w-full"
+          variant="filled"
+          size="normal"
+          fullWidth
           required
         />
       ) : type === 'date' ? (
-        <input
+        <TextField
           type={type}
           name={name}
           id={name}
-          className="bg-gray-100 shadow-md rounded px-4 py-2 mb-4 w-full"
+          onChange={handleChange}
+          variant="filled"
+          fullWidth
           required
         />
       ) : type === 'textarea' ? (
-        <textarea
+        <TextField
+          type={type}
           id={name}
           name={name}
-          className="resize-none bg-gray-100 shadow-md rounded px-4 py-2 mb-4 w-full"
-          rows="4"
+          onChange={handleChange}
+          multiline 
+          rows={4}
+          maxRows={6}
           placeholder={`Enter ${label}`}
-        ></textarea>
-      ): (
-        <select id={name} name={name} required className="bg-gray-100 shadow-md rounded px-4 py-2 mb-4 w-full">
-          <option value="">-- Select {label} --</option>
+          variant="filled"
+          fullWidth
+        />
+      ) : (
+        <Select
+          id={name}
+          name={name}
+          onChange={handleChange}
+          variant="filled"
+          fullWidth
+          required
+          defaultValue=""
+        >
+          <MenuItem value="" disabled>
+            -- Select {label} --
+          </MenuItem>
           {options && options.length > 0 && options.map((option) => (
-            <option key={option} value={option}>
+            <MenuItem key={option} value={option}>
               {option}
-            </option>
+            </MenuItem>
           ))}
-        </select>
+        </Select>
       )}
     </div>
   );

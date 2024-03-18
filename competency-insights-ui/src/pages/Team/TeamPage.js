@@ -4,10 +4,10 @@ import employeesData from '../../data/employees.json';
 import {Reports} from './components/Reports';
 import {PermanentDrawerLeft} from "../../components/Layout/Navbar/TestNavBar"
 
-export const TeamPage = () => {
+export const TeamPage = ({emailAddress, name}) => {
   return (
     <div>
-    <PermanentDrawerLeft />
+    <PermanentDrawerLeft name = {name} />
       <div>
         <Reports/>
       </div>
