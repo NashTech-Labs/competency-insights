@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.servlet.view.RedirectView;
+
 @RestController
 public class StatusController {
 
@@ -22,6 +24,11 @@ public class StatusController {
     public String appRunningContextPath(){
         LOGGER.info("-------------------appRunning  ContextPath");
         return "Contribution Service is Running...at context path";
+    }
+
+    @GetMapping("/cs/swagger-ui.html")
+    public RedirectView redirectToSwaggerUi() {
+        return new RedirectView("/swagger-ui/index.html");
     }
 
 }
