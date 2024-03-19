@@ -1,6 +1,18 @@
-#Terraform plugin for creating random ids
-resource "random_id" "instance_id" {
- byte_length = 4
+terraform {
+  required_providers {
+    google = {
+      version = "5.6.0"
+      source = "hashicorp/google"
+    }
+  }
+}
+
+# Configure Google Cloud Provider
+provider "google" {
+  project = var.app_project
+  credentials = file(var.gcp_auth_file)
+  region  = var.gcp_region_1
+  zone    = var.gcp_zone_1
 }
 
 #-----------------------pub sub--------------------------------
