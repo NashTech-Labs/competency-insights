@@ -1,9 +1,11 @@
 package com.nashtech.feedservice.controller;
 
+import com.nashtech.feedservice.controller.response.ResponseMessage;
 import com.nashtech.feedservice.helper.ExcelHelper;
 import com.nashtech.feedservice.model.Nasher;
 import com.nashtech.feedservice.service.ExcelService;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -21,10 +23,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/feed")
 @Slf4j
+@AllArgsConstructor
 public class ExcelController {
 
-  @Autowired
-  ExcelService fileService;
+  private final ExcelService fileService;
 
   @PreAuthorize("hasAuthority('APPROLE_competency_insights_admin')")
   @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
