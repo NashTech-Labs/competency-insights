@@ -12,10 +12,10 @@ export const ProfileDetails = ({emailAddress, name}) => {
     const [categories, setCategories] = useState({});
     const [category, setCategory] = useState("blogs");
     const { instance } = useMsal();
-    //const profilePageUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/${encodeURIComponent(emailAddress)}`;
+    const profilePageUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/Shiv.oberoi@nashtechglobal.com`;
 
     // Using the custom hook for fetching user and categories data
-    const { data: userData } = useDataFetching('Data/userdata.json', instance);
+    const { data: userData } = useDataFetching(profilePageUrl, instance);
     const { data: categoriesData, isLoading: categoriesIsLoading} = useDataFetching('Data/categories.json', instance);
 
     useEffect(() => {
