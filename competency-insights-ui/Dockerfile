@@ -12,6 +12,7 @@ COPY tailwind.config.js /competency-insights-ui/
 
 # Passing URI Value
 ENV REACT_APP_URI https://competency.co.in
+ENV REACT_APP_PROFILE_PAGE_URL /cs/nasher/email
 
 # Install app dependencies
 RUN npm install
