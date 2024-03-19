@@ -22,17 +22,17 @@ export const Contribution = ({ contributionType }) => {
       </div>
 
       {contributionType.map((item, index) => (
-        <div className="px-4 sm:px-6 lg:px-8 py-4 w-full" key={index}>
+        <div className="px-4 sm:px-6 lg:px-1 py-4 w-full" key={index}>
           <div className="grid lg:grid-cols-5 sm:grid-cols-4 gap-2 items-center">
             <div className="bg-white p-4 rounded-md shadow-md lg:col-span-2 sm:col-span-1">
-              <p className="text-lg font-bold">{item.Title}</p>
+              <p className="text-lg font-bold">{item.title}</p>
 
             </div>
             <div className="bg-white p-4 rounded-md shadow-md col-span-1">
-              <p>{item.RadarTechnology}</p>
+              <p>{item.radarTechnology}</p>
             </div>
             <div className="bg-white p-4 rounded-md shadow-md col-span-1 flex items-center justify-center">
-              <p>{item.Status[0]}</p>
+              <p>{item.status[0]}</p>
             </div>
             <div className="p-2 rounded-md col-span-1 flex items-center justify-center">
               <DropdownMenu />

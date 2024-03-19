@@ -37,6 +37,13 @@ public class NasherController {
         return processor.getNasherInfo(empId);
     }
 
+    @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
+    @GetMapping("nasher/email/{email}")
+    public Mono<Nasher> getNasherByEmail(@PathVariable String email) {
+        log.info("Enter into NasherController: Get Nasher by email: {}", email);
+        return processor.getNasherByEmail(email);
+    }
+
     @PreAuthorize("hasAuthority('APPROLE_competency_insights_admin')")
     @PostMapping("nasher/save") // Temp basis to check firestore insertion
     public void saveNasher(@RequestBody Nasher nasher) {

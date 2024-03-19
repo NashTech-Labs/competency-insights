@@ -28,6 +28,13 @@ public class InMemoryProcessor implements Processor {
     }
 
     @Override
+    public Mono<Nasher> getNasherByEmail(String email) {
+        return Flux.fromIterable(inMemoryData.values())
+                .filter(nasher -> email.equals(nasher.getEmail()))
+                .next()
+                .switchIfEmpty(Mono.error(new RuntimeException("Nasher not found for email: " + email)));
+    }
+    @Override
     public Flux<Nasher> getNashers() {
         log.info("Retrieving Nasher data from local [InMemory]");
         return Flux.fromStream(inMemoryData.values().stream());
