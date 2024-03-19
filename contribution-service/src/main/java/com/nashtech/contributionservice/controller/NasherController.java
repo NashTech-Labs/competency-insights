@@ -15,9 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/cs")
 @AllArgsConstructor
 @Slf4j
 public class NasherController {

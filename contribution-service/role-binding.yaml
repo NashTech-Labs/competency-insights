@@ -1,0 +1,17 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: role-binding
+  namespace: default
+subjects:
+  - kind: ServiceAccount
+    name: default
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name:
+    - roles/logging.viewer  # Read logs
+    - roles/monitoring.viewer  # Read monitoring data
+    - roles/logging.writer
+    - roles/monitoring.metricDescriptors.list
+    - roles/monitoring.metricDescriptors.create

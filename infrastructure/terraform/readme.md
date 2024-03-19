@@ -17,26 +17,41 @@ b) gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIA
    ```snap install helm --classic```
   - Keep the service account json key (key.json) inside terraform directory and it should have the permission
    ```
-    Cloud Datastore Owner
-    Cloud Functions Admin
-    Compute Admin
-    Container Registry Service Agent
-    Create Service Accounts
-    Firestore Service Agent
-    Kubernetes Engine Admin
-    Project IAM Admin
-    Pub/Sub Admin
-    Secret Manager Admin
-    Secret Manager Secret Accessor
-    Security Reviewer
-    Service Account Admin
-    Service Account User
-    Service Usage Admin
-    Storage Admin
-    Storage Object Admin
+Artifact Registry Administrator
+Artifact Registry Reader
+Artifact Registry Writer
+Cloud Build Logging Service Agent
+Cloud Trace Admin
+Compute Admin
+Container Registry Service Agent
+Create Service Accounts
+DNS Administrator
+Firebase Admin
+Kubernetes Engine Admin
+Logging Admin
+Monitoring Admin
+Monitoring Metric Writer
+Monitoring Metrics Scopes Admin
+Monitoring Metrics Scopes Viewer
+Project IAM Admin
+Pub/Sub Admin
+Secret Manager Admin
+Secret Manager Secret Accessor
+Security Reviewer
+Service Account Admin
+Service Account User
+Service Usage Admin
+Stackdriver Accounts Editor
+Stackdriver Accounts Viewer
+Storage Admin
+Storage Object Admin
+Storage Object Viewer
+View service accounts
    ```
  - Check the [terraform.tfvars](terraform%2Fterraform.tfvars) file for the gcp project and credentials values and path.
-
+ - Create Kubernetes Key to passing service-account 
+    ``kubectl create secret generic gac-key --from-file key.json``
+    Note:- This is the manual step, we will add through terraform
 ### 3. run -
 
 - terraform init

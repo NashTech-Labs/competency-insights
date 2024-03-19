@@ -4,7 +4,7 @@ Developing a user-friendly Nashar-Insights platform capable of gathering social 
 
 Key technical benefits
 --
-- Scalability is ensured through GCP Kubernetes, supporting varying workloads.
+- Scalability is ensured through GCP Kubernetes, supporting varying workloads. 
 - Flexibility in data handling is achieved using MongoDB and Snowflake.
 - Real-time data ingestion is facilitated by Snowpipe streaming in Snowflake.
 - Efficient data retrieval, processing, and storage with Snowflake contribute to improved performance.
@@ -20,11 +20,15 @@ Competency Insights system provides the following functionality:
 - **Contribute Service-**  Receives user input regarding competency contributions. It stores this information in both MongoDB and the Snowflake RAW table. This service handles the interaction where users provide input related to competency contributions, and it ensures that the data is stored in the appropriate databases.
 
 
-- **Master Service-**  Processes an Excel file containing Nasher information, such as names and relationship manager details, from the UI. It then saves this data to the Snowflake RAW table. This service manages the import of Nasher-related data from an Excel file, handling the extraction and storage process in the designated Snowflake table.
+- **Feed Service-**  Processes an Excel file containing Nasher information, such as names and relationship manager details, from the UI. It then saves this data to the Snowflake RAW table. This service manages the import of Nasher-related data from an Excel file, handling the extraction and storage process in the designated Snowflake table.
 
 Architecture
 --
 ![insights-arch.png](documentation%2Finsights-arch.png)
+
+GCP Deployment Flow
+--
+![deployment-flow.png](documentation%2Fdeployment-flow.png)
 
 Get the source code:
 -------------------
@@ -54,25 +58,38 @@ To deploy the GCP infrastructure required, follow the steps in deployment readme
 ### Deploy Services via Github Action
 - Add required secrets in https://github.com/NashTech-Labs/competency-insights/settings/secrets/actions
 - SERVICE_ACCOUNT_KEY : the service account json key having these permission:
-  ```
-    Cloud Datastore Owner
-    Cloud Functions Admin
-    Compute Admin
-    Container Registry Service Agent
-    Create Service Accounts
-    Firestore Service Agent
-    Kubernetes Engine Admin
-    Project IAM Admin
-    Pub/Sub Admin
-    Secret Manager Admin
-    Secret Manager Secret Accessor
-    Security Reviewer
-    Service Account Admin
-    Service Account User
-    Service Usage Admin
-    Storage Admin
-    Storage Object Admin
-   ```
+```
+Artifact Registry Administrator
+Artifact Registry Reader
+Artifact Registry Writer
+Cloud Build Logging Service Agent
+Cloud Trace Admin
+Compute Admin
+Container Registry Service Agent
+Create Service Accounts
+DNS Administrator
+Firebase Admin
+Kubernetes Engine Admin
+Logging Admin
+Monitoring Admin
+Monitoring Metric Writer
+Monitoring Metrics Scopes Admin
+Monitoring Metrics Scopes Viewer
+Project IAM Admin
+Pub/Sub Admin
+Secret Manager Admin
+Secret Manager Secret Accessor
+Security Reviewer
+Service Account Admin
+Service Account User
+Service Usage Admin
+Stackdriver Accounts Editor
+Stackdriver Accounts Viewer
+Storage Admin
+Storage Object Admin
+Storage Object Viewer
+View service accounts
+```
 - GKE_PROJECT: Project name
   github workflow for CI/CD can be found here:
  [work-flow.yml](.github%2Fworkflows%2Fwork-flow.yml)
