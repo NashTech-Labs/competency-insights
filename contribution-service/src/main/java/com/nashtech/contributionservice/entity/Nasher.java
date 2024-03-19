@@ -25,6 +25,8 @@ public class Nasher {
     private String designation;
     private String reportingManager;
     private String department;
+    private String location;
+    private String contact;
     private List<String> reportingMembers;
     private Contributions contributions;
 }

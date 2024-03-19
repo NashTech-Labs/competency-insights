@@ -25,7 +25,7 @@ public class PasGo1ServiceImpl implements PasGo1Service {
         log.info("Request generated for Pas service");
         //TODO: integrate pas service here
         List<Nasher> info = List.of(new Nasher("EMP001", "John Doe", "john@example.com", "1990-01-01",
-                "2020-01-01", "Software Engineer", "ManagerX", "IT Department",
+                "2020-01-01", "Software Engineer", "ManagerX", "IT Department","Noida","9046789898",
                 List.of("EmployeeA", "EmployeeB"),new Contributions()));
         pubSubService.publishMessage(info);
     }
@@ -35,7 +35,7 @@ public class PasGo1ServiceImpl implements PasGo1Service {
         log.info("Request generated for GO1% service");
         //TODO: integrate Go1% service here
         List<Nasher> info = List.of(new Nasher("EMP001", "John Doe", "john@example.com", "1990-01-01",
-                "2020-01-01", "Software Engineer", "ManagerX", "IT Department",
+                "2020-01-01", "Software Engineer", "ManagerX", "IT Department","Noida","9046789898",
                 List.of("EmployeeA", "EmployeeB"),new Contributions()));
         pubSubService.publishMessage(info);
     }
@@ -45,7 +45,7 @@ public class PasGo1ServiceImpl implements PasGo1Service {
         log.info("Request generated for GO1% service");
         //TODO: integrate Go1% service here
         List<Nasher> info = List.of(new Nasher("EMP001", "John Doe", "john@example.com", "1990-01-01",
-                "2020-01-01", "Software Engineer", "ManagerX", "IT Department",
+                "2020-01-01", "Software Engineer", "ManagerX", "IT Department","Noida","9046789898",
                 List.of("EmployeeA", "EmployeeB"),new Contributions()));
         pubSubService.publishMessage(info);
     }
