@@ -21,35 +21,35 @@ public class SecuredNasherController {
 
     private static final Log log = LogFactory.getLog(SecuredNasherController.class);
     @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
-    @GetMapping("/nashers")
+    @GetMapping("/sec/nashers")
     public Flux<Nasher> getAllNasher() {
         log.info("Enter into NasherController: Get all Nashers request");
         return processor.getNashers();
     }
 
     @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
-    @GetMapping("/nasher/{empId}")
+    @GetMapping("/sec/nasher/{empId}")
     public Mono<Nasher> getNasherById(@PathVariable String empId) {
         log.info("Enter into NasherController: Get Nasher by employee Id: " + empId);
         return processor.getNasherInfo(empId);
     }
 
     @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
-    @GetMapping("/nasher/email/{email}")
+    @GetMapping("/sec/nasher/email/{email}")
     public Mono<Nasher> getNasherByEmail(@PathVariable String email) {
         log.info("Enter into NasherController: Get Nasher by email: " +  email);
         return processor.getNasherByEmail(email);
     }
 
     @PreAuthorize("hasAuthority('APPROLE_competency_insights_admin')")
-    @PostMapping("/nasher/save") // Temp basis to check firestore insertion
+    @PostMapping("/sec/nasher/save") // Temp basis to check firestore insertion
     public void saveNasher(@RequestBody Nasher nasher) {
         log.info("Enter into NasherController: Saving Nasher with Employee Id: " +  nasher.getEmpId());
         processor.saveNasher(nasher);
     }
 
     @PreAuthorize("hasAuthority('APPROLE_competency_insights_admin')")
-    @GetMapping("/trigger/pas")
+    @GetMapping("/sec/trigger/pas")
     public String triggerPasService() {
         log.info("Enter into NasherController: Processing PAS request");
         pasGo1Service.callPassService();
@@ -57,7 +57,7 @@ public class SecuredNasherController {
     }
 
     @PreAuthorize("hasAuthority('APPROLE_competency_insights_admin')")
-    @GetMapping("/trigger/go1")
+    @GetMapping("/sec/trigger/go1")
     public String triggerGo1Service() {
         log.info("Enter into NasherController: Processing GO1% request");
         pasGo1Service.callGo1Service();
