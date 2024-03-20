@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { PermanentDrawerLeft } from "../../components/Layout/Navbar/TestNavBar";
 import Button from '@mui/material/Button';
 
-export const AddOkrPage = ({name}) => {
+export const AddOkrPage = ({emailAddress, name}) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     activity: '',
@@ -13,33 +13,11 @@ export const AddOkrPage = ({name}) => {
     dueDate: '',
     description: '',
   });
-  const addOkrPageUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_ADD_OKR_PAGE_URL}`;
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-
-    try {
-      const accessToken = sessionStorage.getItem("token");
-      const response = await fetch(addOkrPageUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        // Handle success
-        console.log('OKR created successfully!');
-        console.log(formData);
-      } else {
-        // Handle errors
-        console.error('Failed to create OKR');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
+    console.log(formData);
+    alert('OKR created successfully!');
   };
 
   const handleAddOKRClick = () => {
