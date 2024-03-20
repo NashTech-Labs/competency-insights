@@ -10,16 +10,18 @@ export const AppRouters = () => {
     const [email, setEmail] = useState("");
     const { accounts } = useMsal();
 
-        useEffect(() => {
+    useEffect(() => {
         try {
+          if (accounts && accounts.length > 0) {
             const username = accounts[0].username;
             setEmail(username);
             const profileName = username.substring(0, username.indexOf('@'));
             setm_strUser(profileName.split("."));
+          }
         } catch (e) {
-            console.error("Error while fetching username:", e);
+          console.error("Error while fetching username:", e);
         }
-    }, [accounts]);
+      }, [accounts]);
 
 
     return (
@@ -28,7 +30,7 @@ export const AppRouters = () => {
             <Route path="/" element={<Login />} />
             <Route path="/profile" element={<ProtectedRoute><ProfileDetails emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]} /></ProtectedRoute>} />
             <Route path="/team" element={<ProtectedRoute><TeamPage emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]} /></ProtectedRoute>} />
-            <Route path="/addokr" element={<ProtectedRoute><AddOkrPage emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]} /></ProtectedRoute>} />
+            <Route path="/addokr" element={<ProtectedRoute><AddOkrPage name={m_strUser[0] + " " + m_strUser[1]} /></ProtectedRoute>} />
             <Route path="/updateokr" element={<ProtectedRoute><UpdateOkr emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]} /></ProtectedRoute>}/>
             </Route>
         </Routes>

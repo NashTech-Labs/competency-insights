@@ -14,6 +14,7 @@ COPY tailwind.config.js /competency-insights-ui/
 ENV REACT_APP_URI https://competency.co.in
 ENV REACT_APP_BACKEND_APP_URI https://competency.co.in
 ENV REACT_APP_PROFILE_PAGE_URL /cs/nasher/email
+ENV REACT_APP_ADD_OKR_PAGE_URL /cs/nasher/addokr
 
 # Install app dependencies
 RUN npm install
