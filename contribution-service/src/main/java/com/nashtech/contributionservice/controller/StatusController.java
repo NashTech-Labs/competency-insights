@@ -26,10 +26,5 @@ public class StatusController {
         return "Contribution Service is Running...at context path";
     }
 
-    @GetMapping("/cs/swagger-ui.html")
-    public RedirectView redirectToSwaggerUi() {
-        LOGGER.info("-------------------redirecting to swagger");
-        return new RedirectView("/swagger-ui/index.html");
-    }
 
 }

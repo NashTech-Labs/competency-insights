@@ -38,9 +38,9 @@ spring:
 
 springdoc:
   api-docs:
-    path: /api-docs
+    path: /cs/api-docs
   swagger-ui:
-    path: /swagger-ui.html
+    path: /cs/swagger-ui.html
     enabled: true
 
 ---
