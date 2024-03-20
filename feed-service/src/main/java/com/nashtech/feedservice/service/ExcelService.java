@@ -32,14 +32,36 @@ public class ExcelService {
 
   public ByteArrayInputStream load() {
     //TODO: TBD
-    List<Nasher> nashers = List.of(new Nasher("Empid","name","email","designation","reportingManager","githubUsername"));
-    ByteArrayInputStream in = ExcelHelper.nashersToExcel(nashers);
+    List<Nasher> nasher = List.of(new Nasher(
+            "42",
+            "Name",
+            "jane.doe@example.org",
+            "Date of Birth",
+            "Date of Joining",
+            "Designation",
+            "Reporting Manager",
+            "Department",
+            "Location",
+            "Contact",
+            List.of("Reporting Member 1", "Reporting Member 2")));
+    ByteArrayInputStream in = ExcelHelper.nashersToExcel(nasher);
     return in;
   }
 
   public List<Nasher> getAllNashers() {
     //TODO: TBD
-    List<Nasher> nashers = List.of(new Nasher("Empid","name","email","designation","reportingManager","githubUsername"));
+    List<Nasher> nashers = List.of(new Nasher(
+            "42",
+            "Name",
+            "jane.doe@example.org",
+            "Date of Birth",
+            "Date of Joining",
+            "Designation",
+            "Reporting Manager",
+            "Department",
+            "Location",
+            "Contact",
+            List.of("Reporting Member 1", "Reporting Member 2")));
     return nashers;
   }
 }

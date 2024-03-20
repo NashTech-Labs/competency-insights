@@ -3,10 +3,7 @@ package com.nashtech.feedservice.helper;
 import com.nashtech.feedservice.model.Nasher;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,12 +11,14 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class ExcelHelper {
     private static final Logger logger = LogManager.getLogger(ExcelHelper.class);
     private static final String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-    private static final String[] HEADERs = {"Employee Number/Id", "Full Name", "Email", "Jop Title/Designation", "Reporting Manager/RM/ Line Manager", "GitHub User"};
+    private static final String[] HEADERs = {"empId", "name", "email", "dateOfBirth", "dateOfJoining", "designation", "reportingManager", "department", "location", "contact", "reportingMembers"};
     private static final Map<String, List<String>> HEADERS = Map.of("EmpName", List.of("Employee Number", "Employee Id"));
     private static final String SHEET = "Nashers";
 
@@ -44,12 +43,19 @@ public class ExcelHelper {
             }
 
             int rowIdx = 1;
-            for (Nasher Nasher : Nashers) {
+            for (Nasher nasher : Nashers) {
                 Row row = sheet.createRow(rowIdx++);
-                row.createCell(0).setCellValue(Nasher.getEmpId());
-                row.createCell(1).setCellValue(Nasher.getName());
-                row.createCell(2).setCellValue(Nasher.getDesignation());
-                row.createCell(3).setCellValue(Nasher.getReportingManager());
+                row.createCell(0).setCellValue(nasher.getEmpId());
+                row.createCell(1).setCellValue(nasher.getName());
+                row.createCell(2).setCellValue(nasher.getDesignation());
+                row.createCell(3).setCellValue(nasher.getReportingManager());
+                row.createCell(4).setCellValue(nasher.getDateOfBirth());
+                row.createCell(5).setCellValue(nasher.getDateOfJoining());
+                row.createCell(6).setCellValue(nasher.getEmail());
+                row.createCell(7).setCellValue(nasher.getContact());
+                row.createCell(8).setCellValue(nasher.getDepartment());
+                row.createCell(9).setCellValue(nasher.getLocation());
+                row.createCell(10).setCellValue(String.join(",", nasher.getReportingMembers()));
             }
 
             workbook.write(out);
@@ -98,13 +104,50 @@ public class ExcelHelper {
                 getCellValueAsString(row.getCell(2)),
                 getCellValueAsString(row.getCell(3)),
                 getCellValueAsString(row.getCell(4)),
-                getCellValueAsString(row.getCell(5))
+                getCellValueAsString(row.getCell(5)),
+                getCellValueAsString(row.getCell(6)),
+                getCellValueAsString(row.getCell(7)),
+                getCellValueAsString(row.getCell(8)),
+                getCellValueAsString(row.getCell(9)),
+                Collections.singletonList(getCellValueAsString(row.getCell(10)))
         );
     }
 
-    private static String getCellValueAsString(Cell cell) {
-        return cell.getStringCellValue();
+//    private static String getCellValueAsString(Cell cell) {
+//        return cell.getStringCellValue();
+//    }
+private static String getCellValueAsString(Cell cell) {
+    if (cell == null) {
+        return ""; // Return empty string for null cells
     }
+    switch (cell.getCellType()) {
+        case STRING:
+            return cell.getStringCellValue();
+        case NUMERIC:
+            // Check if the numeric cell contains a date value
+            if (DateUtil.isCellDateFormatted(cell)) {
+                // Format date value as string
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                return df.format(cell.getDateCellValue());
+            } else {
+                // Format other numeric values as string
+                return String.valueOf(cell.getNumericCellValue());
+            }
+        case BOOLEAN:
+            return String.valueOf(cell.getBooleanCellValue());
+        case FORMULA:
+            // Handle formula cells
+            try {
+                FormulaEvaluator evaluator = cell.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
+                CellValue cellValue = evaluator.evaluate(cell);
+                return cellValue.formatAsString();
+            } catch (Exception e) {
+                return cell.getCellFormula(); // Return formula as string if evaluation fails
+            }
+        default:
+            return "";
+    }
+}
 
     private static boolean presentColumnHeaders(Sheet sheet) {
         Row headerRow = sheet.getRow(0);
