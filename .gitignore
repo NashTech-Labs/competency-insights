@@ -7,6 +7,7 @@ kustomize
 
 # ignore key.json
 infrastructure/terraform/key.json
+key.json
 
 # Log file
 *.log
