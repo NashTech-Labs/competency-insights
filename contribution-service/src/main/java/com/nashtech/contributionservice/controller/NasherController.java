@@ -17,7 +17,7 @@ import reactor.core.publisher.Mono;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/cs")
 @AllArgsConstructor
 @Slf4j
 public class NasherController {
