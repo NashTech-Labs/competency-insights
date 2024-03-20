@@ -93,7 +93,7 @@ public class ExcelHelper {
             Row row = rowIterator.next();
             nashers.add(createNasherFromRow(row));
         }
-        //}
+
         return nashers;
     }
 
@@ -113,36 +113,34 @@ public class ExcelHelper {
         );
     }
 
-//    private static String getCellValueAsString(Cell cell) {
-//        return cell.getStringCellValue();
-//    }
+
 private static String getCellValueAsString(Cell cell) {
     if (cell == null) {
-        return ""; // Return empty string for null cells
+        return "";
     }
     switch (cell.getCellType()) {
         case STRING:
             return cell.getStringCellValue();
         case NUMERIC:
-            // Check if the numeric cell contains a date value
+
             if (DateUtil.isCellDateFormatted(cell)) {
-                // Format date value as string
+
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                 return df.format(cell.getDateCellValue());
             } else {
-                // Format other numeric values as string
+
                 return String.valueOf(cell.getNumericCellValue());
             }
         case BOOLEAN:
             return String.valueOf(cell.getBooleanCellValue());
         case FORMULA:
-            // Handle formula cells
+
             try {
                 FormulaEvaluator evaluator = cell.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
                 CellValue cellValue = evaluator.evaluate(cell);
                 return cellValue.formatAsString();
             } catch (Exception e) {
-                return cell.getCellFormula(); // Return formula as string if evaluation fails
+                return cell.getCellFormula();
             }
         default:
             return "";
