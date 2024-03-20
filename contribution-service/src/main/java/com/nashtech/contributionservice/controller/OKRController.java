@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/cs")
 class OKRController {
 
     private final FirestoreService firestoreService;
@@ -24,7 +24,7 @@ class OKRController {
     }
 
     @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
-    @PostMapping("/addokr")
+    @PostMapping("/nasher/addokr")
     public ResponseEntity<String> addOKR(@RequestBody OKRDataEntity okrData) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -42,7 +42,7 @@ class OKRController {
         }
     }
 
-    @GetMapping("/okrdata")
+    @GetMapping("/nasher/okrdata")
     public ResponseEntity<Object> getOKRData() {
         try {
             List<OKRDataEntity> okrDataList = firestoreService.getOKRData();
@@ -52,7 +52,7 @@ class OKRController {
         }
     }
 
-    @DeleteMapping("/deleteokrdata")
+    @DeleteMapping("/nasher/deleteokrdata")
     public ResponseEntity<String> deleteAllOKRData() {
         try {
             firestoreService.deleteAllOKRData(); // Delete all OKR data from Firestore
