@@ -24,8 +24,10 @@ export const ProfileDetails = ({ emailAddress, name }) => {
     const [user, setUser] = useState(null);
     const [categories, setCategories] = useState({});
     const [category, setCategory] = useState("blogs");
-    const { instance } = useMsal();
-    const profilePageUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/${encodeURIComponent(emailAddress)}`;
+    const { instance, accounts } = useMsal();
+    const email = accounts[0].username;
+
+    const profilePageUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/${encodeURIComponent(email)}`;
 
     const { data: userData, isLoading: userIsLoading } = useDataFetching(profilePageUrl, instance);
     const { data: categoriesData, isLoading: categoriesIsLoading } = useDataFetching('Data/categories.json', instance);
