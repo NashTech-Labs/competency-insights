@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nashtech.contributionservice.entity.Nasher;
+import com.nashtech.contributionservice.model.Contributions;
 import com.nashtech.contributionservice.repo.FirestoreRepository;
 import com.nashtech.contributionservice.service.PasGo1Service;
 import com.nashtech.contributionservice.service.PasGo1ServiceInMemory;
@@ -15,6 +16,7 @@ import com.nashtech.contributionservice.service.Processor;
 import com.nashtech.contributionservice.service.gcp.FirestoreProcessor;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -70,7 +72,21 @@ class NasherControllerTest {
         // Arrange
         FirestoreRepository firestoreRepository = mock(FirestoreRepository.class);
         Mono<Nasher> justResult = Mono
-                .just(new Nasher("42", "Name", "jane.doe@example.org", "Designation", "Line Manager", "janedoe"));
+                .just(new Nasher(
+                        "42",
+                        "Name",
+                        "jane.doe@example.org",
+                        "Date of Birth",
+                        "Date of Joining",
+                        "Designation",
+                        "Reporting Manager",
+                        "Department",
+                        "Location",
+                        "Contact",
+                        List.of("Reporting Member 1", "Reporting Member 2"),
+                        new Contributions()
+                ));
+
         when(firestoreRepository.findByEmpId(Mockito.<String>any())).thenReturn(justResult);
         FirestoreProcessor processor = new FirestoreProcessor(firestoreRepository);
 
