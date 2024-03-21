@@ -7,10 +7,10 @@ logging:
 
 spring:
   application:
-    name: ${SERVICE_NAME:Contribution Service}
+    name: ${SERVICE_NAME:Feed Service}
+  profiles:
+    active: ${ACTIVE_PROFILE:local}
   cloud:
-    gcp:
-      project-id: ${GCP_PROJECT_ID:sonarqube-289802}
     azure:
       active-directory:
         enabled: true
@@ -24,6 +24,21 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
     enabled: true
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+---
+spring:
+  config:
+    activate:
+      on-profile: gcp
+  cloud:
+    gcp:
+      project-id: ${GCP_PROJECT_ID:sonarqube-289802}
 
 pubsub:
   topic-id: ${PUB_SUB_TOPIC:nasher.info}

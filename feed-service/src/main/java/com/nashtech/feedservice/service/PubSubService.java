@@ -8,6 +8,7 @@ import com.google.pubsub.v1.PubsubMessage;
 import com.nashtech.feedservice.model.Nasher;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 @Service
 @Slf4j
 @AllArgsConstructor
+@Profile("gcp")
 public class PubSubService {
 
     private final Publisher publisher;

@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(NasherNotFoundException.class)
-    public ResponseEntity<ErrorMessage> handleCarNotFoundException(NasherNotFoundException ex) {
+    public ResponseEntity<ErrorMessage> handleNasherNotFoundException(NasherNotFoundException ex) {
         ErrorMessage errorMessage = new ErrorMessage(HttpStatus.NOT_FOUND, ex.getMessage());
         return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
     }
