@@ -1,23 +1,16 @@
 package com.nashtech.feedservice.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-import com.nashtech.feedservice.controller.response.ResponseMessage;
-import com.nashtech.feedservice.helper.ExcelHelper;
-import com.nashtech.feedservice.service.ExcelService;
+import com.nashtech.feedservice.service.GCPExcelService;
 
-import java.io.DataInputStream;
 import java.io.InputStream;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -35,7 +28,7 @@ class ExcelControllerTest {
     private ExcelController excelController;
 
     @MockBean
-    private ExcelService excelService;
+    private GCPExcelService GCPExcelService;
 
     /**
      * Method under test: {@link ExcelController#uploadFile(MultipartFile)}

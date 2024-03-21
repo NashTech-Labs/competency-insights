@@ -59,5 +59,7 @@ apiVersion: v1
 metadata:
   name: feedservice-configmap
 data:
+  ACTIVE_PROFILE: gcp
+  SERVICE_NAME: Feed Service
   GCP_PROJECT_ID: sonarqube-289802
   PUB_SUB_TOPIC: nasher.info
