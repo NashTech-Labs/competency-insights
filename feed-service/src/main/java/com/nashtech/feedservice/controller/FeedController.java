@@ -26,7 +26,7 @@ public class FeedController {
 
     private final ExcelService fileService;
 
-    @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
+    @PreAuthorize("hasAuthority('APPROLE_competency_insights_admin')")
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
         log.info("Enter into ExcelController: File Upload request");
