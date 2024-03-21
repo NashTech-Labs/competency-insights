@@ -1,15 +1,12 @@
 package com.nashtech.feedservice.service;
 
 
-import com.nashtech.feedservice.exception.NasherNotFoundException;
 import com.nashtech.feedservice.helper.ExcelHelper;
 import com.nashtech.feedservice.model.Nasher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -40,17 +37,9 @@ public class InMemoryExcelService implements ExcelService{
     }
 
     @Override
-    public Flux<Nasher> getAllNashers() {
-        log.info("Retrieving Nasher data from local [InMemory]");
-        return Flux.fromStream(inMemoryData.values().stream());
+    public void saveNasher(Nasher info) {
+        log.info("Data saved in local [InMemory]");
+        inMemoryData.put(info.getEmpId(),info);
     }
 
-    @Override
-    public Mono<Nasher> getNasherInfo(String empId) {
-        log.info("Retrieving Nasher data from local [InMemory] by Employee Id: {}",empId);
-        if (inMemoryData.get(empId) == null) {
-            throw new NasherNotFoundException("Employee ID does not match any Nasher records.: " + empId);
-        }
-        return Mono.just(inMemoryData.get(empId));
-    }
 }

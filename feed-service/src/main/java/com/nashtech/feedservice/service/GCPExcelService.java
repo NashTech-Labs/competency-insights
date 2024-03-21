@@ -39,19 +39,23 @@ public class GCPExcelService implements ExcelService {
   @Override
   public ByteArrayInputStream load() {
     //TODO: TBD
-    List<Nasher> nashers = List.of(new Nasher("Empid","name","email","designation","reportingManager","githubUsername"));
+    List<Nasher> nashers = List.of(new Nasher("42",
+            "Name",
+            "jane.doe@example.org",
+            "Date of Birth",
+            "Date of Joining",
+            "Designation",
+            "Reporting Manager",
+            "Department",
+            "Location",
+            "Contact",
+            List.of("Reporting Member 1", "Reporting Member 2")));
     return ExcelHelper.nashersToExcel(nashers);
   }
 
   @Override
-  public Flux<Nasher> getAllNashers() {
-    log.info("Enter into GCPExcelService: Get all Nashers");
-    return firestoreRepository.findAll();
+  public void saveNasher(Nasher info) {
+    firestoreRepository.save(info).doOnError(Throwable::printStackTrace).subscribe();
   }
 
-  @Override
-  public Mono<Nasher> getNasherInfo(String empId) {
-    log.info("Enter into GCPExcelService: Get Nasher by email");
-    return firestoreRepository.findByEmpId(empId);
-  }
 }
