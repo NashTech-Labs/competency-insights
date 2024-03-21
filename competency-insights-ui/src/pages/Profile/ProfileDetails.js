@@ -52,10 +52,14 @@ export const ProfileDetails = ({ emailAddress, name }) => {
             }
         };
         fetchUserData();
+    }, [emailAddress]);
+
+    useEffect(() => {
         if (categoriesData) {
+            console.log("in categories flow");
             setCategories(categoriesData);
         }
-    }, [emailAddress] , categoriesData);
+    }, [categoriesData]);
 
     const handleCategoryClick = (selectedCategory) => {
         setCategory(selectedCategory);
