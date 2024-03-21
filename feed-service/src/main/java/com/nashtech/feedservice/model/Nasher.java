@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,8 +18,12 @@ public class Nasher {
     private String empId;
     private String name;
     private String email;
+    private String dateOfBirth;
+    private String dateOfJoining;
     private String designation;
     private String reportingManager;
-    private String githubUsername;
+    private String department;
+    private String location;
+    private String contact;
+    private List<String> reportingMembers;
 }
-

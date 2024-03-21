@@ -2,16 +2,14 @@ package com.nashtech.feedservice.service;
 
 import com.nashtech.feedservice.model.Nasher;
 import org.springframework.web.multipart.MultipartFile;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+
 import java.io.ByteArrayInputStream;
 
 
-public interface ExcelService {
+public interface FeedService {
     void save(MultipartFile file);
     ByteArrayInputStream load();
 
-    Flux<Nasher> getAllNashers();
+    void saveNasher(Nasher info);
 
-    Mono<Nasher> getNasherInfo(String empId);
 }

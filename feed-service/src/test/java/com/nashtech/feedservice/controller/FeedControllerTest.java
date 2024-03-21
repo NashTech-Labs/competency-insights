@@ -3,7 +3,7 @@ package com.nashtech.feedservice.controller;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
-import com.nashtech.feedservice.service.GCPExcelService;
+import com.nashtech.feedservice.service.GCPFeedService;
 
 import java.io.InputStream;
 
@@ -21,17 +21,17 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.multipart.MultipartFile;
 
-@ContextConfiguration(classes = {ExcelController.class})
+@ContextConfiguration(classes = {FeedController.class})
 @ExtendWith(SpringExtension.class)
-class ExcelControllerTest {
+class FeedControllerTest {
     @Autowired
-    private ExcelController excelController;
+    private FeedController feedController;
 
     @MockBean
-    private GCPExcelService GCPExcelService;
+    private GCPFeedService GCPExcelService;
 
     /**
-     * Method under test: {@link ExcelController#uploadFile(MultipartFile)}
+     * Method under test: {@link FeedController#uploadFile(MultipartFile)}
      */
     @Test
     void testUploadFile() throws Exception {
@@ -41,7 +41,7 @@ class ExcelControllerTest {
                 String.valueOf(new MockMultipartFile("Name", (InputStream) null)));
 
         // Act
-        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(excelController)
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(feedController)
                 .build()
                 .perform(requestBuilder);
 

@@ -3,7 +3,7 @@ package com.nashtech.feedservice.controller;
 import com.nashtech.feedservice.controller.response.ResponseMessage;
 import com.nashtech.feedservice.helper.ExcelHelper;
 import com.nashtech.feedservice.model.Nasher;
-import com.nashtech.feedservice.service.ExcelService;
+import com.nashtech.feedservice.service.FeedService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,24 +14,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 
 @RestController
 @RequestMapping("/feed")
 @Slf4j
 @AllArgsConstructor
-public class ExcelController {
+public class FeedController {
 
-    private final ExcelService fileService;
+    private final FeedService fileService;
 
     @PreAuthorize("hasAuthority('APPROLE_competency_insights_admin')")
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -59,21 +56,12 @@ public class ExcelController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
     }
 
-    @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
-    @GetMapping("/nashers")
-    public ResponseEntity<Flux<Nasher>> getAllNashers() {
-        log.info("Enter into ExcelController: All Nashers ");
-        Flux<Nasher> nashers = fileService.getAllNashers();
-        return new ResponseEntity<>(nashers, HttpStatus.OK);
-
+    @PreAuthorize("hasAuthority('APPROLE_competency_insights_admin')")
+    @PostMapping("/nasher/save")
+    public void saveNasher(@RequestBody Nasher nasher) {
+        log.info("Enter into NasherController: Saving Nasher with Employee Id: " +  nasher.getEmpId());
+        fileService.saveNasher(nasher);
     }
-
-  @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
-  @GetMapping("/nasher/{empId}")
-  public ResponseEntity<Mono<Nasher>> getNasherById(@PathVariable String empId) {
-    log.info("Enter into ExcelController: Get Nasher by employee Id: " + empId);
-    return new ResponseEntity<>(fileService.getNasherInfo(empId), HttpStatus.OK);
-  }
 
     //@GetMapping("/download")
     public ResponseEntity<Resource> getFile() {
