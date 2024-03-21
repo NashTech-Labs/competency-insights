@@ -3,7 +3,13 @@ package com.nashtech.feedservice.helper;
 import com.nashtech.feedservice.model.Nasher;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellValue;
+import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,7 +24,7 @@ import java.util.*;
 public class ExcelHelper {
     private static final Logger logger = LogManager.getLogger(ExcelHelper.class);
     private static final String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-    private static final String[] HEADERs = {"empId", "name", "email", "dateOfBirth", "dateOfJoining", "designation", "reportingManager", "department", "location", "contact", "reportingMembers"};
+    private static final String[] HEADERs = {"EmployeeId", "FullName", "Email", "DateOfBirth", "DateOfJoining", "Designation", "ReportingManager", "Department", "Location", "Contact", "ReportingMembers"};
     private static final Map<String, List<String>> HEADERS = Map.of("EmpName", List.of("Employee Number", "Employee Id"));
     private static final String SHEET = "Nashers";
 
@@ -82,7 +88,6 @@ public class ExcelHelper {
         }
 
         if (!presentColumnHeaders(sheet)) {
-            //continue;
             throw new IOException("Invalid column headers in the Excel sheet. Expected: Name, Age, Email");
         }
 
@@ -114,38 +119,38 @@ public class ExcelHelper {
     }
 
 
-private static String getCellValueAsString(Cell cell) {
-    if (cell == null) {
-        return "";
-    }
-    switch (cell.getCellType()) {
-        case STRING:
-            return cell.getStringCellValue();
-        case NUMERIC:
-
-            if (DateUtil.isCellDateFormatted(cell)) {
-
-                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                return df.format(cell.getDateCellValue());
-            } else {
-
-                return String.valueOf(cell.getNumericCellValue());
-            }
-        case BOOLEAN:
-            return String.valueOf(cell.getBooleanCellValue());
-        case FORMULA:
-
-            try {
-                FormulaEvaluator evaluator = cell.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
-                CellValue cellValue = evaluator.evaluate(cell);
-                return cellValue.formatAsString();
-            } catch (Exception e) {
-                return cell.getCellFormula();
-            }
-        default:
+    private static String getCellValueAsString(Cell cell) {
+        if (cell == null) {
             return "";
+        }
+        switch (cell.getCellType()) {
+            case STRING:
+                return cell.getStringCellValue();
+            case NUMERIC:
+
+                if (DateUtil.isCellDateFormatted(cell)) {
+
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                    return df.format(cell.getDateCellValue());
+                } else {
+
+                    return String.valueOf(cell.getNumericCellValue());
+                }
+            case BOOLEAN:
+                return String.valueOf(cell.getBooleanCellValue());
+            case FORMULA:
+
+                try {
+                    FormulaEvaluator evaluator = cell.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
+                    CellValue cellValue = evaluator.evaluate(cell);
+                    return cellValue.formatAsString();
+                } catch (Exception e) {
+                    return cell.getCellFormula();
+                }
+            default:
+                return "";
+        }
     }
-}
 
     private static boolean presentColumnHeaders(Sheet sheet) {
         Row headerRow = sheet.getRow(0);
