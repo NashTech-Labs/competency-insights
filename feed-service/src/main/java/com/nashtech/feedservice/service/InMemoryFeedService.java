@@ -17,7 +17,7 @@ import java.util.WeakHashMap;
 @Service
 @Slf4j
 @Profile("local")
-public class InMemoryExcelService implements ExcelService{
+public class InMemoryFeedService implements FeedService {
     private final WeakHashMap<String, Nasher> inMemoryData = new WeakHashMap<>();
     @Override
     public void save(MultipartFile file) {

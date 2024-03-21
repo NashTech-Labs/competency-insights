@@ -3,7 +3,7 @@ package com.nashtech.feedservice.controller;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
-import com.nashtech.feedservice.service.GCPExcelService;
+import com.nashtech.feedservice.service.GCPFeedService;
 
 import java.io.InputStream;
 
@@ -28,7 +28,7 @@ class FeedControllerTest {
     private FeedController feedController;
 
     @MockBean
-    private GCPExcelService GCPExcelService;
+    private GCPFeedService GCPExcelService;
 
     /**
      * Method under test: {@link FeedController#uploadFile(MultipartFile)}

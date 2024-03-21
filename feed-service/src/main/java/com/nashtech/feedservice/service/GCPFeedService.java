@@ -8,8 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import java.io.ByteArrayInputStream;
 import java.util.List;
@@ -18,7 +16,7 @@ import java.util.List;
 @Slf4j
 @AllArgsConstructor
 @Profile("gcp")
-public class GCPExcelService implements ExcelService {
+public class GCPFeedService implements FeedService {
 
   private final FirestoreRepository firestoreRepository;
   private final PubSubService pubSubService;

@@ -3,7 +3,7 @@ package com.nashtech.feedservice.controller;
 import com.nashtech.feedservice.controller.response.ResponseMessage;
 import com.nashtech.feedservice.helper.ExcelHelper;
 import com.nashtech.feedservice.model.Nasher;
-import com.nashtech.feedservice.service.ExcelService;
+import com.nashtech.feedservice.service.FeedService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +14,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -24,7 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 public class FeedController {
 
-    private final ExcelService fileService;
+    private final FeedService fileService;
 
     @PreAuthorize("hasAuthority('APPROLE_competency_insights_admin')")
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

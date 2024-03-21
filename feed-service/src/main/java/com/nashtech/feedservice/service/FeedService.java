@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 
 
-public interface ExcelService {
+public interface FeedService {
     void save(MultipartFile file);
     ByteArrayInputStream load();
 
