@@ -4,8 +4,6 @@ import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
 import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
 import { Contribution } from "./components/Contribution";
 import { PermanentDrawerLeft } from "../../components/Layout/Navbar/TestNavBar";
-import { useMsal } from "@azure/msal-react";
-import useDataFetching from "../../services/useDataFetching";
 import Stack from '@mui/material/Stack';
 import Skeleton from '@mui/material/Skeleton';
 
@@ -24,26 +22,47 @@ export const ProfileDetails = ({ emailAddress, name }) => {
     const [user, setUser] = useState(null);
     const [categories, setCategories] = useState({});
     const [category, setCategory] = useState("blogs");
-    const { instance} = useMsal();
-    const email = emailAddress || null;
-
-    const profilePageUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/${encodeURIComponent(email)}`;
-    const { data: userData, isLoading: userIsLoading } = useDataFetching(profilePageUrl, instance);
-    const { data: categoriesData, isLoading: categoriesIsLoading } = useDataFetching('Data/categories.json', instance);
 
     useEffect(() => {
-        if (!userIsLoading) {
-            setUser('loading');
-        }
+        const fetchUserData = async () => {
+            try {
+                if (emailAddress) {
+                    const profilePageUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/${encodeURIComponent(emailAddress)}`;
+                    const accessToken = sessionStorage.getItem("token");
+                    const response = await fetch(profilePageUrl, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    });
+                    if (response.ok) {
+                        const userData = await response.json();
+                        setUser(userData);
+                    } else {
+                        setUser(null);
+                        console.error("Failed to fetch user data:", response.statusText);
+                    }
+                }
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+            }
+        };
 
-        if (userData) {
-            setUser(userData);
-        }
+        fetchUserData();
+    }, [emailAddress]);
 
-        if (categoriesData) {
-            setCategories(categoriesData);
-        }
-    }, [userData, categoriesData, userIsLoading]);
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await fetch('Data/categories.json');
+                const categoriesData = await response.json();
+                setCategories(categoriesData);
+            } catch (error) {
+                console.error("Error fetching categories:", error);
+            }
+        };
+
+        fetchCategories();
+    }, []);
 
     const handleCategoryClick = (selectedCategory) => {
         setCategory(selectedCategory);
@@ -53,7 +72,7 @@ export const ProfileDetails = ({ emailAddress, name }) => {
         <>
             <PermanentDrawerLeft name={name} />
             <section className="bg-gray-200 p-4 min-h-screen ml-60 px-20 mt-10">
-                {user === 'loading' || categoriesIsLoading ? (
+                {user === 'loading'  ? (
                     <SkeletonProfile />
                 ) : user === null ? (
                     <div className="flex justify-center items-center h-screen">
