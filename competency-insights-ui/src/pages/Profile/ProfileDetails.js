@@ -3,7 +3,7 @@ import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
 import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
 import { Contribution } from "./components/Contribution";
-import { PermanentDrawerLeft } from "../../components/Layout/Navbar/TestNavBar";
+import { PermanentDrawerLeft } from "../../components/Layout/NavBar";
 import Stack from '@mui/material/Stack';
 import Skeleton from '@mui/material/Skeleton';
 import useDataFetching from "../../services/useDataFetching";

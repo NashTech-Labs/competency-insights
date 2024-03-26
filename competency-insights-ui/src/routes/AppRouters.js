@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import {AddOkrPage, Login, ProfileDetails, TeamPage, UpdateOkr} from "../pages";
+import {AddOkrPage, Login, ProfileDetails, TeamPage, UpdateOkr, StudioPage} from "../pages";
 import {ProtectedRoute} from "./ProtectedRoute";
 import { useMsal } from "@azure/msal-react";
 
@@ -32,6 +32,7 @@ export const AppRouters = () => {
             <Route path="/team" element={<ProtectedRoute><TeamPage emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]} /></ProtectedRoute>} />
             <Route path="/addokr" element={<ProtectedRoute><AddOkrPage name={m_strUser[0] + " " + m_strUser[1]} /></ProtectedRoute>} />
             <Route path="/updateokr" element={<ProtectedRoute><UpdateOkr emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]} /></ProtectedRoute>}/>
+            <Route path="/studio" element={<ProtectedRoute><StudioPage emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]} /></ProtectedRoute>}/>
             </Route>
         </Routes>
     )

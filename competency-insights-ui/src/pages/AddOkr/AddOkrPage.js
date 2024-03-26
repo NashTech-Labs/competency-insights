@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FormElement } from './components/FormElement';
 import { useNavigate } from "react-router-dom";
-import { PermanentDrawerLeft } from "../../components/Layout/Navbar/TestNavBar";
+import { PermanentDrawerLeft } from "../../components/Layout/NavBar";
 import Button from '@mui/material/Button';
 
 export const AddOkrPage = ({name}) => {
@@ -9,6 +9,7 @@ export const AddOkrPage = ({name}) => {
   const [formData, setFormData] = useState({
     activity: '',
     radarTechnology: '',
+    status:'Draft',
     title: '',
     dueDate: '',
     description: '',
