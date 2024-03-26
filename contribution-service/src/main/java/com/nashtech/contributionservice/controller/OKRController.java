@@ -31,7 +31,8 @@ class OKRController {
             if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof Jwt) {
                 Jwt jwt = (Jwt) authentication.getPrincipal();
                 String emailId = jwt.getClaim("email").toString();
-                firestoreService.saveOKRData(okrData, emailId);
+                String name = jwt.getClaim("name").toString();
+                firestoreService.saveOKRData(okrData, emailId, name);
 
                 return ResponseEntity.status(HttpStatus.CREATED).body("OKR data saved successfully");
             } else {
