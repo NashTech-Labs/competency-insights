@@ -2,7 +2,7 @@ import React from 'react';
 import {ReportingMembers} from './components/ReportingMembers';
 import employeesData from '../../data/employees.json';
 import {Reports} from './components/Reports';
-import {PermanentDrawerLeft} from "../../components/Layout/Navbar/TestNavBar"
+import {PermanentDrawerLeft} from "../../components/Layout/NavBar"
 
 export const TeamPage = ({emailAddress, name}) => {
   return (

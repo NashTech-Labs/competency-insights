@@ -19,8 +19,9 @@ public class FirestoreService {
         this.firestore = firestore;
     }
 
-    public String saveOKRData(OKRDataEntity okrData, String emailId) throws ExecutionException, InterruptedException {
+    public String saveOKRData(OKRDataEntity okrData, String emailId, String name) throws ExecutionException, InterruptedException {
         okrData.setEmailId(emailId);
+        okrData.setName(name);
         CollectionReference okrCollection = firestore.collection("okrData");
         okrCollection.add(okrData);
 
