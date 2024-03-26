@@ -1,0 +1,54 @@
+[
+    {
+        "emailId": "ankit.mogha@nashtechglobal.com",
+        "name": "Ankit Mogha",
+        "competency": "Java Competency",
+        "activity": "blog",
+        "radarTechnology": "Reactjs",
+        "title":"Getting Started with Reactjs",
+        "dueDate": "12-09-2024",
+        "submissionDate": "12-09-2024",
+        "link":"URL",
+        "status": "Draft",
+        "description": "Review comments recevied by the Reviewer"
+    },
+    {
+        "emailId": "ankit.mogha@nashtechglobal.com",
+        "name": "Ankit Mogha",
+        "competency": "Java Competency",
+        "activity": "techhub",
+        "radarTechnology": "Reactjs",
+        "title":"Getting Started with Reactjs",
+        "dueDate": "12-09-2024",
+        "submissionDate": "12-09-2024",
+        "link":"URL",
+        "status": "Draft",
+        "description": "Review comments recevied by the Reviewer"
+    },
+    {
+        "emailId": "shiv.oberoi@nashtechglobal.com",
+        "name": "Shiv Suraj Oberoi",
+        "competency": "Java Competency",
+        "activity": "blog",
+        "radarTechnology": "Reactjs",
+        "title":"Getting Started with Reactjs",
+        "dueDate": "12-09-2024",
+        "submissionDate": "12-09-2024",
+        "link":"URL",
+        "status": "Draft",
+        "description": "Review comments recevied by the Reviewer"
+    },
+    {
+        "emailId": "shiv.oberoi@nashtechglobal.com",
+        "name": "Shiv Suraj Oberoi",
+        "competency": "Java Competency",
+        "activity": "knolx",
+        "radarTechnology": "Reactjs",
+        "title":"Getting Started with Reactjs",
+        "dueDate": "12-09-2024",
+        "submissionDate": "12-09-2024",
+        "link":"URL",
+        "status": "Draft",
+        "description": "Review comments recevied by the Reviewer"
+    }
+]
