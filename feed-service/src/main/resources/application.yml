@@ -25,6 +25,21 @@ springdoc:
     path: /swagger-ui.html
     enabled: true
 
+workbook:
+  headers:
+    - "Employee Number"
+    - "Full Name"
+    - "Email"
+    - "Date Of Birth"
+    - "Date Of Joining"
+    - "Job Title"
+    - "Reporting Manager"
+    - "Competency"
+    - "Location"
+    - "Contact Number"
+    - "Reporting Members"
+
+
 ---
 spring:
   config:
