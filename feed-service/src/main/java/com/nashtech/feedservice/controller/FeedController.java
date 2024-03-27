@@ -27,8 +27,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 @AllArgsConstructor
 public class FeedController {
-
     private final FeedService fileService;
+    private final ExcelHelper excelHelper;
 
     @PreAuthorize("hasAuthority('APPROLE_competency_insights_admin')")
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -37,19 +37,14 @@ public class FeedController {
         String message;
 
         if (file.isEmpty()) {
-            message = "You must select a file!";
-            return new ResponseEntity<>(new ResponseMessage(message), HttpStatus.OK);
+            message = "You must select a Excel file!";
+            return new ResponseEntity<>(new ResponseMessage(message), HttpStatus.BAD_REQUEST);
         }
-        log.info("File name: {}", file.getOriginalFilename());
-        if (ExcelHelper.hasExcelFormat(file)) {
-            try {
-                fileService.save(file);
-                message = "Uploaded the file successfully: " + file.getOriginalFilename();
-                return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-            } catch (Exception e) {
-                message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
-            }
+        log.info("Excel file name: {}", file.getOriginalFilename());
+        if (excelHelper.hasExcelFormat(file)) {
+            fileService.save(file);
+            message = "Uploaded the file successfully: " + file.getOriginalFilename();
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
         }
 
         message = "Please upload an excel file!";
@@ -59,7 +54,7 @@ public class FeedController {
     @PreAuthorize("hasAuthority('APPROLE_competency_insights_admin')")
     @PostMapping("/nasher/save")
     public void saveNasher(@RequestBody Nasher nasher) {
-        log.info("Enter into NasherController: Saving Nasher with Employee Id: " +  nasher.getEmpId());
+        log.info("Enter into NasherController: Saving Nasher with Employee Id: " + nasher.getEmpId());
         fileService.saveNasher(nasher);
     }
 

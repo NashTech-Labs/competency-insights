@@ -1,8 +1,10 @@
 package com.nashtech.feedservice.helper;
 
+import com.nashtech.feedservice.config.WorkbookProperties;
+import com.nashtech.feedservice.exception.InvalidHeaderException;
 import com.nashtech.feedservice.model.Nasher;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellValue;
 import org.apache.poi.ss.usermodel.DateUtil;
@@ -11,6 +13,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
@@ -19,23 +22,27 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
+@Component
+@AllArgsConstructor
+@Slf4j
 public class ExcelHelper {
-    private static final Logger logger = LogManager.getLogger(ExcelHelper.class);
+    private final WorkbookProperties workbookProperties;
     private static final String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-    private static final String[] HEADERs = {"EmployeeId", "FullName", "Email", "DateOfBirth", "DateOfJoining", "Designation", "ReportingManager", "Department", "Location", "Contact", "ReportingMembers"};
-    private static final Map<String, List<String>> HEADERS = Map.of("EmpName", List.of("Employee Number", "Employee Id"));
     private static final String SHEET = "Nashers";
 
-    public static boolean hasExcelFormat(MultipartFile file) {
+    public boolean hasExcelFormat(MultipartFile file) {
         if (file.isEmpty()) {
             return false;
         }
         return TYPE.equals(file.getContentType());
     }
 
-    public static ByteArrayInputStream nashersToExcel(List<Nasher> Nashers) {
+    public ByteArrayInputStream nashersToExcel(List<Nasher> Nashers) {
 
         try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream();) {
             Sheet sheet = workbook.createSheet(SHEET);
@@ -43,9 +50,12 @@ public class ExcelHelper {
             // Header
             Row headerRow = sheet.createRow(0);
 
-            for (int col = 0; col < HEADERs.length; col++) {
-                Cell cell = headerRow.createCell(col);
-                cell.setCellValue(HEADERs[col]);
+            Iterator<String> it = workbookProperties.getHeaders().iterator();
+            int cellCount = 0;
+            while (it.hasNext()) {
+                Cell cell = headerRow.createCell(cellCount);
+                cell.setCellValue(it.next());
+                cellCount++;
             }
 
             int rowIdx = 1;
@@ -72,7 +82,7 @@ public class ExcelHelper {
     }
 
 
-    public static List<Nasher> processExcelFile(InputStream is) throws IOException {
+    public List<Nasher> processExcelFile(InputStream is) throws IOException {
         List<Nasher> nashers = new ArrayList<>();
         Workbook workbook = new XSSFWorkbook(is);
 
@@ -87,10 +97,7 @@ public class ExcelHelper {
             }
         }
 
-        if (!presentColumnHeaders(sheet)) {
-            //continue;
-            throw new IOException("Invalid column headers in the Excel sheet. Expected: Name, Age, Email");
-        }
+        presentColumnHeaders(sheet);
 
         Iterator<Row> rowIterator = sheet.iterator();
         rowIterator.next(); // Skip the header row
@@ -103,7 +110,7 @@ public class ExcelHelper {
         return nashers;
     }
 
-    private static Nasher createNasherFromRow(Row row) {
+    private Nasher createNasherFromRow(Row row) {
         return new Nasher(
                 getCellValueAsString(row.getCell(0)),
                 getCellValueAsString(row.getCell(1)),
@@ -119,7 +126,7 @@ public class ExcelHelper {
         );
     }
 
-    private static String getCellValueAsString(Cell cell) {
+    private String getCellValueAsString(Cell cell) {
         if (cell == null) {
             return "";
         }
@@ -134,7 +141,7 @@ public class ExcelHelper {
                     return df.format(cell.getDateCellValue());
                 } else {
 
-                    return String.valueOf(cell.getNumericCellValue());
+                    return String.valueOf((long) cell.getNumericCellValue());
                 }
             case BOOLEAN:
                 return String.valueOf(cell.getBooleanCellValue());
@@ -152,32 +159,29 @@ public class ExcelHelper {
         }
     }
 
-    private static boolean presentColumnHeaders(Sheet sheet) {
+    private void presentColumnHeaders(Sheet sheet) {
         Row headerRow = sheet.getRow(0);
 
         if (headerRow == null) {
-            logger.error("Header row not found in the Excel sheet.");
-            return false;
-            //throw new IOException("Header row not found in the Excel sheet.");
+            log.error("Header row not found in the Excel sheet.");
+            throw new InvalidHeaderException("Header row not found in the Excel workbook.");
         }
 
-        Cell[] cells = new Cell[HEADERs.length];
-        for (int i = 0; i < HEADERs.length; i++) {
+        int headersSize = workbookProperties.getHeaders().size();
+        Cell[] cells = new Cell[headersSize];
+        for (int i = 0; i < headersSize; i++) {
             cells[i] = headerRow.getCell(i, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
         }
 
-        logger.info("System Acceptable Header Order In a Sheet {} ", Arrays.asList(HEADERs));
-        logger.info("UPLOADED SHEET HEADER  Vs SYSTEM ACCEPTABLE SHEET HEADER");
-        logger.info("---------------------     ------------------------------");
-        for (int i = 0; i < HEADERs.length; i++) {
-            logger.error(cells[i].getStringCellValue() + " | {} ", HEADERs[i]);
-            if (!HEADERs[i].contains(cells[i].getStringCellValue())) {
-                logger.error("Header mismatch {} :", cells[i].getStringCellValue());
-                return false;
-                //throw new IOException("Invalid column header in the Excel sheet. Expected: " + HEADERs[i]);
+        for (int i = 0; i < headersSize; i++) {
+            if (!workbookProperties.getHeaders().contains(cells[i].getStringCellValue().toLowerCase())) {
+                log.info("Acceptable header order in the system for a spreadsheet: {} ", workbookProperties.getHeaders());
+                String errorMessage = String.format("Invalid column headers [%s] in the Excel workbook! Expected Headers: %s",
+                        cells[i].getStringCellValue(), workbookProperties.getHeaders());
+                log.error(errorMessage);
+                throw new InvalidHeaderException(errorMessage);
             }
         }
-        return true;
     }
 
 }
