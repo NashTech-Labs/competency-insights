@@ -5,8 +5,17 @@ The Feeds Service processes an Excel file containing Nasher information, such as
 Please ensure that the Excel file includes the following headers and maintains the specified order.
 
 ```
-1-Employee Number | 2-Full Name | 3-Email | 4-Jop Title | 5-Reporting Manager | 6-GitHub User
-
+    1- "Employee Number"
+    2- "Full Name"
+    3- "Email"
+    4- "Date Of Birth"
+    5- "Date Of Joining"
+    6- "Job Title"
+    7- "Reporting Manager"
+    8- "Competency"
+    9- "Location"
+    10- "Contact Number"
+    11- "Reporting Members"
 ```
 
 ### Swagger UI for Test Rest-Endpoint
