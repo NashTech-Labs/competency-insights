@@ -15,6 +15,7 @@ ENV REACT_APP_URI https://competency.co.in
 ENV REACT_APP_BACKEND_APP_URI https://competency.co.in
 ENV REACT_APP_PROFILE_PAGE_URL /cs/nasher/email
 ENV REACT_APP_ADD_OKR_PAGE_URL /cs/nasher/addokr
+ENV REACT_APP_FETCH_OKR_DATA_URL /cs/nasher/okrdata
 
 # Install app dependencies
 RUN npm install
