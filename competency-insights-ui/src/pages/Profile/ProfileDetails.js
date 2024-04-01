@@ -4,21 +4,9 @@ import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
 import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
 import { Contribution } from "./components/Contribution";
 import { PermanentDrawerLeft } from "../../components/Layout/NavBar";
-import Stack from '@mui/material/Stack';
-import Skeleton from '@mui/material/Skeleton';
+import { SkeletonProfile } from "../../components/Layout/SkeletonProfile";
 import useDataFetching from "../../services/useDataFetching";
 import {useMsal} from "@azure/msal-react";
-
-const SkeletonProfile = () => (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
-        <Stack spacing={1}>
-            <Skeleton variant="text" sx={{ fontSize: '5rem' }} />
-            <Skeleton variant="circular" width={100} height={100} />
-            <Skeleton variant="rectangular" width={410} height={100} />
-            <Skeleton variant="rounded" width={410} height={60} />
-        </Stack>
-    </div>
-);
 
 export const ProfileDetails = ({ emailAddress, name }) => {
     const [user, setUser] = useState(null);
