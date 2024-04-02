@@ -46,4 +46,18 @@ public class FirestoreService {
             document.getReference().delete();
         }
     }
+    public List<OKRDataEntity> getOKRDataByEmail(String email) throws ExecutionException, InterruptedException {
+        List<OKRDataEntity> okrDataList = new ArrayList<>();
+
+        CollectionReference okrDataCollection = firestore.collection("okrData");
+
+        ApiFuture<QuerySnapshot> future = okrDataCollection.whereEqualTo("emailId", email).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+
+        for (QueryDocumentSnapshot document : documents) {
+            OKRDataEntity okrData = document.toObject(OKRDataEntity.class);
+            okrDataList.add(okrData);
+        }
+        return okrDataList;
+    }
 }
