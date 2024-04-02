@@ -62,4 +62,14 @@ class OKRController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting OKR data");
         }
     }
+
+    @GetMapping("/nasher/okrdata/{email}")
+    public ResponseEntity<Object> getOKRByEmail(@PathVariable String email) {
+        try {
+            List<OKRDataEntity> okrDataList = firestoreService.getOKRDataByEmail(email);
+            return ResponseEntity.ok(okrDataList);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error retrieving okr data");
+        }
+    }
 }
