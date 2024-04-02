@@ -24,7 +24,7 @@ spring:
   application:
     name: ${SERVICE_NAME:Contribution Service}
   profiles:
-    active: ${ACTIVE_PROFILE:local}
+    active: ${ACTIVE_PROFILE:gcp}
   cloud:
     gcp:
       logging:

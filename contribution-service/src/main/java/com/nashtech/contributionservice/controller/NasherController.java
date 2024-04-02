@@ -25,6 +25,11 @@ public class NasherController {
     private final PasGo1Service pasGo1Service;
     private static final Log log = LogFactory.getLog(NasherController.class);
 
+    public NasherController(Processor processor, PasGo1Service pasGo1Service) {
+        this.processor = processor;
+        this.pasGo1Service = pasGo1Service;
+    }
+
     @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
     @GetMapping("/nashers")
     public Flux<Nasher> getAllNasher() {

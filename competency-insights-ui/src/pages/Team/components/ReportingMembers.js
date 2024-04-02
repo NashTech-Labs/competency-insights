@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const ReportingMembers = ({ employee }) => {
-    const { name, position, employeeNo } = employee;
+    
 
     return (
         <div class="flex min-h-screen items-center justify-center px-8">
@@ -9,9 +9,9 @@ export const ReportingMembers = ({ employee }) => {
                 <div class="relative h-full w-full rounded-xl shadow-xl transition-all duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
                     <div class="absolute w-full h-full backface-hidden font-sans bg-white text-black flex flex-col justify-center items-center p-20 shadow-md rounded-10">
                         <img class="w-100 h-100 rounded-full" src="/nashtech_logo.png" alt="" />
-                        <h2 className="text-lg font-bold mb-2 leading-tight">{name}</h2>
-                        <p className="text-base leading-tight text-teal-500 font-bold">{position}</p>
-                        <p className="text-gray-500 text-base leading-loose">Employee No: {employeeNo}</p>
+                        <h2 className="text-lg font-bold mb-2 leading-tight">{employee}</h2>
+                        <p className="text-base leading-tight text-teal-500 font-bold">abc</p>
+                        <p className="text-gray-500 text-base leading-loose">Employee No: def</p>
                     </div>
                     <div class="absolute inset-0 h-full w-full rounded-xl bg-gray-200 px-12 text-center text-black [transform:rotateY(180deg)] [backface-visibility:hidden] z-index: 2;">
                         <div className="back-side-bg absolute  bg-gray-100 rounded-xl"></div>
