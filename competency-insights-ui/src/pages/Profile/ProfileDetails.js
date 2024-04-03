@@ -19,16 +19,24 @@ export const ProfileDetails = ({ emailAddress, name }) => {
         const fetchUserData = async () => {
             try {
                 if (emailAddress) {
-                    const profilePageUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/${encodeURIComponent(emailAddress)}`;
-                    const accessToken = sessionStorage.getItem("token");
-                    const response = await fetch(profilePageUrl, {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    });
-                    if (response.ok) {
-                        const userData = await response.json();
-                        setUser(userData);
+                    const storedUserData = localStorage.getItem("userData");
+                    if (storedUserData) {
+                        setUser(JSON.parse(storedUserData));
+                    }
+                    else
+                    {
+                        const profilePageUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/${encodeURIComponent(emailAddress)}`;
+                        const accessToken = sessionStorage.getItem("token");
+                        const response = await fetch(profilePageUrl, {
+                            headers: {
+                                Authorization: `Bearer ${accessToken}`,
+                            },
+                        });
+                        if (response.ok) {
+                            const userData = await response.json();
+                            setUser(userData);
+                            localStorage.setItem("userData", JSON.stringify(userData));
+                        }
                     }
                 }
                 else{
