@@ -1,6 +1,7 @@
 {
-    "Blogs": "blogs",
-    "TechHubs": "techHubs",
-    "Knolx": "knolx",
-    "Certifications": "certifications"
+    "Blogs": "Blogs",
+    "TechHub": "TechHub",
+    "Knolx": "Knolx",
+    "Certification": "Certification",
+    "Internal Project": "Internal Project"
 }

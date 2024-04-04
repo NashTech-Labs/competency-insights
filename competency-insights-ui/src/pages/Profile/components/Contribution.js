@@ -32,7 +32,7 @@ export const Contribution = ({ contributionType }) => {
               <p>{item.radarTechnology}</p>
             </div>
             <div className="bg-white p-4 rounded-md shadow-md col-span-1 flex items-center justify-center">
-              <p>{item.status[0]}</p>
+              <p>{item.status}</p>
             </div>
             <div className="p-2 rounded-md col-span-1 flex items-center justify-center">
               <DropdownMenu />
