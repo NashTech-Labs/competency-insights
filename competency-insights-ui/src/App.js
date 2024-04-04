@@ -5,9 +5,7 @@ import { DataProvider } from './services/dataService';
 function App() {
   return (
     <div className="App dark:bg-dark">
-     <DataProvider>
-      <AppRouters /> 
-      </DataProvider>
+      <AppRouters />
     </div>
   );
 } 

@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import {AddOkrPage, Login, ProfileDetails, TeamPage, UpdateOkr, StudioPage} from "../pages";
 import {ProtectedRoute} from "./ProtectedRoute";
 import { useMsal } from "@azure/msal-react";
+import { DataProvider } from "../services/dataService";
 
 export const AppRouters = () => {
 
@@ -17,24 +18,29 @@ export const AppRouters = () => {
             setEmail(username);
             const profileName = username.substring(0, username.indexOf('@'));
             setm_strUser(profileName.split("."));
+            sessionStorage.setItem("email",username)
           }
         } catch (e) {
           console.error("Error while fetching username:", e);
         }
       }, [accounts]);
 
-
     return (
+      <>
         <Routes>
-            <Route>
             <Route path="/" element={<Login />} />
-            <Route path="/profile" element={<ProfileDetails emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]} />} />
+            <Route path="/profile" element={<ProfileDetails emailAddress={email}  name={m_strUser[0] + " " + m_strUser[1]} />} />
+            </Routes>
+            <DataProvider>
+            <Routes>
             <Route path="/team" element={<TeamPage emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]} />} />
             <Route path="/addokr" element={<AddOkrPage name={m_strUser[0] + " " + m_strUser[1]} />} />
             <Route path="/updateokr" element={<UpdateOkr emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]} />}/>
             <Route path="/studio" element={<StudioPage emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]} />}/>
-            </Route>
-        </Routes>
+            </Routes>
+            </DataProvider>
+            </> 
+       
     )
 }
                                                                              

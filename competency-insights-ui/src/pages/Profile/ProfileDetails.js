@@ -14,9 +14,10 @@ export const ProfileDetails = ({ emailAddress, name }) => {
     const [category, setCategory] = useState("blogs");
     const { instance } = useMsal();
     const { data: categoriesData, isLoading: categoriesIsLoading } = useDataFetching('Data/categories.json', instance);
-
+ 
     useEffect(() => {
         const fetchUserData = async () => {
+            
             try {
                 if (emailAddress) {
                     const profilePageUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/${encodeURIComponent(emailAddress)}`;

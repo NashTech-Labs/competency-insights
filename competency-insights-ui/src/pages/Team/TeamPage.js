@@ -7,7 +7,7 @@ import { useDataProvider } from '../../services/dataService';
 export const TeamPage = () => {
   const employees = useDataProvider()
   const data =employees.reportingMembers
-
+console.log(data);
   return(
    
    <div>
