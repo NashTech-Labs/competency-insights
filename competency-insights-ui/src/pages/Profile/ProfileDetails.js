@@ -135,7 +135,7 @@ export const ProfileDetails = ({ emailAddress, name }) => {
                             )}
                             {user.department && (
                                 <div className="flex flex-col">
-                                    <label className="text-gray-700 text-sm">Department</label>
+                                    <label className="text-gray-700 text-sm">Competency</label>
                                     <p>{user.department}</p>
                                 </div>
                             )}
