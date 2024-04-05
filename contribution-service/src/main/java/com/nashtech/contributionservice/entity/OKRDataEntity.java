@@ -13,8 +13,10 @@ import lombok.Setter;
 @Document(collectionName = "okrData")
 public class OKRDataEntity {
 
+    private String name;
     private String emailId;
     private String activity;
+    private String competency;
     private String radarTechnology;
     private String title;
     private String dueDate;

@@ -3,27 +3,16 @@ import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
 import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
 import { Contribution } from "./components/Contribution";
-import { PermanentDrawerLeft } from "../../components/Layout/Navbar/TestNavBar";
-import Stack from '@mui/material/Stack';
-import Skeleton from '@mui/material/Skeleton';
+import { PermanentDrawerLeft } from "../../components/Layout/NavBar";
+import { SkeletonProfile } from "../../components/Layout/SkeletonProfile";
 import useDataFetching from "../../services/useDataFetching";
 import {useMsal} from "@azure/msal-react";
 
-const SkeletonProfile = () => (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
-        <Stack spacing={1}>
-            <Skeleton variant="text" sx={{ fontSize: '5rem' }} />
-            <Skeleton variant="circular" width={100} height={100} />
-            <Skeleton variant="rectangular" width={410} height={100} />
-            <Skeleton variant="rounded" width={410} height={60} />
-        </Stack>
-    </div>
-);
-
 export const ProfileDetails = ({ emailAddress, name }) => {
     const [user, setUser] = useState(null);
+    const [okrs, setOKR] = useState(null);
     const [categories, setCategories] = useState({});
-    const [category, setCategory] = useState("blogs");
+    const [category, setCategory] = useState("Blogs");
     const { instance } = useMsal();
     const { data: categoriesData, isLoading: categoriesIsLoading } = useDataFetching('Data/categories.json', instance);
 
@@ -31,16 +20,36 @@ export const ProfileDetails = ({ emailAddress, name }) => {
         const fetchUserData = async () => {
             try {
                 if (emailAddress) {
-                    const profilePageUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/${encodeURIComponent(emailAddress)}`;
-                    const accessToken = sessionStorage.getItem("token");
-                    const response = await fetch(profilePageUrl, {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    });
-                    if (response.ok) {
-                        const userData = await response.json();
-                        setUser(userData);
+                    const storedUserData = localStorage.getItem("userData");
+                    const storedOkrData = localStorage.getItem("okrsData");
+                    if (storedUserData) {
+                        setUser(JSON.parse(storedUserData));
+                        setOKR(JSON.parse(storedOkrData));
+                    }
+                    else
+                    {
+                        const profilePageUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/${encodeURIComponent(emailAddress)}`;
+                        const getOkrDataUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_GET_OKR_PAGE_URL}/${encodeURIComponent(emailAddress)}`;
+                        const accessToken = sessionStorage.getItem("token");
+                        const response = await fetch(profilePageUrl, {
+                            headers: {
+                                Authorization: `Bearer ${accessToken}`,
+                            },
+                        });
+
+                        const okrsDataResponse = await fetch(getOkrDataUrl, {
+                            headers: {
+                                Authorization: `Bearer ${accessToken}`,
+                            },
+                        });
+                        if (response.ok) {
+                            const userData = await response.json();
+                            const okrsData = await okrsDataResponse.json();
+                            setUser(userData);
+                            setOKR(okrsData);
+                            localStorage.setItem("userData", JSON.stringify(userData));
+                            localStorage.setItem("okrsData" , JSON.stringify(okrsData));
+                        }
                     }
                 }
                 else{
@@ -56,7 +65,6 @@ export const ProfileDetails = ({ emailAddress, name }) => {
 
     useEffect(() => {
         if (categoriesData) {
-            console.log("in categories flow");
             setCategories(categoriesData);
         }
     }, [categoriesData]);
@@ -127,7 +135,7 @@ export const ProfileDetails = ({ emailAddress, name }) => {
                             )}
                             {user.department && (
                                 <div className="flex flex-col">
-                                    <label className="text-gray-700 text-sm">Department</label>
+                                    <label className="text-gray-700 text-sm">Competency</label>
                                     <p>{user.department}</p>
                                 </div>
                             )}
@@ -175,12 +183,10 @@ export const ProfileDetails = ({ emailAddress, name }) => {
                     )}
                 </section>
 
-                {user && (
-                    <>
-                        {user.contributions && user.contributions[category] && (
-                            <Contribution contributionType={user.contributions[category]} />
-                        )}
-                    </>
+                {okrs && (
+                    <div>
+                        <Contribution contributionType={category ? okrs.filter(okr => okr.activity === category) : okrs} />
+                    </div>
                 )}
             </>
         );

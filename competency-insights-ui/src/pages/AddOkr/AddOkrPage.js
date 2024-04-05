@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormElement } from './components/FormElement';
 import { useNavigate } from "react-router-dom";
-import { PermanentDrawerLeft } from "../../components/Layout/Navbar/TestNavBar";
+import { PermanentDrawerLeft } from "../../components/Layout/NavBar";
 import Button from '@mui/material/Button';
 
 export const AddOkrPage = ({name}) => {
@@ -9,10 +9,24 @@ export const AddOkrPage = ({name}) => {
   const [formData, setFormData] = useState({
     activity: '',
     radarTechnology: '',
+    competency: '',
+    status:'Draft',
     title: '',
     dueDate: '',
     description: '',
   });
+
+  useEffect(() => {
+    const storedUserData = localStorage.getItem("userData");
+    if (storedUserData) {
+      const userData = JSON.parse(storedUserData);
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        competency: userData.department
+      }));
+    }
+  }, []);
+
   const addOkrPageUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_ADD_OKR_PAGE_URL}`;
 
   const handleSubmit = async (event) => {

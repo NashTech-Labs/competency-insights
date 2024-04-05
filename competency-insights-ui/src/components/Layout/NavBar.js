@@ -14,7 +14,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import PeopleIcon from "@mui/icons-material/People";
-import { Header } from "../Header";
+import AssessmentIcon from '@mui/icons-material/Assessment';
+import { Header } from "./Header";
 import { Link } from "react-router-dom";
 
 const drawerWidth = 200;
@@ -25,8 +26,12 @@ export const PermanentDrawerLeft= ({name}) => {
     { text: "Profile", link: "/profile", icon: <PersonIcon /> },
     { text: "OKR's", link: "/addokr", icon: <CheckCircleOutlineIcon /> },
     { text: "Inbox", link: "#", icon: <InboxIcon /> },
-    { text: "Teams", link: "/team", icon: <PeopleIcon /> },
+    { text: "Teams", link: "/team", icon: <PeopleIcon /> }
   ];
+
+  if (name === "Sushant Gupta" || name === "Ankit Mogha") {
+    sidebarItems.push({ text: "Competency", link: "/studio", icon: <AssessmentIcon /> });
+  }
 
   return (
     <Box sx={{ display: "flex" }}>

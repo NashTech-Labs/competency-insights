@@ -17,14 +17,14 @@ import java.util.List;
 @AllArgsConstructor
 @Profile("gcp")
 public class GCPFeedService implements FeedService {
-
+  private final ExcelHelper excelHelper;
   private final FirestoreRepository firestoreRepository;
   private final PubSubService pubSubService;
   @Override
   public void save(MultipartFile file) {
     log.info("Enter into GCPExcelService: File Upload request with File {}", file.getOriginalFilename());
     try {
-      List<Nasher> nashers = ExcelHelper.processExcelFile(file.getInputStream());
+      List<Nasher> nashers = excelHelper.processExcelFile(file.getInputStream());
       log.info("List of Nashers count: {}",nashers.size());
       pubSubService.publishMessage(nashers);
       firestoreRepository.saveAll(nashers).doOnError(Throwable::printStackTrace).subscribe();
@@ -48,7 +48,7 @@ public class GCPFeedService implements FeedService {
             "Location",
             "Contact",
             List.of("Reporting Member 1", "Reporting Member 2")));
-    return ExcelHelper.nashersToExcel(nashers);
+    return excelHelper.nashersToExcel(nashers);
   }
 
   @Override

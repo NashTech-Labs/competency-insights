@@ -31,7 +31,12 @@ class OKRController {
             if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof Jwt) {
                 Jwt jwt = (Jwt) authentication.getPrincipal();
                 String emailId = jwt.getClaim("email").toString();
-                firestoreService.saveOKRData(okrData, emailId);
+                String name = jwt.getClaim("name").toString();
+                int dotIndex = emailId.indexOf('.');
+                if (dotIndex != -1 && dotIndex < emailId.length() - 1) { emailId = Character.toUpperCase(emailId.charAt(0))
+                        + emailId.substring(1, dotIndex + 1) + Character.toUpperCase(emailId.charAt(dotIndex + 1)) +
+                        emailId.substring(dotIndex + 2); }
+                firestoreService.saveOKRData(okrData, emailId, name);
 
                 return ResponseEntity.status(HttpStatus.CREATED).body("OKR data saved successfully");
             } else {
@@ -59,6 +64,16 @@ class OKRController {
             return ResponseEntity.ok("All OKR data deleted successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting OKR data");
+        }
+    }
+
+    @GetMapping("/nasher/okrdata/{email}")
+    public ResponseEntity<Object> getOKRByEmail(@PathVariable String email) {
+        try {
+            List<OKRDataEntity> okrDataList = firestoreService.getOKRDataByEmail(email);
+            return ResponseEntity.ok(okrDataList);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error retrieving okr data");
         }
     }
 }

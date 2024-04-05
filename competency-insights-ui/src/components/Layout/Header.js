@@ -33,6 +33,10 @@ export const Header = ({name}) => {
     }, []);
 
     const handleLogout = () => {
+
+        localStorage.removeItem("userData");
+        localStorage.removeItem("okrsData");
+
         instance.logoutRedirect({
             postLogoutRedirectUri: "/",
         });
@@ -45,7 +49,6 @@ export const Header = ({name}) => {
             <nav className={`flex items-center bg-white ${darkMode ? 'dark:bg-gray-900 text-white' : 'text-gray-700'}`} style={{ padding: '25px 0' }}>
                 <div className="w-full flex justify-between items-center mx-auto px-4 md:px-6 py-3">
                     <Link to="/" className="flex items-center">
-                        <img src="/nashtech_logo.png" className="h-8" alt="Logo" />
                         <span className="text-4xl font-semibold whitespace-nowrap dark:text-white">Competency Insights</span>
                     </Link>
                     <div>
