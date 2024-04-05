@@ -8,6 +8,7 @@ import "ag-grid-community/styles/ag-theme-quartz.css";
 export const StudioPage = ({ name }) => {
   const [rowData, setRowData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const okrDataUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_GET_OKR_PAGE_URL}`;
 
   useEffect(() => {
     fetchBackendData()
@@ -23,7 +24,7 @@ export const StudioPage = ({ name }) => {
   }, []);
 
   const fetchBackendData = async () => {
-    const response = await fetch('https://my.api.mockaroo.com/insights.json?key=dcbc8750');
+    const response = await fetch(okrDataUrl);
     const data = await response.json();
     return data;
   };

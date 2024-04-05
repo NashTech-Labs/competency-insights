@@ -32,6 +32,10 @@ class OKRController {
                 Jwt jwt = (Jwt) authentication.getPrincipal();
                 String emailId = jwt.getClaim("email").toString();
                 String name = jwt.getClaim("name").toString();
+                int dotIndex = emailId.indexOf('.');
+                if (dotIndex != -1 && dotIndex < emailId.length() - 1) { emailId = Character.toUpperCase(emailId.charAt(0))
+                        + emailId.substring(1, dotIndex + 1) + Character.toUpperCase(emailId.charAt(dotIndex + 1)) +
+                        emailId.substring(dotIndex + 2); }
                 firestoreService.saveOKRData(okrData, emailId, name);
 
                 return ResponseEntity.status(HttpStatus.CREATED).body("OKR data saved successfully");

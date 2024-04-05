@@ -33,6 +33,10 @@ export const Header = ({name}) => {
     }, []);
 
     const handleLogout = () => {
+
+        localStorage.removeItem("userData");
+        localStorage.removeItem("okrsData");
+
         instance.logoutRedirect({
             postLogoutRedirectUri: "/",
         });
