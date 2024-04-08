@@ -1,7 +1,6 @@
 package com.nashtech.contributionservice.service.gcp;
 
 import com.nashtech.contributionservice.entity.Nasher;
-import com.nashtech.contributionservice.model.Contributions;
 import com.nashtech.contributionservice.service.PasGo1Service;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +25,7 @@ public class PasGo1ServiceImpl implements PasGo1Service {
         //TODO: integrate pas service here
         List<Nasher> info = List.of(new Nasher("EMP001", "John Doe", "john@example.com", "1990-01-01",
                 "2020-01-01", "Software Engineer", "ManagerX", "IT Department","Noida","9046789898",
-                List.of("EmployeeA", "EmployeeB"),new Contributions()));
+                List.of("EmployeeA", "EmployeeB")));
         pubSubService.publishMessage(info);
     }
 
@@ -36,7 +35,7 @@ public class PasGo1ServiceImpl implements PasGo1Service {
         //TODO: integrate Go1% service here
         List<Nasher> info = List.of(new Nasher("EMP001", "John Doe", "john@example.com", "1990-01-01",
                 "2020-01-01", "Software Engineer", "ManagerX", "IT Department","Noida","9046789898",
-                List.of("EmployeeA", "EmployeeB"),new Contributions()));
+                List.of("EmployeeA", "EmployeeB")));
         pubSubService.publishMessage(info);
     }
 
@@ -46,7 +45,7 @@ public class PasGo1ServiceImpl implements PasGo1Service {
         //TODO: integrate Go1% service here
         List<Nasher> info = List.of(new Nasher("EMP001", "John Doe", "john@example.com", "1990-01-01",
                 "2020-01-01", "Software Engineer", "ManagerX", "IT Department","Noida","9046789898",
-                List.of("EmployeeA", "EmployeeB"),new Contributions()));
+                List.of("EmployeeA", "EmployeeB")));
         pubSubService.publishMessage(info);
     }
 

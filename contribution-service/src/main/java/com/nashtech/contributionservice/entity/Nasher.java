@@ -28,6 +28,6 @@ public class Nasher {
     private String location;
     private String contact;
     private List<String> reportingMembers;
-    private Contributions contributions;
+//    private Contributions contributions;
 }
 
