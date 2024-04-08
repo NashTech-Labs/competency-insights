@@ -1,7 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export const ReportingMembers = ({ employee }) => {
-    const { name, position, employeeNo } = employee;
+    const { name, position, employeeNo, emailAddress } = employee;
+
 
     return (
         <div class="flex min-h-screen items-center justify-center px-8">
@@ -21,7 +23,9 @@ export const ReportingMembers = ({ employee }) => {
                             <button class="button font-bold text-lg px-5 py-2 border border-white rounded-full bg-transparent transition duration-300 cursor-pointer mb-6 hover:text-primary hover:bg-opacity-100 active:translate-x-2">Blogs: 4</button>
                             <button class="button font-bold text-lg px-5 py-2 border border-white rounded-full bg-transparent transition duration-300 cursor-pointer mb-6 hover:text-primary hover:bg-opacity-100 active:translate-x-2">TechHub: 3</button>
                             <button class="button font-bold text-lg px-5 py-2 border border-white rounded-full bg-transparent transition duration-300 cursor-pointer mb-6 hover:text-primary hover:bg-opacity-100 active:translate-x-2">Knolx: 3</button>
-                            <button class="button mt-2 rounded-md bg-neutral-800 py-1 px-2 text-sm hover:bg-neutral-300">Read More</button>
+                            <Link to={`/profile?email=${encodeURIComponent(emailAddress)}`}>
+                                <button className="button mt-2 rounded-md bg-neutral-800 py-1 px-2 text-sm hover:bg-neutral-300">Read More</button>
+                            </Link>
                         </div>
                     </div>
                 </div>

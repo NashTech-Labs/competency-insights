@@ -4,7 +4,7 @@ import employeesData from '../../data/employees.json';
 import {Reports} from './components/Reports';
 import {PermanentDrawerLeft} from "../../components/Layout/NavBar"
 
-export const TeamPage = ({emailAddress, name}) => {
+export const TeamPage = ({ emailAddress, name }) => {
   return (
     <div>
     <PermanentDrawerLeft name = {name} />
@@ -13,7 +13,11 @@ export const TeamPage = ({emailAddress, name}) => {
       </div>
       <div className="flex justify-center ml-60 px-20">
         {employeesData.map((employee, index) => (
-          <ReportingMembers key={index} employee={employee} />
+          <ReportingMembers
+            key={index}
+            employee={employee}
+            emailAddress={employee.emailAddress}
+          />
         ))}
       </div>
     </div>
