@@ -8,7 +8,6 @@ export const Footer = () => {
                     <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400"><Link to="/" className="hover:underline">Competency Insights</Link></span>
                     <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400"><Link to="/" className="hover:underline">Terms and Conditions</Link></span>
                     <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400"><Link to="https://nashtechglobal.go1percent.com/" className="hover:underline" target="_blank">Go1%</Link></span>
-
                 </div>
             </div>
         </footer>

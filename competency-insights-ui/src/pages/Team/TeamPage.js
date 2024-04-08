@@ -7,9 +7,10 @@ import { useDataProvider } from '../../services/dataService';
 export const TeamPage = () => {
   const employees = useDataProvider()
   const data =employees.reportingMembers
-console.log(data);
+  //retriving eamil from the context provider
+  const email =employees.email
+  console.log('fetching email to team page',email)
   return(
-   
    <div>
    <PermanentDrawerLeft  />
      <div>
@@ -17,7 +18,7 @@ console.log(data);
      </div>
      <div className="flex justify-center ml-60 px-20">
        {data.map((employee, index) => (
-         <ReportingMembers key={index} employee={employee} />
+         <ReportingMembers key={index} employee={employee}/>
        ))}
      </div>
    </div>

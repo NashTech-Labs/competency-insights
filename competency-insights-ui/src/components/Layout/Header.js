@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useMsal } from "@azure/msal-react";
 import { Link } from 'react-router-dom';
+import { useDataProvider } from '../../services/dataService';
 
 export const Header = ({name}) => {
     const { instance } = useMsal();
     const [darkMode, setDarkMode] = useState(JSON.parse(localStorage.getItem("darkMode")) || false);
     const [shouldDropDownOpen, setShouldDropDownOpen] = useState(false);
     const headerRef = useRef(null);
-
+    //retriving name from the context provider
+    const employees = useDataProvider()
+    const employeeName=employees.name
     useEffect(() => {
         localStorage.setItem("darkMode", JSON.stringify(darkMode));
 
@@ -57,7 +60,7 @@ export const Header = ({name}) => {
                         {shouldDropDownOpen && 
                             <div id="dropdownAvatar" className="select-none absolute top-full right-0 z-10 w-[200px]  bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600" style={{ top: headerHeight }}>
                                 <div className="py-3 px-4 text-[1rem] text-sm text-gray-900 dark:text-white">
-                                    <div className="font-medium truncate">{name}</div>
+                                    <div className="font-medium truncate">{employeeName}</div>
                                 </div>
                                 <ul className="py-1 text-[1rem] text-gray-700 dark:text-gray-200" aria-labelledby="dropdownUserAvatarButton">
                                     <li>

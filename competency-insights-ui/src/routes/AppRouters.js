@@ -18,28 +18,27 @@ export const AppRouters = () => {
             setEmail(username);
             const profileName = username.substring(0, username.indexOf('@'));
             setm_strUser(profileName.split("."));
-            sessionStorage.setItem("email",username)
           }
         } catch (e) {
           console.error("Error while fetching username:", e);
         }
+        sessionStorage.setItem("email",'Ankit.Mogha@nashtechglobal.com')
+        // Shiv.Oberoi@nashtechglobal.com
       }, [accounts]);
 
     return (
       <>
+       <DataProvider>
         <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/profile" element={<ProfileDetails emailAddress={email}  name={m_strUser[0] + " " + m_strUser[1]} />} />
-            </Routes>
-            <DataProvider>
-            <Routes>
-            <Route path="/team" element={<TeamPage emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]} />} />
-            <Route path="/addokr" element={<AddOkrPage name={m_strUser[0] + " " + m_strUser[1]} />} />
-            <Route path="/updateokr" element={<UpdateOkr emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]} />}/>
-            <Route path="/studio" element={<StudioPage emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]} />}/>
-            </Routes>
-            </DataProvider>
-            </> 
+          <Route path="/" element={<Login/>} />
+          <Route path="/profile" element={<ProfileDetails name={m_strUser[0] + " " + m_strUser[1]} />} />
+          <Route path="/team" element={<TeamPage  name={m_strUser[0] + " " + m_strUser[1]} />} />
+          <Route path="/addokr" element={<AddOkrPage name={m_strUser[0] + " " + m_strUser[1]} />} />
+          <Route path="/updateokr" element={<UpdateOkr name={m_strUser[0] + " " + m_strUser[1]} />}/>
+          <Route path="/studio" element={<StudioPage name={m_strUser[0] + " " + m_strUser[1]} />}/>
+        </Routes>
+        </DataProvider>
+      </> 
        
     )
 }

@@ -13,8 +13,7 @@ const useDataFetching = (url) => {
       try {
         // Retrieve the access token from session storage
         const accessToken = sessionStorage.getItem("token");
-
-      // Include the bearer token in the request headers
+        // Include the bearer token in the request headers
         const requestOptions = {
           headers: {
             Authorization: `Bearer ${accessToken}`

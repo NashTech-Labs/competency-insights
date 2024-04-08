@@ -7,6 +7,7 @@ import { PermanentDrawerLeft } from "../../components/Layout/NavBar";
 import { SkeletonProfile } from "../../components/Layout/SkeletonProfile";
 import useDataFetching from "../../services/useDataFetching";
 import {useMsal} from "@azure/msal-react";
+import { useDataProvider } from '../../services/dataService';
 
 export const ProfileDetails = ({ emailAddress, name }) => {
     const [user, setUser] = useState(null);
@@ -14,41 +15,47 @@ export const ProfileDetails = ({ emailAddress, name }) => {
     const [categories, setCategories] = useState({});
     const [category, setCategory] = useState("Blogs");
     const { instance } = useMsal();
+    //retriving eamil from the context provider
+    const employees = useDataProvider()
+    const email=sessionStorage.getItem("email");
+    console.log('profile page,', email)
     const { data: categoriesData, isLoading: categoriesIsLoading } = useDataFetching('Data/categories.json', instance);
- 
     useEffect(() => {
         const fetchUserData = async () => {
-            
             try {
-                if (emailAddress) {
-                    const storedUserData = localStorage.getItem("userData");
+                if (email) {
+                    // const storedUserData = localStorage.getItem("userData");
+                    setUser(employees)
                     const storedOkrData = localStorage.getItem("okrsData");
-                    if (storedUserData) {
-                        setUser(JSON.parse(storedUserData));
+                    if (storedOkrData) {
+                        console.log(storedOkrData)
                         setOKR(JSON.parse(storedOkrData));
                     }
                     else
                     {
-                        const profilePageUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/${encodeURIComponent(emailAddress)}`;
-                        const getOkrDataUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_GET_OKR_PAGE_URL}/${encodeURIComponent(emailAddress)}`;
+                        // const profilePageUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/${encodeURIComponent(emailAddress)}`;
+                        // const getOkrDataUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_GET_OKR_PAGE_URL}/${encodeURIComponent(emailAddress)}`;
+                        const getOkrDataUrl = `http://localhost:8081/cs/nasher/okrdata/${email}`;
                         const accessToken = sessionStorage.getItem("token");
-                        const response = await fetch(profilePageUrl, {
-                            headers: {
-                                Authorization: `Bearer ${accessToken}`,
-                            },
-                        });
-
-                        const okrsDataResponse = await fetch(getOkrDataUrl, {
-                            headers: {
-                                Authorization: `Bearer ${accessToken}`,
-                            },
-                        });
-                        if (response.ok) {
-                            const userData = await response.json();
+                        // const response = await fetch(profilePageUrl,
+                        //      {
+                        //     headers: {
+                        //         Authorization: `Bearer ${accessToken}`,
+                        //     },
+                        // }
+                        // );
+                        const okrsDataResponse = await fetch(getOkrDataUrl,
+                        //      {
+                        //     headers: {
+                        //         Authorization: `Bearer ${accessToken}`,
+                        //     },
+                        // }
+                        );
+                        if (okrsDataResponse.ok) {
+                            // const userData = await response.json();
                             const okrsData = await okrsDataResponse.json();
-                            setUser(userData);
+                            setUser(employees);
                             setOKR(okrsData);
-                            localStorage.setItem("userData", JSON.stringify(userData));
                             localStorage.setItem("okrsData" , JSON.stringify(okrsData));
                         }
                     }
@@ -62,7 +69,7 @@ export const ProfileDetails = ({ emailAddress, name }) => {
             }
         };
         fetchUserData();
-    }, [emailAddress]);
+    }, [email]);
 
     useEffect(() => {
         if (categoriesData) {
