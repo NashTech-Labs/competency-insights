@@ -16,7 +16,7 @@ export const ProfileDetails = ({ emailAddress, name }) => {
     const [category, setCategory] = useState("Blogs");
     const { instance } = useMsal();
     //retriving eamil from the context provider
-    const employees = useDataProvider()
+    const {employees,fetchData} = useDataProvider()
     const email=sessionStorage.getItem("email");
     console.log('profile page,', email)
     const { data: categoriesData, isLoading: categoriesIsLoading } = useDataFetching('Data/categories.json', instance);
