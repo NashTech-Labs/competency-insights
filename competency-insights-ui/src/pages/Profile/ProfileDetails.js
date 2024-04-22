@@ -24,7 +24,7 @@ export const ProfileDetails = ({ emailAddress, name }) => {
         const fetchUserData = async () => {
             try {
                 if (email) {
-                    // const storedUserData = localStorage.getItem("userData");
+
                     setUser(employees)
                     const storedOkrData = localStorage.getItem("okrsData");
                     if (storedOkrData) {
@@ -33,26 +33,18 @@ export const ProfileDetails = ({ emailAddress, name }) => {
                     }
                     else
                     {
-                        // const profilePageUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/${encodeURIComponent(emailAddress)}`;
-                        // const getOkrDataUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_GET_OKR_PAGE_URL}/${encodeURIComponent(emailAddress)}`;
                         const getOkrDataUrl = `http://localhost:8081/cs/nasher/okrdata/${email}`;
                         const accessToken = sessionStorage.getItem("token");
-                        // const response = await fetch(profilePageUrl,
-                        //      {
-                        //     headers: {
-                        //         Authorization: `Bearer ${accessToken}`,
-                        //     },
-                        // }
-                        // );
+                       
                         const okrsDataResponse = await fetch(getOkrDataUrl,
-                        //      {
-                        //     headers: {
-                        //         Authorization: `Bearer ${accessToken}`,
-                        //     },
-                        // }
+                             {
+                            headers: {
+                                Authorization: `Bearer ${accessToken}`,
+                            },
+                        }
                         );
                         if (okrsDataResponse.ok) {
-                            // const userData = await response.json();
+
                             const okrsData = await okrsDataResponse.json();
                             setUser(employees);
                             setOKR(okrsData);

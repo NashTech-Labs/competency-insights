@@ -6,15 +6,14 @@ import { useDataProvider } from '../../services/dataService';
 
 export const TeamPage = () => {
   const {employees,fetchData} = useDataProvider()
-  // console.log('-------------------------------------',employees.reportingMembers)
+ 
   const [memberData, setMemberData] = useState([]);
   useEffect(() => {
     const fetchMemberData = async () => {
       const memberPromises = employees.reportingMembers.map(async (reportingMember) => {
-        console.log('---------------------------------------',reportingMember)
+        console.log('Reporting members data -->',reportingMember)
         const response = await fetch(`${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/${reportingMember}`);
         const data = await response.json();
-        console.log(data)
         return data;
       });
       const memberData = await Promise.all(memberPromises);
@@ -24,6 +23,7 @@ export const TeamPage = () => {
  
     fetchMemberData();
   }, [employees.reportingMembers]);
+ 
   //retriving eamil from the context provider
   const email =employees.email
   console.log('fetching email to team page',email)
