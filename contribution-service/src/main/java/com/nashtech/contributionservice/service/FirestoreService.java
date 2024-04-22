@@ -6,7 +6,9 @@ import com.nashtech.contributionservice.entity.OKRDataEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -60,4 +62,22 @@ public class FirestoreService {
         }
         return okrDataList;
     }
+    public void updateOKRData(String emailId, String activity, String title, OKRDataEntity updatedData) throws ExecutionException, InterruptedException {
+        CollectionReference okrCollection = firestore.collection("okrData");
+        Query query = okrCollection.whereEqualTo("emailId", emailId).whereEqualTo("activity", activity).whereEqualTo("title", title);
+        ApiFuture<QuerySnapshot> querySnapshot = query.get();
+        for (DocumentSnapshot document : querySnapshot.get().getDocuments()) {
+            Map<String, Object> updates = new HashMap<>();
+
+            // Update specific fields
+            updates.put("dueDate", updatedData.getDueDate());
+            updates.put("submissionDate", updatedData.getSubmissionDate());
+            updates.put("link", updatedData.getLink());
+            updates.put("status", updatedData.getStatus());
+            updates.put("description", updatedData.getDescription());
+
+            document.getReference().update(updates); // Use update instead of set
+        }
+    }
+
 }
