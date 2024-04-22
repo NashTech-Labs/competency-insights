@@ -69,5 +69,4 @@ public class NasherController {
         pasGo1Service.callGo1Service();
         return "Successfully triggered Go1% service";
     }
-
 }
