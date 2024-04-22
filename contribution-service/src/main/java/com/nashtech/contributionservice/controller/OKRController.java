@@ -76,4 +76,34 @@ class OKRController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error retrieving okr data");
         }
     }
+
+    @PutMapping("/nasher/updateokr")
+    public ResponseEntity<String> updateOKR(@RequestBody OKRDataEntity updatedData) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof Jwt) {
+                Jwt jwt = (Jwt) authentication.getPrincipal();
+                String emailId = jwt.getClaim("email").toString();
+                String name = jwt.getClaim("name").toString();
+                int dotIndex = emailId.indexOf('.');
+                if (dotIndex != -1 && dotIndex < emailId.length() - 1) {
+                    emailId = Character.toUpperCase(emailId.charAt(0)) + emailId.substring(1, dotIndex + 1) +
+                            Character.toUpperCase(emailId.charAt(dotIndex + 1)) + emailId.substring(dotIndex + 2);
+                }
+
+                // Capitalize email, then update
+                String activity = updatedData.getActivity();
+                String title = updatedData.getTitle();
+
+                // Check if the email, activity, and title exist, then update
+                firestoreService.updateOKRData(emailId, activity, title, updatedData);
+
+                return ResponseEntity.ok("OKR data updated successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized access");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating OKR data");
+        }
+    }
 }
