@@ -7,7 +7,7 @@ export const Contribution = ({ contributionType }) => {
 
   return (
     <div>
-      <div className="hidden lg:block px-4 sm:px-6 lg:px-8 py-4 w-full">
+      <div className="modal-hidden lg:block px-4 sm:px-6 lg:px-8 py-4 w-full">
         <div className="grid lg:grid-cols-5 sm:grid-cols-4 gap-2 items-center">
           <div className="p-1 text-black-700 text-sm shadow-md lg:col-span-2 sm:col-span-1 flex items-center justify-center">
             <p>Title</p>

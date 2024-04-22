@@ -5,7 +5,7 @@ const EmployeeContext = createContext();
 export const DataProvider = ({ children }) => {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
-  const fetchData = async () => {
+  const fetchData = async (emailAddress) => {
     try {
       // Retrieve the access token from session storage
       const accessToken = sessionStorage.getItem("token");
@@ -18,8 +18,8 @@ export const DataProvider = ({ children }) => {
         }
       };
       // Hardcoding the email 
-      // const url = `http://localhost:8081/cs/nasher/email/${email}`;
-      const url = 'Data/userdata.json';
+      const url = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/${email}`;
+      // const url = 'Data/userdata.json';
 
       const response = await fetch(url);
       if (!response.ok) {

@@ -12,7 +12,7 @@ export const TeamPage = () => {
     const fetchMemberData = async () => {
       const memberPromises = employees.reportingMembers.map(async (reportingMember) => {
         console.log('---------------------------------------',reportingMember)
-        const response = await fetch(`http://localhost:8081/cs/nasher/email/${reportingMember}`);
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/${reportingMember}`);
         const data = await response.json();
         console.log(data)
         return data;
