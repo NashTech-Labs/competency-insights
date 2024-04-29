@@ -23,9 +23,12 @@ public class OKRController {
 
     private final Processor processor;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
     @PostMapping("/nasher/addokr")
-    public ResponseEntity<String> addOKR(@RequestBody OKRDataEntity okrData) {
+    public ResponseEntity<String> addOKR(@RequestBody OKRDataEntity okrData, String competency) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof Jwt) {
@@ -39,7 +42,7 @@ public class OKRController {
                 }
                 okrData.setEmailId(emailId);
                 okrData.setName(name);
-                processor.saveOKRData(okrData, emailId, name);
+                processor.saveOKRData(okrData, emailId, name, competency);
                 return ResponseEntity.status(HttpStatus.CREATED).body("OKR data saved successfully");
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized access");
@@ -49,11 +52,16 @@ public class OKRController {
         }
     }
 
-    @GetMapping("/nasher/okrdata")
-    public ResponseEntity<List<OKRDataEntity>> getOKRData() {
+    @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
+    @GetMapping(value = "/nasher/okrdata", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getOKRData() {
         try {
             List<OKRDataEntity> okrDataList = processor.getOKRData();
-            return ResponseEntity.ok(okrDataList);
+            if (okrDataList.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No OKR data found");
+            }
+            String result = objectMapper.writeValueAsString(okrDataList);
+            return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
@@ -69,16 +77,31 @@ public class OKRController {
         }
     }
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
-    @GetMapping(value = "/nasher/okrdata/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/nasher/okrdata/email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getOKRByEmail(@PathVariable String email) {
         try {
             List<OKRDataEntity> okrDataList = processor.getOKRDataByEmail(email);
-            String res = objectMapper.writeValueAsString(okrDataList);
-            return ResponseEntity.ok(res);
+            if (okrDataList.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No OKR data found");
+            }
+            String result = objectMapper.writeValueAsString(okrDataList);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error retrieving okr data");
+        }
+    }
+
+    @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
+    @GetMapping(value = "/nasher/okrdata/competency/{competency}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> getOKRByCompetency(@PathVariable String competency) {
+        try {
+            List<OKRDataEntity> okrDataEntities = processor.getOKRByCompetency(competency);
+            if (!okrDataEntities.isEmpty()) {
+                return ResponseEntity.ok(okrDataEntities);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error retrieving okr data");
         }
@@ -92,7 +115,6 @@ public class OKRController {
             if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof Jwt) {
                 Jwt jwt = (Jwt) authentication.getPrincipal();
                 String emailId = jwt.getClaim("email").toString();
-                String name = jwt.getClaim("name").toString();
                 int dotIndex = emailId.indexOf('.');
                 if (dotIndex != -1 && dotIndex < emailId.length() - 1) {
                     emailId = Character.toUpperCase(emailId.charAt(0)) + emailId.substring(1, dotIndex + 1) +

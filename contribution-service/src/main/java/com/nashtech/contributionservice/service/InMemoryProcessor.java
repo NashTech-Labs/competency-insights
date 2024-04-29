@@ -10,6 +10,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 
 @Profile("local")
@@ -31,7 +32,7 @@ public class InMemoryProcessor implements Processor {
         if (inMemoryData.get(empId) == null) {
             throw new NasherNotFoundException(empId);
         }
-       return Mono.just(inMemoryData.get(empId));
+        return Mono.just(inMemoryData.get(empId));
     }
 
     @Override
@@ -46,8 +47,9 @@ public class InMemoryProcessor implements Processor {
         log.info("Retrieving Nasher data from local [InMemory]");
         return Flux.fromStream(inMemoryData.values().stream());
     }
+
     @Override
-    public void saveOKRData(OKRDataEntity okrData, String emailId, String name) {
+    public void saveOKRData(OKRDataEntity okrData, String emailId, String name, String competency) throws ExecutionException, InterruptedException {
         List<OKRDataEntity> dataList = inMemoryOKRData.getOrDefault(emailId, new ArrayList<>());
         dataList.add(okrData);
         log.info("Data saved in local [InMemory]");
@@ -73,6 +75,22 @@ public class InMemoryProcessor implements Processor {
         log.info("Retrieving OKR data from local [InMemory] by emailId");
         return inMemoryOKRData.getOrDefault(email, new ArrayList<>());
     }
+
+    @Override
+    public List<OKRDataEntity> getOKRByCompetency(String competency) {
+        log.info("Retrieving OKR data from local [InMemory] by competency: {}", competency);
+        List<OKRDataEntity> okrDataEntities = new ArrayList<>();
+
+        for (List<OKRDataEntity> dataList : inMemoryOKRData.values()) {
+            for (OKRDataEntity okrDataEntity : dataList) {
+                if (competency.equals(okrDataEntity.getCompetency())) {
+                    okrDataEntities.add(okrDataEntity);
+                }
+            }
+        }
+        return okrDataEntities;
+    }
+
 
     @Override
     public void updateOKRData(String emailId, String activity, String title, OKRDataEntity updatedData) {
