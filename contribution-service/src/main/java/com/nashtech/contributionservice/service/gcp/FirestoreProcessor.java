@@ -7,6 +7,7 @@ import com.nashtech.contributionservice.repo.FirestoreRepository;
 import com.nashtech.contributionservice.service.FirestoreService;
 import com.nashtech.contributionservice.service.Processor;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -18,11 +19,19 @@ import java.util.concurrent.ExecutionException;
 
 @Service
 @Profile("gcp")
-@AllArgsConstructor
 public class FirestoreProcessor implements Processor {
 
     private final FirestoreRepository firestoreRepository;
-    private final FirestoreService firestoreService;
+    private FirestoreService firestoreService;
+
+    public FirestoreProcessor(FirestoreRepository firestoreRepository) {
+        this.firestoreRepository = firestoreRepository;
+    }
+
+    @Autowired(required = false)
+    public void setFirestoreService(FirestoreService firestoreService) {
+        this.firestoreService = firestoreService;
+    }
 
     @Override
     public void saveNasher(Nasher info) {
