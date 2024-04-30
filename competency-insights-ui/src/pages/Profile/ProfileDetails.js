@@ -32,18 +32,14 @@ export const ProfileDetails = ({ emailAddress, name }) => {
                         const getOkrDataUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_GET_OKR_PAGE_URL}/${encodeURIComponent(emailAddress)}`;
 
                         const accessToken = sessionStorage.getItem("token");
-                        const response = await fetch(profilePageUrl
-                            , 
-                            {
+                        const response = await fetch(profilePageUrl, {
                             headers: {
                                 Authorization: `Bearer ${accessToken}`,
                             },
                         }
                     );
 
-                        const okrsDataResponse = await fetch(getOkrDataUrl
-                            , 
-                            {
+                        const okrsDataResponse = await fetch(getOkrDataUrl, {
                             headers: {
                                 Authorization: `Bearer ${accessToken}`,
                             },
