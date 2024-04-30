@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import UseDataFetching from './useDataFetching';
+import { SkeletonProfile } from '../components/Layout/SkeletonProfile';
 
 // Create a context
 const EmployeeContext = createContext();
@@ -79,7 +80,7 @@ export const DataProvider = ({ children }) => {
   
   return (
     <EmployeeContext.Provider value={{ employees, okrData, studioData, fetchStudioData ,fetchOKRData }}>
-      {loading ? <div>Loading...</div> : children}
+      {loading ? <SkeletonProfile/> : children}
     </EmployeeContext.Provider>
   );
 };
