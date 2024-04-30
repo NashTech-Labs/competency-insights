@@ -107,7 +107,8 @@ export const UpdateOkr = ({emailAddress, name}) => {
       submitDate,
       description,
     });
-    // Add your form submission logic here
+    const storedUserData = localStorage.removeItem("userData");
+    const storedOkrData = localStorage.removeItem("okrsData");
   };
 
   const handleCancel = () => {

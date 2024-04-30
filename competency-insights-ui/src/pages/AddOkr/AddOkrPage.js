@@ -30,11 +30,12 @@ export const AddOkrPage = ({name}) => {
   const addOkrPageUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_ADD_OKR_PAGE_URL}`;
 
   const handleSubmit = async (event) => {
+       // clearing users data nd okrdata
     event.preventDefault();
-
     try {
       const accessToken = sessionStorage.getItem("token");
-      const response = await fetch(addOkrPageUrl, {
+      const response = await fetch(addOkrPageUrl
+        , {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -54,6 +55,8 @@ export const AddOkrPage = ({name}) => {
     } catch (error) {
       console.error('Error:', error);
     }
+    const storedUserData = localStorage.removeItem("userData");
+    const storedOkrData = localStorage.removeItem("okrsData");
   };
 
   const handleAddOKRClick = () => {

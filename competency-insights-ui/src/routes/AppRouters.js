@@ -7,7 +7,7 @@ import { useMsal } from "@azure/msal-react";
 export const AppRouters = () => {
 
     const [m_strUser, setm_strUser] = useState("");
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState("Ankit.Mogha@nashtechglobal.com");
     const { accounts } = useMsal();
 
     useEffect(() => {
@@ -28,12 +28,12 @@ export const AppRouters = () => {
         <Routes>
             <Route>
             <Route path="/" element={<Login />} />
-            <Route path="/profile" element={<ProtectedRoute><ProfileDetails emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]} /></ProtectedRoute>} />
-            <Route path="/team" element={<ProtectedRoute><TeamPage emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]} /></ProtectedRoute>} />
-            <Route path="/addokr" element={<ProtectedRoute><AddOkrPage name={m_strUser[0] + " " + m_strUser[1]} /></ProtectedRoute>} />
-            <Route path="/updateokr" element={<ProtectedRoute><UpdateOkr emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]} /></ProtectedRoute>}/>
-            <Route path="/viewokr" element={<ProtectedRoute><ViewOkrPage emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]}/></ProtectedRoute>}/>
-            <Route path="/studio" element={<ProtectedRoute><StudioPage emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]} /></ProtectedRoute>}/>
+            <Route path="/profile" element={<><ProfileDetails emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]} /></>} />
+            <Route path="/team" element={<><TeamPage emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]} /></>} />
+            <Route path="/addokr" element={<><AddOkrPage name={m_strUser[0] + " " + m_strUser[1]} /></>} />
+            <Route path="/updateokr" element={<><UpdateOkr emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]} /></>}/>
+            <Route path="/viewokr" element={<><ViewOkrPage emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]}/></>}/>
+            <Route path="/studio" element={<><StudioPage emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]} /></>}/>
             </Route>
         </Routes>
     )
