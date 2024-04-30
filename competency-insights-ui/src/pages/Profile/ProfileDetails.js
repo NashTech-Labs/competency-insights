@@ -36,15 +36,13 @@ export const ProfileDetails = ({ emailAddress, name }) => {
                             headers: {
                                 Authorization: `Bearer ${accessToken}`,
                             },
-                        }
-                    );
+                        });
 
                         const okrsDataResponse = await fetch(getOkrDataUrl, {
                             headers: {
                                 Authorization: `Bearer ${accessToken}`,
                             },
-                        }
-                    );
+                        });
                         if (response.ok) {
                             const userData = await response.json();
                             const okrsData = await okrsDataResponse.json();

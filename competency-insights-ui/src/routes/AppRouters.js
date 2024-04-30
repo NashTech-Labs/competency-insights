@@ -7,7 +7,7 @@ import { useMsal } from "@azure/msal-react";
 export const AppRouters = () => {
 
     const [m_strUser, setm_strUser] = useState("");
-    const [email, setEmail] = useState("Ankit.Mogha@nashtechglobal.com");
+    const [email, setEmail] = useState("");
     const { accounts } = useMsal();
 
     useEffect(() => {
@@ -27,6 +27,7 @@ export const AppRouters = () => {
     return (
         <Routes>
             <Route>
+            <Route path="/" element={<Login />} />
             <Route path="/profile" element={<ProtectedRoute><ProfileDetails emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]} /></ProtectedRoute>} />
             <Route path="/team" element={<ProtectedRoute><TeamPage emailAddress={email} name={m_strUser[0] + " " + m_strUser[1]} /></ProtectedRoute>} />
             <Route path="/addokr" element={<ProtectedRoute><AddOkrPage name={m_strUser[0] + " " + m_strUser[1]} /></ProtectedRoute>} />
