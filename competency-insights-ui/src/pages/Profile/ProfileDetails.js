@@ -16,7 +16,7 @@ export const ProfileDetails = ({ emailAddress, name }) => {
     const [category, setCategory] = useState("Blogs");
     const { instance } = useMsal();
     //retriving eamil from the context provider
-    const {employees,fetchData} = useDataProvider()
+    const {employees,okrData} = useDataProvider()
     const email=sessionStorage.getItem("email");
     console.log('profile page,', email)
     const { data: categoriesData, isLoading: categoriesIsLoading } = useDataFetching('Data/categories.json', instance);
@@ -26,31 +26,7 @@ export const ProfileDetails = ({ emailAddress, name }) => {
                 if (email) {
 
                     setUser(employees)
-                    const storedOkrData = localStorage.getItem("okrsData");
-                    if (storedOkrData) {
-                        console.log(storedOkrData)
-                        setOKR(JSON.parse(storedOkrData));
-                    }
-                    else
-                    {
-                        const getOkrDataUrl = `http://localhost:8081/cs/nasher/okrdata/${email}`;
-                        const accessToken = sessionStorage.getItem("token");
-                       
-                        const okrsDataResponse = await fetch(getOkrDataUrl,
-                             {
-                            headers: {
-                                Authorization: `Bearer ${accessToken}`,
-                            },
-                        }
-                        );
-                        if (okrsDataResponse.ok) {
-
-                            const okrsData = await okrsDataResponse.json();
-                            setUser(employees);
-                            setOKR(okrsData);
-                            localStorage.setItem("okrsData" , JSON.stringify(okrsData));
-                        }
-                    }
+                    setOKR(okrData)
                 }
                 else{
                     setUser('loading');

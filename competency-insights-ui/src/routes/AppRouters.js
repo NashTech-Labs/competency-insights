@@ -28,9 +28,11 @@ export const AppRouters = () => {
 
     return (
       <>
+      <Routes>
+       <Route path="/" element={<Login/>} />
+      </Routes>
        <DataProvider>
         <Routes>
-          <Route path="/" element={<Login/>} />
           <Route path="/profile" element={<ProfileDetails name={m_strUser[0] + " " + m_strUser[1]} />} />
           <Route path="/team" element={<TeamPage  name={m_strUser[0] + " " + m_strUser[1]} />} />
           <Route path="/addokr" element={<AddOkrPage name={m_strUser[0] + " " + m_strUser[1]} />} />
@@ -38,7 +40,7 @@ export const AppRouters = () => {
           <Route path="/studio" element={<StudioPage name={m_strUser[0] + " " + m_strUser[1]} />}/>
         </Routes>
         </DataProvider>
-      </> 
+     </>
        
     )
 }

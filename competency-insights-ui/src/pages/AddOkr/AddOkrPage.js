@@ -3,6 +3,7 @@ import { FormElement } from './components/FormElement';
 import { useNavigate } from "react-router-dom";
 import { PermanentDrawerLeft } from "../../components/Layout/NavBar";
 import Button from '@mui/material/Button';
+import { useDataProvider } from '../../services/dataService';
 
 export const AddOkrPage = ({name}) => {
   const navigate = useNavigate();
@@ -15,22 +16,23 @@ export const AddOkrPage = ({name}) => {
     dueDate: '',
     description: '',
   });
-
+  const {employees} =useDataProvider()
   useEffect(() => {
-    const storedUserData = localStorage.getItem("userData");
-    if (storedUserData) {
-      const userData = JSON.parse(storedUserData);
+    if (employees) {
       setFormData(prevFormData => ({
         ...prevFormData,
-        competency: userData.department
+        competency: employees.department
       }));
     }
   }, []);
 
   const addOkrPageUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_ADD_OKR_PAGE_URL}`;
 
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+    
+    
 
     try {
       const accessToken = sessionStorage.getItem("token");

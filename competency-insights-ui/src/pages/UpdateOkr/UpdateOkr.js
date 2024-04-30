@@ -6,6 +6,7 @@ import TextField from '@mui/material/TextField';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import { useDataProvider } from '../../services/dataService';
 
 const title1 = [
     { title: 'Java'},
@@ -94,6 +95,7 @@ export const UpdateOkr = ({emailAddress, name}) => {
   const handleDescriptionChange = (event) => {
     setDescription(event.target.value);
   };
+  const {fetchOKRData} =useDataProvider();
 
   const handleSubmit = (event) => {
     alert('OKR Updated');
@@ -106,8 +108,11 @@ export const UpdateOkr = ({emailAddress, name}) => {
       dueDate,
       submitDate,
       description,
-    });
+    }
+  );
     // Add your form submission logic here
+
+     fetchOKRData();
   };
 
   const handleCancel = () => {

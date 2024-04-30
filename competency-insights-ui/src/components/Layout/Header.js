@@ -44,11 +44,6 @@ export const Header = ({name}) => {
             postLogoutRedirectUri: "/",
         });
     };
-
-    const handleReloadData = () => {
-        fetchData(); // Call fetchData to reload data from the context provider
-    };
-
     const headerHeight = headerRef.current ? headerRef.current.clientHeight : 0;
 
     return (
@@ -61,7 +56,6 @@ export const Header = ({name}) => {
                     <div>
                         <span onClick={() => setDarkMode(!darkMode)} className="cursor-pointer text-xl text-gray-700 dark:text-white mr-5 bi bi-gear-wide-connected" style={{ fontSize: '2rem',  marginRight: '70px' }}></span>
                         <span onClick={() => setShouldDropDownOpen(!shouldDropDownOpen)} className="bi bi-person-circle cursor-pointer text-2xl text-gray-700 dark:text-white" style={{ fontSize: '2rem', marginRight: '50px'}}></span>
-                        <button onClick={handleReloadData} className="bi bi-arrow-clockwise cursor-pointer text-2xl text-gray-700 dark:text-white" style={{ fontSize: '2rem' }}></button>
                         {shouldDropDownOpen && 
                             <div id="dropdownAvatar" className="select-none absolute top-full right-0 z-10 w-[200px]  bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600" style={{ top: headerHeight }}>
                                 <div className="py-3 px-4 text-[1rem] text-sm text-gray-900 dark:text-white">

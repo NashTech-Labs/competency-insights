@@ -2,6 +2,7 @@ import {DropdownMenu} from "./DropdownMenu";
 
 export const Contribution = ({ contributionType }) => {
   if (!contributionType) {
+    console.log("***********",contributionType)
     return <div>No data available</div>;
   }
 

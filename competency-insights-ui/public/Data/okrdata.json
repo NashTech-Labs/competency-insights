@@ -1,0 +1,29 @@
+[
+    {
+        "emailId": "Shiv.Oberoi@nashtechglobal.com",
+        "name": "Shiv Suraj Oberoi",
+        "competency": "Java Competency",
+        "activity": "Blogs",
+        "radarTechnology": "Reactjs",
+        "title":"Getting Started with Reactjs",
+        "dueDate": "12-09-2024",
+        "submissionDate": "12-09-2024",
+        "link":"URL",
+        "status": "Draft",
+        "description": "Review comments recevied by the Reviewer"
+    },
+    {
+        "emailId": "Shiv.Oberoi@nashtechglobal.com",
+        "name": "Shiv Suraj Oberoi",
+        "competency": "Java Competency",
+        "activity": "TechHub",
+        "radarTechnology": "Reactjs",
+        "title":"Use-State TechHub",
+        "dueDate": "12-09-2024",
+        "submissionDate": "12-09-2024",
+        "link":"URL",
+        "status": "Draft",
+        "description": "Review comments recevied by the Reviewer"
+    }
+]
+   
