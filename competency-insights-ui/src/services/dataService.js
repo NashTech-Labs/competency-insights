@@ -16,14 +16,8 @@ export const DataProvider = ({ children }) => {
     try {
       // Retrieve the access token from session storage
       const accessToken = sessionStorage.getItem("token");
-      const requestOptions = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      };
       const profileUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/${email}`;
       const data = await UseDataFetching(profileUrl)
-      console.log("-----",data)
       setEmployees(data);
   
     } catch (error) {
@@ -37,7 +31,6 @@ export const DataProvider = ({ children }) => {
     try {
       const okrUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_GET_OKR_PAGE_URL}/${email}`;
       const okrData= await UseDataFetching(okrUrl)
-      console.log("-----",okrData)
       setOkrData(okrData);
     } catch (error) {
       console.error('There was a problem fetching OKR data:', error);
@@ -53,7 +46,6 @@ export const DataProvider = ({ children }) => {
     try {
       const studioDataUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_GET_OKR_PAGE_URL}`;
       const studioData = await UseDataFetching(studioDataUrl)
-      console.log("-----*****",studioData)
       setStudioData(studioData);
     } catch (error) {
       console.error('There was a problem fetching studio data:', error);
@@ -65,10 +57,8 @@ export const DataProvider = ({ children }) => {
     const fetchData = async () => {
       try {
         const email = sessionStorage.getItem("email");
-  
         await fetchEmployeeData(email);
         await fetchOKRData(email);
-  
         setLoading(false);
       } catch (error) {
         console.error('There was a problem with the fetch operation:', error);

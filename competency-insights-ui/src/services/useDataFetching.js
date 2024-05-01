@@ -14,7 +14,6 @@ const UseDataFetching = async (url) => {
       throw new Error('Failed to fetch data');
     }
     const result = await dataResponse.json();
-    console.log("******", result);
     return result;
   } catch (error) {
     console.log(error);

@@ -8,6 +8,7 @@ import { SkeletonProfile } from "../../components/Layout/SkeletonProfile";
 import useDataFetching from "../../services/useDataFetching";
 import {useMsal} from "@azure/msal-react";
 import { useDataProvider } from '../../services/dataService';
+import UseDataFetching from "../../services/useDataFetching";
 
 export const ProfileDetails = ({ emailAddress, name }) => {
     const [user, setUser] = useState(null);
@@ -18,13 +19,18 @@ export const ProfileDetails = ({ emailAddress, name }) => {
     //retriving eamil from the context provider
     const {employees,okrData} = useDataProvider()
     const email=sessionStorage.getItem("email");
-    console.log('profile page,', email)
-    const { data: categoriesData, isLoading: categoriesIsLoading } = useDataFetching('Data/categories.json', instance);
+   
+    const getCategory =async() =>{
+        const categoriesData = await UseDataFetching('Data/categories.json');
+        if (categoriesData) {
+            setCategories(categoriesData);
+        }
+    }
     useEffect(() => {
         const fetchUserData = async () => {
             try {
                 if (email) {
-
+                    getCategory();
                     setUser(employees)
                     setOKR(okrData)
                 }
@@ -39,18 +45,12 @@ export const ProfileDetails = ({ emailAddress, name }) => {
         fetchUserData();
     }, [email]);
 
-    useEffect(() => {
-        if (categoriesData) {
-            setCategories(categoriesData);
-        }
-    }, [categoriesData]);
-
     const handleCategoryClick = (selectedCategory) => {
         setCategory(selectedCategory);
     };
 
     let content;
-    if (user === 'loading' || categoriesIsLoading) {
+    if (user === 'loading') {
         content = <SkeletonProfile />;
     } else if (user === null) {
         content = (
