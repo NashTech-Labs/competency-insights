@@ -68,6 +68,11 @@ export const AddOkrPage = ({name}) => {
     navigate("/updateokr");
   };
 
+  const handleViewOKRClick = () => {
+    console.log("View OKR button clicked");
+    navigate("/viewokr");
+  };
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({
@@ -81,12 +86,16 @@ export const AddOkrPage = ({name}) => {
       <PermanentDrawerLeft name = {name} />
       <div className="w-1/2 flex justify-center mt-20 mb-0">
         <div className="bg-gray-300 py-4 px-6 w-full mb-0 rounded-t-md flex justify-between items-center">
-          <button onClick={handleAddOKRClick} className="w-1/2 py-2 px-4 mb-0 rounded focus:outline-none focus:shadow-outline font-bold text-lg flex items-center justify-center">
+          <button onClick={handleAddOKRClick} className="w-1/3 py-2 px-4 mb-0 rounded focus:outline-none focus:shadow-outline font-bold text-lg flex items-center justify-center">
            Add OKR
           </button>
           <div className="h-full border-l border-gray-500"></div>
-          <button onClick={handleUpdateOKRClick} className="w-1/2 py-2 px-4 mb-0 rounded focus:outline-none focus:shadow-outline font-bold text-lg flex items-center justify-center">
+          <button onClick={handleUpdateOKRClick} className="w-1/3 py-2 px-4 mb-0 rounded focus:outline-none focus:shadow-outline font-bold text-lg flex items-center justify-center">
            Update OKR
+          </button>
+          <div className="h-full border-l border-gray-500"></div>
+          <button onClick={handleViewOKRClick} className="w-1/3 py-2 px-4 mb-0 rounded focus:outline-none focus:shadow-outline font-bold text-lg flex items-center justify-center">
+            View OKR
           </button>
         </div>
       </div>

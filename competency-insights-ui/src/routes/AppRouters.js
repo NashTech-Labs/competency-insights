@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import {AddOkrPage, Login, ProfileDetails, TeamPage, UpdateOkr, StudioPage} from "../pages";
+import {AddOkrPage, Login, ProfileDetails, TeamPage, UpdateOkr, StudioPage, ViewOkrPage} from "../pages";
 import {ProtectedRoute} from "./ProtectedRoute";
 import { useMsal } from "@azure/msal-react";
 import { DataProvider } from "../services/dataService";

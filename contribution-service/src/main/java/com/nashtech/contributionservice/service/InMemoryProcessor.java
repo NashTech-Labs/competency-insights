@@ -1,13 +1,15 @@
 package com.nashtech.contributionservice.service;
 
 import com.nashtech.contributionservice.entity.Nasher;
+import com.nashtech.contributionservice.entity.OKRDataEntity;
 import com.nashtech.contributionservice.exception.NasherNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import java.util.WeakHashMap;
+
+import java.util.*;
 
 
 @Profile("local")
@@ -15,6 +17,7 @@ import java.util.WeakHashMap;
 @Slf4j
 public class InMemoryProcessor implements Processor {
     private final WeakHashMap<String, Nasher> inMemoryData = new WeakHashMap<>();
+    private final Map<String, List<OKRDataEntity>> inMemoryOKRData = new HashMap<>();
 
     @Override
     public void saveNasher(Nasher info) {
@@ -42,5 +45,48 @@ public class InMemoryProcessor implements Processor {
     public Flux<Nasher> getNashers() {
         log.info("Retrieving Nasher data from local [InMemory]");
         return Flux.fromStream(inMemoryData.values().stream());
+    }
+    @Override
+    public void saveOKRData(OKRDataEntity okrData, String emailId, String name) {
+        List<OKRDataEntity> dataList = inMemoryOKRData.getOrDefault(emailId, new ArrayList<>());
+        dataList.add(okrData);
+        log.info("Data saved in local [InMemory]");
+        inMemoryOKRData.put(emailId, dataList);
+    }
+
+    @Override
+    public List<OKRDataEntity> getOKRData() {
+        List<OKRDataEntity> result = new ArrayList<>();
+        log.info("Retrieving OKR data from local [InMemory]");
+        inMemoryOKRData.values().forEach(result::addAll);
+        return result;
+    }
+
+    @Override
+    public void deleteAllOKRData() {
+        log.info("Deleting OKR data from local [InMemory]");
+        inMemoryOKRData.clear();
+    }
+
+    @Override
+    public List<OKRDataEntity> getOKRDataByEmail(String email) {
+        log.info("Retrieving OKR data from local [InMemory] by emailId");
+        return inMemoryOKRData.getOrDefault(email, new ArrayList<>());
+    }
+
+    @Override
+    public void updateOKRData(String emailId, String activity, String title, OKRDataEntity updatedData) {
+        List<OKRDataEntity> dataList = inMemoryOKRData.getOrDefault(emailId, new ArrayList<>());
+        dataList.stream()
+                .filter(okrData -> okrData.getActivity().equals(activity) && okrData.getTitle().equals(title))
+                .findFirst()
+                .ifPresent(existingData -> {
+                    existingData.setDueDate(updatedData.getDueDate());
+                    existingData.setSubmissionDate(updatedData.getSubmissionDate());
+                    existingData.setLink(updatedData.getLink());
+                    existingData.setStatus(updatedData.getStatus());
+                    existingData.setDescription(updatedData.getDescription());
+                });
+        log.info("Updating the data from local [InMemory]");
     }
 }

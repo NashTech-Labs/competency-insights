@@ -128,6 +128,11 @@ export const UpdateOkr = ({emailAddress, name}) => {
     navigate("/updateokr");
   };
 
+  const handleViewOKRClick = () => {
+    console.log("View OKR button clicked");
+    navigate("/viewokr");
+  };
+
   const defaultProps = {
     options: title1,
     getOptionLabel: (option) => option.title,
@@ -146,6 +151,10 @@ export const UpdateOkr = ({emailAddress, name}) => {
           <button onClick={handleUpdateOKRClick} className="w-1/2 py-2 px-4 mb-0 rounded focus:outline-none focus:shadow-outline font-bold text-lg">
             Update OKR
           </button>
+          <div className="h-full border-l border-gray-500"></div>
+          <button onClick={handleViewOKRClick} className="w-1/2 py-2 px-4 mb-0 rounded focus:outline-none focus:shadow-outline font-bold text-lg">
+          View OKR
+        </button>
         </div>
       </div>
       <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-1/2">
