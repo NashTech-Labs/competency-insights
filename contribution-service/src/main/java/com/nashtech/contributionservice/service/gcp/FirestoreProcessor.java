@@ -50,6 +50,7 @@ public class FirestoreProcessor implements Processor {
     public Mono<Nasher> getNasherByEmail(String email) {
         return firestoreRepository.findByEmail(email);
     }
+
     @Override
     public Flux<Nasher> getNashers() {
         return firestoreRepository.findAll();
