@@ -10,7 +10,7 @@ export const DataProvider = ({ children }) => {
   const [okrData, setOkrData] = useState([]);
   const [studioData, setStudioData] = useState([]);
   const [loading, setLoading] = useState(true);
-  // Separate function to fetch employee data
+  const [okrDataFetched, setOKRDataFetched] = useState(false); // New state to track OKR data fetching
   
   const fetchEmployeeData = async (email) => {
     try {
@@ -29,14 +29,15 @@ export const DataProvider = ({ children }) => {
   // Separate function to fetch OKR data
   const fetchOKRData = async (email) => {
     try {
+      setOKRDataFetched(false)
       const okrUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_GET_OKR_PAGE_URL}/${email}`;
       const okrData= await UseDataFetching(okrUrl)
       setOkrData(okrData);
+      await new Promise(resolve => setTimeout(resolve, 5000));
+      setOKRDataFetched(true)
     } catch (error) {
       console.error('There was a problem fetching OKR data:', error);
       throw error;
-
-     
     }
     
   };
@@ -69,7 +70,7 @@ export const DataProvider = ({ children }) => {
   }, []);
   
   return (
-    <EmployeeContext.Provider value={{ employees, okrData, studioData, fetchStudioData ,fetchOKRData }}>
+    <EmployeeContext.Provider value={{ employees, okrData, studioData, fetchStudioData ,fetchOKRData,okrDataFetched}}>
       {loading ? <SkeletonProfile/> : children}
     </EmployeeContext.Provider>
   );

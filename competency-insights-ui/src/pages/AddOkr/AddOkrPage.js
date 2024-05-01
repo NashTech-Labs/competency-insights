@@ -16,7 +16,7 @@ export const AddOkrPage = ({name}) => {
     dueDate: '',
     description: '',
   });
-  const {employees} =useDataProvider()
+  const {employees,okrDataFetched,fetchOKRData} =useDataProvider()
   useEffect(() => {
     if (employees) {
       setFormData(prevFormData => ({
@@ -30,10 +30,9 @@ export const AddOkrPage = ({name}) => {
 
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    
-    
 
+    event.preventDefault();
+    await fetchOKRData(sessionStorage.getItem("email"))
     try {
       const accessToken = sessionStorage.getItem("token");
       const response = await fetch(addOkrPageUrl, {
@@ -109,7 +108,7 @@ export const AddOkrPage = ({name}) => {
           </div>
         </div>
         <div className="flex justify-between">
-          <Button type="submit" variant="contained" color="success" >Submit</Button>
+          <Button type="submit" variant="contained" color="success" disabled={!okrDataFetched}>Submit</Button>
           <Button type="button" variant="contained" color="error" >Cancel</Button>
         </div>
       </form>
