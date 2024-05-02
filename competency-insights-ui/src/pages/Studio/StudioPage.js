@@ -27,8 +27,6 @@ export const StudioPage = ({ name }) => {
     fetchData();
   }, []);
 
-  console.log("---------------", studioData)
-
   const columnDefs = [
     { headerName: 'Competency', field: 'competency', filter: true },
     { headerName: 'Name', field: 'name', filter: true },

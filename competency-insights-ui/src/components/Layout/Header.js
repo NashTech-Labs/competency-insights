@@ -3,14 +3,14 @@ import { useMsal } from "@azure/msal-react";
 import { Link } from 'react-router-dom';
 import { useDataProvider } from '../../services/dataService';
 
-export const Header = ({name}) => {
+export const Header = () => {
     const { instance } = useMsal();
     const [darkMode, setDarkMode] = useState(JSON.parse(localStorage.getItem("darkMode")) || false);
     const [shouldDropDownOpen, setShouldDropDownOpen] = useState(false);
     const headerRef = useRef(null);
     //retriving name from the context provider
-    const {employees,fetchData} = useDataProvider()
-    const employeeName=employees.name
+    const {user} = useDataProvider()
+    const employeeName=user.name
     useEffect(() => {
         localStorage.setItem("darkMode", JSON.stringify(darkMode));
 

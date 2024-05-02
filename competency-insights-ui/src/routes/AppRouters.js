@@ -4,28 +4,26 @@ import {AddOkrPage, Login, ProfileDetails, TeamPage, UpdateOkr, StudioPage, View
 import {ProtectedRoute} from "./ProtectedRoute";
 import { useMsal } from "@azure/msal-react";
 import { DataProvider } from "../services/dataService";
-
+ 
 export const AppRouters = () => {
-
+ 
     const [m_strUser, setm_strUser] = useState("");
     const [email, setEmail] = useState("");
     const { accounts } = useMsal();
-
-    useEffect(() => {
-        try {
-          if (accounts && accounts.length > 0) {
-            const username = accounts[0].username;
-            setEmail(username);
-            const profileName = username.substring(0, username.indexOf('@'));
-            setm_strUser(profileName.split("."));
-          }
-        } catch (e) {
-          console.error("Error while fetching username:", e);
-        }
-        sessionStorage.setItem("email",'Shiv.Oberoi@nashtechglobal.com')
-        // Shiv.Oberoi@nashtechglobal.com
-      }, [accounts]);
-
+ 
+    // useEffect(() => {
+    //     try {
+    //       if (accounts && accounts.length > 0) {
+    //         const username = accounts[0].username;
+    //         setEmail(username);
+    //         const profileName = username.substring(0, username.indexOf('@'));
+    //         setm_strUser(profileName.split("."));
+    //       }
+    //     } catch (e) {
+    //       console.error("Error while fetching username:", e);
+    //     }
+    //   }, [accounts]);
+ 
     return (
       <>
       <Routes>
@@ -44,4 +42,3 @@ export const AppRouters = () => {
        
     )
 }
-                                                                             

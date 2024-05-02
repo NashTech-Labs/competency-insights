@@ -1,24 +1,39 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import UseDataFetching from './useDataFetching';
 import { SkeletonProfile } from '../components/Layout/SkeletonProfile';
+import { useMsal } from '@azure/msal-react';
 
 // Create a context
 const EmployeeContext = createContext();
-
 export const DataProvider = ({ children }) => {
-  const [employees, setEmployees] = useState([]);
-  const [okrData, setOkrData] = useState([]);
+  const [user, setUser] = useState([]);
+  const [okr, setOKR] = useState([]);
   const [studioData, setStudioData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [email, setEmail] = useState("");
+  const { accounts } = useMsal();
+  const getEmailFromAzureDirectory =async() =>{
+    try {
+      // if (accounts && accounts.length > 0) {
+      //   const username = accounts[0].username;
+         const username="Ankit.Mogha@nashtechglobal.com"
+        //  setEmail("Ankit.Mogha@nashtechglobal.com");
+        //  console.log("-----1",email)
+         return username;
+      // }
+      
+    } catch (error) {
+      console.error("Error while fetching username:", error);
+    }
+  }
+
   // Separate function to fetch employee data
   
   const fetchEmployeeData = async (email) => {
     try {
-      // Retrieve the access token from session storage
-      const accessToken = sessionStorage.getItem("token");
       const profileUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/${email}`;
       const data = await UseDataFetching(profileUrl)
-      setEmployees(data);
+      setUser(data);
   
     } catch (error) {
       console.error('There was a problem fetching employee data:', error);
@@ -30,13 +45,11 @@ export const DataProvider = ({ children }) => {
   const fetchOKRData = async (email) => {
     try {
       const okrUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_GET_OKR_PAGE_URL}/${email}`;
-      const okrData= await UseDataFetching(okrUrl)
-      setOkrData(okrData);
+      const okrdata= await UseDataFetching(okrUrl)
+      setOKR(okrdata);
     } catch (error) {
       console.error('There was a problem fetching OKR data:', error);
       throw error;
-
-     
     }
     
   };
@@ -56,7 +69,7 @@ export const DataProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const email = sessionStorage.getItem("email");
+       const email = await getEmailFromAzureDirectory();
         await fetchEmployeeData(email);
         await fetchOKRData(email);
         setLoading(false);
@@ -69,7 +82,7 @@ export const DataProvider = ({ children }) => {
   }, []);
   
   return (
-    <EmployeeContext.Provider value={{ employees, okrData, studioData, fetchStudioData ,fetchOKRData }}>
+    <EmployeeContext.Provider value={{ user, okr, studioData, fetchStudioData ,fetchOKRData }}>
       {loading ? <SkeletonProfile/> : children}
     </EmployeeContext.Provider>
   );

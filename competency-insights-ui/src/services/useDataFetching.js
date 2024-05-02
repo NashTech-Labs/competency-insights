@@ -1,8 +1,6 @@
 const UseDataFetching = async (url) => {
   try {
-    // Retrieve the access token from session storage
     const accessToken = sessionStorage.getItem("token");
-    // Include the bearer token in the request headers
     const requestOptions = {
       headers: {
         Authorization: `Bearer ${accessToken}`
@@ -15,9 +13,10 @@ const UseDataFetching = async (url) => {
     }
     const result = await dataResponse.json();
     return result;
-  } catch (error) {
-    console.log(error);
-    throw error; // Re-throw the error to handle it in the calling code
+  } 
+  catch (error) {
+    console.log("error while fetching the data", error);
+    throw error; 
   }
 };
 

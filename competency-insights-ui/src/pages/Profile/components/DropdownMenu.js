@@ -9,12 +9,12 @@ export const DropdownMenu = () => {
   const [openModal, setOpenModal] = useState(false);
 
   const handleDetailsClick = () => {
-    setOpenDropdown(false); // Close the dropdown
-    setOpenModal(true); // Open the modal
+    setOpenDropdown(false); 
+    setOpenModal(true);
   };
 
   const handleCloseModal = () => {
-    setOpenModal(false); // Close the modal
+    setOpenModal(false); 
   };
 
   return (

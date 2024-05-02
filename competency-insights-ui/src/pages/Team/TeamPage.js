@@ -6,38 +6,42 @@ import { useDataProvider } from '../../services/dataService';
 import { SkeletonProfile } from '../../components/Layout/SkeletonProfile';
 
 export const TeamPage = () => {
-  const {employees,fetchData} = useDataProvider()
+  const {user} = useDataProvider()
  
   const [memberData, setMemberData] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [error, setError] =useState(false);
   useEffect(() => {
     const fetchMemberData = async () => {
-      const memberPromises = employees.reportingMembers.map(async (reportingMember) => {
-        console.log('Reporting members data -->',reportingMember)
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/${reportingMember}`);
-        const data = await response.json();
-        setLoading(false)
-        return data;
-      });
-      const memberData = await Promise.all(memberPromises);
-      setMemberData(memberData);
-      console.log(memberData)
+      try {
+        const memberPromises = user.reportingMembers.map(async (reportingMember) => {
+          const response = await fetch(`${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/${reportingMember}`);
+          if (!response.ok) {
+            throw new Error(`Failed to fetch data for ${reportingMember}`);
+          }
+          const data = await response.json();
+          setLoading(false);
+          return data;
+        });
+        const memberData = await Promise.all(memberPromises);
+        setMemberData(memberData);
+      } catch (error) {
+        console.error('Error fetching member data:', error);
+      }
     };
- 
+  
     fetchMemberData();
-  }, [employees.reportingMembers]);
+  }, [user.reportingMembers]);
+  
  
-  //retriving eamil from the context provider
-  const email =employees.email
-  console.log('fetching email to team page',email)
+
   return(
    <div>
    <PermanentDrawerLeft  />
      <div>
        <Reports/>
      </div>
-     {loading ? <SkeletonProfile/>:
+     {loading ? <SkeletonProfile/> :
      <div className="flex justify-center ml-60 px-20">
        {memberData.map((employee, index) => (
          <ReportingMembers key={index} employee={employee}/>
