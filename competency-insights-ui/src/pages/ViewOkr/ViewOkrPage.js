@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css"; 
 import React, { useState, useEffect } from 'react';
+import { useDataProvider } from "../../services/dataService";
 
-export const ViewOkrPage = ({ emailAddress, name }) => {
+export const ViewOkrPage = ({ name }) => {
     const navigate = useNavigate();
-    const [rowData, setRowData] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const {okr}=useDataProvider();
     const defaultColDef = {
         width: 200, 
         height: 800,
@@ -17,28 +17,6 @@ export const ViewOkrPage = ({ emailAddress, name }) => {
         floatingFilter: true, 
         resizable: true, 
     };
-
-    const okrDataUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_GET_OKR_PAGE_URL}/${emailAddress}`;
-
-    useEffect(() => {
-      fetchBackendData()
-          .then((response) => {
-              console.log('Fetched data:', response);
-              setRowData(response);
-              setLoading(false);
-          })
-          .catch((error) => {
-              console.error('Error fetching data:', error);
-              setLoading(false);
-          });
-  }, []);
-
-  const fetchBackendData = async () => {
-    const response = await fetch(okrDataUrl);
-    const data = await response.json();
-    console.log(data);
-    return data;
-  };
 
   const columnDefs = [
     { headerName: 'Competency', field: 'competency', filter: true },
@@ -86,7 +64,7 @@ export const ViewOkrPage = ({ emailAddress, name }) => {
               </button>
             </div>
             <AgGridReact
-              rowData={rowData}
+              rowData={okr}
               columnDefs={columnDefs}
               defaultColDef={defaultColDef}
               domLayout='autoHeight' 

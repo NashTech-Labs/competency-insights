@@ -44,7 +44,7 @@ export const DataProvider = ({ children }) => {
   // Separate function to fetch OKR data
   const fetchOKRData = async (email) => {
     try {
-      const okrUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_GET_OKR_PAGE_URL}/${email}`;
+      const okrUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_GET_OKR_PAGE_URL}/email/${email}`;
       const okrdata= await UseDataFetching(okrUrl)
       setOKR(okrdata);
     } catch (error) {
