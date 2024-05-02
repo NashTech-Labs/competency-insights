@@ -35,7 +35,9 @@ export const AppRouters = () => {
           <Route path="/team" element={<TeamPage  name={m_strUser[0] + " " + m_strUser[1]} />} />
           <Route path="/addokr" element={<AddOkrPage name={m_strUser[0] + " " + m_strUser[1]} />} />
           <Route path="/updateokr" element={<UpdateOkr name={m_strUser[0] + " " + m_strUser[1]} />}/>
+          <Route path="/viewokr" element={<ViewOkrPage  name={m_strUser[0] + " " + m_strUser[1]}/>}/>
           <Route path="/studio" element={<StudioPage name={m_strUser[0] + " " + m_strUser[1]} />}/>
+          
         </Routes>
         </DataProvider>
      </>
