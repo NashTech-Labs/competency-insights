@@ -6,8 +6,6 @@ import com.nashtech.contributionservice.exception.NasherNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -27,26 +25,28 @@ public class InMemoryProcessor implements Processor {
     }
 
     @Override
-    public Mono<Nasher> getNasherInfo(String empId) {
+    public Nasher getNasherInfo(String empId) {
         log.info("Retrieving Nasher data from local [InMemory] by Employee Id: {}", empId);
-        if (inMemoryData.get(empId) == null) {
+        Nasher nasher = inMemoryData.get(empId);
+        if (nasher == null) {
             throw new NasherNotFoundException(empId);
         }
-        return Mono.just(inMemoryData.get(empId));
+        return nasher;
     }
 
     @Override
-    public Mono<Nasher> getNasherByEmail(String email) {
-        return Flux.fromIterable(inMemoryData.values())
-                .filter(nasher -> email.equals(nasher.getEmail()))
-                .next()
-                .switchIfEmpty(Mono.error(new NasherNotFoundException("Nasher not found for email: " + email)));
+    public Nasher getNasherByEmail(String email) {
+        Nasher nasher = inMemoryData.values().stream()
+                .filter(n -> email.equals(n.getEmail()))
+                .findFirst()
+                .orElseThrow(() -> new NasherNotFoundException("Nasher not found for email: " + email));
+        return nasher;
     }
 
     @Override
-    public Flux<Nasher> getNashers() {
+    public List<Nasher> getNashers() {
         log.info("Retrieving Nasher data from local [InMemory]");
-        return Flux.fromStream(inMemoryData.values().stream());
+        return new ArrayList<>(inMemoryData.values());
     }
 
     @Override

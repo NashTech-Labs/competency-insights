@@ -38,23 +38,24 @@ public class FirestoreProcessor implements Processor {
 
     @Override
     public void saveNasher(Nasher info) {
-        firestoreRepository.save(info).doOnError(Throwable::printStackTrace).subscribe();
+        firestoreRepository.save(info);
     }
 
     @Override
-    public Mono<Nasher> getNasherInfo(String empId) {
+    public Nasher getNasherInfo(String empId) {
         return firestoreRepository.findByEmpId(empId);
     }
 
     @Override
-    public Mono<Nasher> getNasherByEmail(String email) {
+    public Nasher getNasherByEmail(String email) {
         return firestoreRepository.findByEmail(email);
     }
 
     @Override
-    public Flux<Nasher> getNashers() {
+    public List<Nasher> getNashers() {
         return firestoreRepository.findAll();
     }
+
 
     @Override
     public void saveOKRData(OKRDataEntity okrData, String emailId, String name, String competency) {
