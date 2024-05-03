@@ -6,11 +6,11 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import { useDataProvider } from '../../services/dataService';
 
-export const StudioPage = ({ name }) => {
+export const StudioPage = () => {
 
-  const { studioData,fetchStudioData } = useDataProvider();
+  const { user,studioData,fetchStudioData } = useDataProvider();
   const [loading, setLoading] = useState(true);
-
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -25,6 +25,7 @@ export const StudioPage = ({ name }) => {
     };
 
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const columnDefs = [
@@ -41,7 +42,7 @@ export const StudioPage = ({ name }) => {
 
   return (
     <>
-      <PermanentDrawerLeft name={name} />
+      <PermanentDrawerLeft name={user.name} />
       <div className='flex justify-center ml-60 px-20'>
         {loading ? (
           <SkeletonProfile />

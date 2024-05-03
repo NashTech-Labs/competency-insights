@@ -43,7 +43,7 @@ const statuses = [
   'Under Review',
   'Published',
 ];
-export const UpdateOkr = ({emailAddress, name}) => {
+export const UpdateOkr = () => {
   
   const currentDate = new Date().toISOString().split('T')[0];
   const navigate = useNavigate();
@@ -55,7 +55,7 @@ export const UpdateOkr = ({emailAddress, name}) => {
   const [dueDate, setDueDate] = useState(currentDate);
   const [submitDate, setSubmitDate] = useState(currentDate);
   const [description, setDescription] = useState('');
-
+  const {user} =useDataProvider();
   const handleActivityChange = (event) => {
     const {
       target: { value },
@@ -95,7 +95,6 @@ export const UpdateOkr = ({emailAddress, name}) => {
   const handleDescriptionChange = (event) => {
     setDescription(event.target.value);
   };
-  const {fetchOKRData} =useDataProvider();
 
   const handleSubmit = (event) => {
     alert('OKR Updated');
@@ -111,8 +110,6 @@ export const UpdateOkr = ({emailAddress, name}) => {
     }
   );
     // Add your form submission logic here
-
-     fetchOKRData();
   };
 
   const handleCancel = () => {
@@ -141,7 +138,7 @@ export const UpdateOkr = ({emailAddress, name}) => {
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-200 bg-opacity-30">
 
-    <PermanentDrawerLeft name = {name} />
+    <PermanentDrawerLeft name = {user.name} />
       <div className="w-1/2 flex justify-center mt-20 mb-0">
         <div className="bg-gray-300 py-4 px-6 w-full mb-0 rounded-t-md flex justify-between items-center">
           <button onClick={handleAddOKRClick} className="w-1/2 py-2 px-4 mb-0 rounded focus:outline-none focus:shadow-outline font-bold text-lg">
