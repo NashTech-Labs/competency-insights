@@ -52,7 +52,9 @@ public class OKRController {
         }
     }
 
-   @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
+
+
+    @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
     @GetMapping(value = "/nasher/okrdata", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getOKRData() {
         try {
@@ -77,7 +79,8 @@ public class OKRController {
         }
     }
 
-//    @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
+
+    @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
     @GetMapping(value = "/nasher/okrdata/email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getOKRByEmail(@PathVariable String email) {
         try {
