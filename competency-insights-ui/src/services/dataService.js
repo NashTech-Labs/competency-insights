@@ -15,7 +15,6 @@ export const DataProvider = ({ children }) => {
     try {
       if (accounts && accounts.length > 0) {
         const username = accounts[0].username;
-        //  const username="Ankit.Mogha@nashtechglobal.com"
          return username;
       }
       

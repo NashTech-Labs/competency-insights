@@ -2,7 +2,6 @@ import { DropdownMenu } from "./DropdownMenu";
 
 export const Contribution = ({ contributionType }) => {
   if (!contributionType) {
-    // return <div>No data available</div>;
     return (
       <div className="flex justify-center items-center h-screen">
         <img
