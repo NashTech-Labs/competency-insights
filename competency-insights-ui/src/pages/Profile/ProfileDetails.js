@@ -36,7 +36,7 @@ export const ProfileDetails = () => {
 
     let content;
 
-    if (!user) {
+    if (!user || user.length===0) {
         content = (
             <div className="flex justify-center items-center h-screen">
                 <img

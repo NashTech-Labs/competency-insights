@@ -1,15 +1,9 @@
 import { DropdownMenu } from "./DropdownMenu";
 
 export const Contribution = ({ contributionType }) => {
-  if (!contributionType) {
+  if (contributionType.length==0) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <img
-          src="/no_data_found.jpeg"
-          className="mx-auto"
-          alt="No data found"
-        />
-      </div>
+      <div></div>
     )
   }
   else {

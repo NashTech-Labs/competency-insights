@@ -11,23 +11,30 @@ export const TeamPage = () => {
  
   const [memberData, setMemberData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState(null);
   useEffect(() => {
     const fetchMemberData = async () => {
       try {
+
+        if (!user.reportingMembers || user.reportingMembers.length === 0) {
+          setLoading(false);
+          return; 
+        }
+  
         const memberPromises = user.reportingMembers.map(async (reportingMember) => {
           const memberUrl=`${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/${encodeURIComponent(reportingMember)}`;
-          const response = UseDataFetching(memberUrl);
-          if (!response.ok) {
+          const response =  await UseDataFetching(memberUrl);
+          if (response==null || !response) {
             throw new Error(`Failed to fetch data for ${reportingMember}`);
           }
-          const data = await response.json();
           setLoading(false);
-          return data;
+          return response;
         });
         const memberData = await Promise.all(memberPromises);
         setMemberData(memberData);
       } catch (error) {
         setLoading(false)
+        setErr(error)
         console.error('Error fetching member data:', error);
       }
     };
@@ -50,6 +57,13 @@ export const TeamPage = () => {
        ))}
      </div>
       }
+      {err &&  <div className="flex justify-center items-center h-screen">
+      <img
+          src="/no_data_found.jpeg"
+          className="mx-auto"
+          alt="No data found"
+      />
+  </div>}
    </div>
   )
  }

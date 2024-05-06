@@ -32,6 +32,7 @@ export const DataProvider = ({ children }) => {
       setUser(data);
   
     } catch (error) {
+      setLoading(false)
       console.error('There was a problem fetching employee data:', error);
       throw error;
     }
@@ -41,15 +42,15 @@ export const DataProvider = ({ children }) => {
   const fetchOKRData = async (email) => {
     try {
       const okrUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_GET_OKR_PAGE_URL}/email/${encodeURIComponent(email)}`;
-      const okrdata= await UseDataFetching(okrUrl)
-      if(!okrdata){
-        setLoading(false);
+      const okrdata= await UseDataFetching(okrUrl);
+      if (!okrdata) {
+        throw new Error(`Failed to fetch okrdata`);
       }
       setOKR(okrdata);
     } catch (error) {
       setLoading(false);
       console.error('There was a problem fetching OKR data:', error);
-      throw error;
+      
     }
     
   };
