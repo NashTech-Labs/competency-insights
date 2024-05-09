@@ -21,11 +21,10 @@ export const ProfileDetails = () => {
         }
     }
 
-    // Refresh logic 
+    // Refreshing the okr and employee data on click 
     const onRefresh=async()=>{
        await fetchEmployeeData();
        await fetchOKRData();
-       console.log('refresh')
     }
         
 
