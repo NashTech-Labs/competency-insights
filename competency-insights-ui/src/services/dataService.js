@@ -24,13 +24,14 @@ export const DataProvider = ({ children }) => {
   }
 
   // Separate function to fetch employee data
-  
   const fetchEmployeeData = async (email) => {
     try {
-      const profileUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/${encodeURIComponent(email)}`;
+      // const profileUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/${encodeURIComponent(email)}`;
+      // const profileUrl = `http://localhost:8081/cs/nasher/email/Ankit.Mogha@nashtechglobal.com`;
+       const profileUrl = `http://localhost:8081/cs/nasher/email/Shiv.Oberoi@nashtechglobal.com`;
+
       const data = await UseDataFetching(profileUrl)
       setUser(data);
-  
     } catch (error) {
       setLoading(false)
       console.error('There was a problem fetching employee data:', error);
@@ -41,7 +42,8 @@ export const DataProvider = ({ children }) => {
   // Separate function to fetch OKR data
   const fetchOKRData = async (email) => {
     try {
-      const okrUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_GET_OKR_PAGE_URL}/email/${encodeURIComponent(email)}`;
+      // const okrUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_GET_OKR_PAGE_URL}/email/${encodeURIComponent(email)}`;
+      const okrUrl = `http://localhost:8081/cs/nasher/okrdata/Shiv.Oberoi@nashtechglobal.com`;
       const okrdata= await UseDataFetching(okrUrl);
       if (!okrdata) {
         throw new Error(`Failed to fetch okrdata`);
@@ -85,7 +87,7 @@ export const DataProvider = ({ children }) => {
   }, []);
   
   return (
-    <EmployeeContext.Provider value={{ user, okr, studioData, fetchStudioData ,fetchOKRData }}>
+    <EmployeeContext.Provider value={{ user, okr, studioData, fetchStudioData ,fetchOKRData,fetchEmployeeData }}>
       {loading ? <SkeletonProfile/> : children}
     </EmployeeContext.Provider>
   );

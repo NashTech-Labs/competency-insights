@@ -13,15 +13,14 @@ export const AppRouters = () => {
       </Routes>
        <DataProvider>
         <Routes>
-          <Route path="/profile" element={<ProtectedRoute><ProfileDetails /></ProtectedRoute>} />
-          <Route path="/team" element={<ProtectedRoute><TeamPage  /></ProtectedRoute> }/>
-          <Route path="/addokr" element={<ProtectedRoute><AddOkrPage /> </ProtectedRoute>}/>
-          <Route path="/updateokr" element={<ProtectedRoute><UpdateOkr /></ProtectedRoute>}/>
-          <Route path="/viewokr" element={<ProtectedRoute><ViewOkrPage /></ProtectedRoute>}/>
-          <Route path="/studio" element={<ProtectedRoute><StudioPage /></ProtectedRoute>}/>     
+          <Route path="/profile" element={<ProfileDetails/>} />
+          <Route path="/team" element={<TeamPage  />}/>
+          <Route path="/addokr" element={<AddOkrPage />}/>
+          <Route path="/updateokr" element={<UpdateOkr />}/>
+          <Route path="/viewokr" element={<ViewOkrPage />}/>
+          <Route path="/studio" element={<StudioPage />}/>  
         </Routes>
         </DataProvider>
      </>
-       
     )
 }
