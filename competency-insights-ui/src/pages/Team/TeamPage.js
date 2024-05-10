@@ -11,7 +11,7 @@ export const TeamPage = () => {
  
   const [memberData, setMemberData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [err, setErr] = useState(null);
+  const [error, setError] = useState(null);
   useEffect(() => {
     const fetchMemberData = async () => {
       try {
@@ -34,7 +34,7 @@ export const TeamPage = () => {
         setMemberData(memberData);
       } catch (error) {
         setLoading(false)
-        setErr(error)
+        setError(error)
         console.error('Error fetching member data:', error);
       }
     };
@@ -57,7 +57,7 @@ export const TeamPage = () => {
        ))}
      </div>
       }
-      {err &&  <div className="flex justify-center items-center h-screen">
+      {error &&  <div className="flex justify-center items-center h-screen">
       <img
           src="/no_data_found.jpeg"
           className="mx-auto"
