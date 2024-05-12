@@ -5,17 +5,15 @@ import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
 import { PermanentDrawerLeft } from "../../components/Layout/NavBar";
 import { useDataProvider } from '../../services/dataService';
 import UseDataFetching from "../../services/useDataFetching";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css"; 
 import ContributionGrid from "./components/ContributionGrid";
- 
-export const ProfileDetails = ({ name }) => {
+
+export const ProfileDetails = () => {
 
     const [categories, setCategories] = useState({});
-    const [category, setCategory] = useState("Blogs");
-    const {user,okr} = useDataProvider()
-   
-    const getCategory =async() =>{
+    const [category, setCategory] = useState("Blog");
+    const { user, okr } = useDataProvider()
+
+    const getCategory = async () => {
         const categoriesData = await UseDataFetching('Data/categories.json');
         if (categoriesData) {
             setCategories(categoriesData);
@@ -24,21 +22,21 @@ export const ProfileDetails = ({ name }) => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                    getCategory();
+                getCategory();
             } catch (error) {
                 console.error("Error fetching user data:", error);
             }
         };
         fetchUserData();
     }, []);
- 
+
     const handleCategoryClick = (selectedCategory) => {
         setCategory(selectedCategory);
     };
- 
+
     let content;
-  
-    if (!user) {
+
+    if (!user || user.length===0) {
         content = (
             <div className="flex justify-center items-center h-screen">
                 <img
@@ -122,42 +120,42 @@ export const ProfileDetails = ({ name }) => {
                         </div>
                     </div>
                 </div>
- 
+
                 <section className="w-full bg-white mt-4">
                     {user && (
                         <div className="lg:order-2 lg:w-1/2 p-2">
                             <table className="w-full">
                                 <tbody>
-                                <tr>
-                                    {Object.keys(categories).map((key) => (
-                                        <th
-                                            key={key}
-                                            className={`text-sm p-1 cursor-pointer ${category === categories[key] ? "bg-gray-300" : ""}`}
-                                            onClick={() => handleCategoryClick(categories[key])}
-                                        >
-                                            {categories[key]}
-                                        </th>
-                                    ))}
-                                </tr>
+                                    <tr>
+                                        {Object.keys(categories).map((key) => (
+                                            <th
+                                                key={key}
+                                                className={`text-sm p-1 cursor-pointer ${category === categories[key] ? "bg-gray-300" : ""}`}
+                                                onClick={() => handleCategoryClick(categories[key])}
+                                            >
+                                                {categories[key]}
+                                            </th>
+                                        ))}
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
                     )}
                 </section>
- 
-                {okr && (
+                {okr.length!==0 && (
                     <div>
                         <ContributionGrid contributionType={category ? okr.filter(okrs=> okrs.activity === category) : okr} />
+
                     </div>
                 )}
             </>
         );
     }
- 
+
     return (
         <>
-            <PermanentDrawerLeft name={name} />
-            <section className="bg-gray-200 p-4 min-h-screen ml-60 px-20 mt-10">
+            <PermanentDrawerLeft name={user.name} />
+            <section className="bg-gray-200 p-4 min-h-screen ml-40 px-20">
                 {content}
             </section>
         </>

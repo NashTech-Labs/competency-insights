@@ -10,17 +10,13 @@ export const DataProvider = ({ children }) => {
   const [okr, setOKR] = useState([]);
   const [studioData, setStudioData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [email, setEmail] = useState("");
   const { accounts } = useMsal();
   const getEmailFromAzureDirectory =async() =>{
     try {
-      // if (accounts && accounts.length > 0) {
-      //   const username = accounts[0].username;
-         const username="Ankit.Mogha@nashtechglobal.com"
-        //  setEmail("Ankit.Mogha@nashtechglobal.com");
-        //  console.log("-----1",email)
+      if (accounts && accounts.length > 0) {
+        const username = accounts[0].username;
          return username;
-      // }
+      }
       
     } catch (error) {
       console.error("Error while fetching username:", error);
@@ -31,11 +27,12 @@ export const DataProvider = ({ children }) => {
   
   const fetchEmployeeData = async (email) => {
     try {
-      const profileUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/${email}`;
+      const profileUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/${encodeURIComponent(email)}`;
       const data = await UseDataFetching(profileUrl)
       setUser(data);
   
     } catch (error) {
+      setLoading(false)
       console.error('There was a problem fetching employee data:', error);
       throw error;
     }
@@ -44,12 +41,16 @@ export const DataProvider = ({ children }) => {
   // Separate function to fetch OKR data
   const fetchOKRData = async (email) => {
     try {
-      const okrUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_GET_OKR_PAGE_URL}/${email}`;
-      const okrdata= await UseDataFetching(okrUrl)
+      const okrUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_GET_OKR_PAGE_URL}/email/${encodeURIComponent(email)}`;
+      const okrdata= await UseDataFetching(okrUrl);
+      if (!okrdata) {
+        throw new Error(`Failed to fetch okrdata`);
+      }
       setOKR(okrdata);
     } catch (error) {
+      setLoading(false);
       console.error('There was a problem fetching OKR data:', error);
-      throw error;
+      
     }
     
   };
@@ -79,6 +80,8 @@ export const DataProvider = ({ children }) => {
     };
   
     fetchData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
   return (
