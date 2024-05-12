@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
 import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
-import { Contribution } from "./components/Contribution";
 import { PermanentDrawerLeft } from "../../components/Layout/NavBar";
 import { useDataProvider } from '../../services/dataService';
 import UseDataFetching from "../../services/useDataFetching";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-alpine.css"; 
+import ContributionGrid from "./components/ContributionGrid";
  
 export const ProfileDetails = ({ name }) => {
 
@@ -145,7 +147,7 @@ export const ProfileDetails = ({ name }) => {
  
                 {okr && (
                     <div>
-                        <Contribution contributionType={category ? okr.filter(okrs=> okrs.activity === category) : okr} />
+                        <ContributionGrid contributionType={category ? okr.filter(okrs=> okrs.activity === category) : okr} />
                     </div>
                 )}
             </>
