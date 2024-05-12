@@ -1,5 +1,5 @@
 import Autocomplete from '@mui/material/Autocomplete';
-import React, { useState } from 'react';
+import React, {useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { PermanentDrawerLeft } from "../../components/Layout/NavBar";
 import TextField from '@mui/material/TextField';
@@ -7,21 +7,8 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
-const title1 = [
-    { title: 'Java'},
-    { title: 'Introduction to react'},
-    { title: 'blog 1'},
-];
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
-const ActivityProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
 const StatusProps = {
   PaperProps: {
     style: {
@@ -33,12 +20,13 @@ const StatusProps = {
 
 const activities = [
   'Blog',
-  'Techub',
+  'TechHub',
   'Certification',
   'Knolx',
 ];
 
 const statuses = [
+  'draft',
   'Under Review',
   'Published',
 ];
@@ -47,22 +35,23 @@ export const UpdateOkr = ({emailAddress, name}) => {
   const currentDate = new Date().toISOString().split('T')[0];
   const navigate = useNavigate();
 
-  const [activity, setActivity] = React.useState([]);
+  const [activity, setActivity] = React.useState('');
   const [status, setStatus] = React.useState([]);
+  const [titles, setTitles] = React.useState([]);
   const [title, setTitle] = React.useState(null);
-  const [link, setLink] = useState('');
-  const [dueDate, setDueDate] = useState(currentDate);
-  const [submitDate, setSubmitDate] = useState(currentDate);
-  const [description, setDescription] = useState('');
+  const [link, setLink] = React.useState('');
+  const [dueDate, setDueDate] = React.useState(currentDate);
+  const [submitDate, setSubmitDate] = React.useState(currentDate);
+  const [description, setDescription] = React.useState('');
 
   const handleActivityChange = (event) => {
     const {
       target: { value },
     } = event;
     setActivity(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
+      value
     );
+    console.log('Activity', value)
   };
 
   const handleStatusChange = (event) => {
@@ -95,19 +84,98 @@ export const UpdateOkr = ({emailAddress, name}) => {
     setDescription(event.target.value);
   };
 
-  const handleSubmit = (event) => {
-    alert('OKR Updated');
+  const okrDataUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_GET_OKR_PAGE_URL}/${emailAddress}`;
+
+  useEffect(() => {
+    const fetchTitles = async () => {
+      try {
+        const response = await fetch(okrDataUrl);
+        if (!response.ok) {
+          throw new Error('Failed to fetch titles');
+        }
+        const data = await response.json();
+        console.log('Fetched Data:', data);
+        const dataArray = Array.isArray(data) ? data : [data];
+        console.log(dataArray);
+        // Filter titles based on the selected activity
+        const filteredTitles = dataArray.filter(item => item.activity === activity).map(item => item.title);
+
+        console.log('Filtered Titles:', filteredTitles);
+  
+        // Set the filtered titles in the state
+        setTitles(filteredTitles);
+      } catch (error) {
+        console.error('Error fetching titles:', error);
+      }
+    };
+  
+    // Call fetchTitles only when activity is not empty
+    if (activity) {
+      fetchTitles();
+    }
+  }, [activity]);
+  
+  useEffect(() => {
+    const fetchDetails = async () => {
+      try {
+        const response = await fetch(okrDataUrl);
+        if (!response.ok) {
+          throw new Error('Failed to fetch details');
+        }
+        const data = await response.json();
+        const dataArray = Array.isArray(data) ? data : [data];
+        const selectedDetails = dataArray.find(item => item.title === title);
+        if (selectedDetails) {
+          const { dueDate: fetchedDueDate, submissionDate: fetchedSubmissionDate, status: fetchedStatus, description: fetchedDescription } = selectedDetails;
+          // Set fetched details
+          setDueDate(fetchedDueDate);
+          setSubmitDate(fetchedSubmissionDate);
+          setStatus(fetchedStatus);
+          setDescription(fetchedDescription);
+        } 
+      } catch (error) {
+        console.error('Error fetching details:', error);
+      }
+    };
+  
+    fetchDetails();
+  }, [title]);
+  
+
+  const updateOkrPageUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_UPDATE_OKR_PAGE_URL}`;
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('Form submitted with values:', {
+
+    const payload = {
       activity,
       status,
       title,
       link,
       dueDate,
       submitDate,
-      description,
-    });
-    // Add your form submission logic here
+      description
+    };
+  
+    try {
+      const accessToken = sessionStorage.getItem("token");
+      // Send a PUT request to json-server with the payload
+      const response = await fetch(updateOkrPageUrl, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(payload)
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to update record');
+      }
+      console.log('Record updated successfully');
+    } catch (error) {
+      console.error('Error updating record:', error);
+    }
   };
 
   const handleCancel = () => {
@@ -126,11 +194,6 @@ export const UpdateOkr = ({emailAddress, name}) => {
   const handleViewOKRClick = () => {
     console.log("View OKR button clicked");
     navigate("/viewokr");
-  };
-
-  const defaultProps = {
-    options: title1,
-    getOptionLabel: (option) => option.title,
   };
 
   return (
@@ -154,35 +217,34 @@ export const UpdateOkr = ({emailAddress, name}) => {
       </div>
       <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-1/2">
         <div className="flex flex-wrap">
-          <div className="w-full md:w-1/2 px-4 mb-4">
+        <div className="w-full md:w-1/2 px-4 mb-4">
             <label htmlFor="activity" className="block text-gray-700 text-sm font-bold mb-2">Activity</label>
             <Select
-          displayEmpty
-          value={activity}
-          onChange={handleActivityChange}
-          input={<OutlinedInput />}
-          renderValue={(selected) => {
-            if (selected.length === 0) {
-              return <em>Activity</em>;
-            }
-            return selected
-          }}
-          MenuProps={ActivityProps}
-          inputProps={{ 'aria-label': 'Without label' }}
-          className="w-full border rounded-md bg-white focus:border-black"
-        >
-          <MenuItem disabled value="">
-            <em>Activity</em>
-          </MenuItem>
-          {activities.map((activity) => (
-            <MenuItem
-              key={activity}
+              displayEmpty
               value={activity}
+              onChange={handleActivityChange}
+              input={<OutlinedInput />}
+              renderValue={(selected) => {
+                if (selected.length === 0) {
+                  return <em>Activity</em>;
+                }
+                return selected;
+              }}
+              inputProps={{ 'aria-label': 'Without label' }}
+              className="w-full border rounded-md bg-white focus:border-black"
             >
-              {activity}
-            </MenuItem>
-          ))}
-        </Select>
+              <MenuItem disabled value="">
+                <em>Activity</em>
+              </MenuItem>
+              {activities.map((activity) => (
+                <MenuItem
+                  key={activity}
+                  value={activity}
+                >
+                  {activity}
+                </MenuItem>
+              ))}
+            </Select>
           </div>
           <div className="w-full md:w-1/2 px-4 mb-4">
             <label htmlFor="status" className="block text-gray-700 text-sm font-bold mb-2 bg-white">Status</label>
@@ -217,8 +279,8 @@ export const UpdateOkr = ({emailAddress, name}) => {
           <div className="w-full px-4 mb-4">
             <label htmlFor="title" className="block text-gray-700 text-sm font-bold mb-2">Title</label>
             <Autocomplete
-        {...defaultProps}
         id="title"
+        options={titles}
         value={title}
         onChange={handleTitleChange}
         renderInput={(params) => (
