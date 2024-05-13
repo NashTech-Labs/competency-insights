@@ -145,7 +145,6 @@ export const ProfileDetails = () => {
                 {okr.length!==0 && (
                     <div>
                         <ContributionGrid contributionType={category ? okr.filter(okrs=> okrs.activity === category) : okr} />
-
                     </div>
                 )}
             </>
