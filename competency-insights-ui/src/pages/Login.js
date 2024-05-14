@@ -1,11 +1,11 @@
 import { useMsal } from "@azure/msal-react";
 import { useNavigate } from "react-router-dom";
 import { msalConfig } from "../auth/authConfig";
+import { useState } from "react";
 
 export const Login = () => {
   const navigate = useNavigate();
   const { instance } = useMsal();
-
   const handleLogin = async () => {
     try {
       // Initiate the login process using Microsoft authentication
@@ -24,6 +24,7 @@ export const Login = () => {
       const account = instance.getActiveAccount();
       const userId = account?.idTokenClaims?.oid;
       const userName = account?.idTokenClaims?.name;
+
 
       // Store user ID and user name in session storage
       sessionStorage.setItem("userId", userId);

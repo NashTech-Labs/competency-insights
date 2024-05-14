@@ -3,8 +3,9 @@ import { FormElement } from './components/FormElement';
 import { useNavigate } from "react-router-dom";
 import { PermanentDrawerLeft } from "../../components/Layout/NavBar";
 import Button from '@mui/material/Button';
+import { useDataProvider } from '../../services/dataService';
 
-export const AddOkrPage = ({name}) => {
+export const AddOkrPage = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     activity: '',
@@ -15,22 +16,23 @@ export const AddOkrPage = ({name}) => {
     dueDate: '',
     description: '',
   });
-
+  const {user} =useDataProvider()
   useEffect(() => {
-    const storedUserData = localStorage.getItem("userData");
-    if (storedUserData) {
-      const userData = JSON.parse(storedUserData);
+    if (user) {
       setFormData(prevFormData => ({
         ...prevFormData,
-        competency: userData.department
+        competency: user.department
       }));
     }
-  }, []);
+  }, [user]);
 
   const addOkrPageUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_ADD_OKR_PAGE_URL}`;
 
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+    
+    
 
     try {
       const accessToken = sessionStorage.getItem("token");
@@ -81,7 +83,7 @@ export const AddOkrPage = ({name}) => {
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-200 bg-opacity-30">
-      <PermanentDrawerLeft name = {name} />
+      <PermanentDrawerLeft name = {user.name} />
       <div className="w-1/2 flex justify-center mt-20 mb-0">
         <div className="bg-gray-300 py-4 px-6 w-full mb-0 rounded-t-md flex justify-between items-center">
           <button onClick={handleAddOKRClick} className="w-1/3 py-2 px-4 mb-0 rounded focus:outline-none focus:shadow-outline font-bold text-lg flex items-center justify-center">

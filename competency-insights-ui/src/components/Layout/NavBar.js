@@ -17,16 +17,14 @@ import PeopleIcon from "@mui/icons-material/People";
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import { Header } from "./Header";
 import { Link } from "react-router-dom";
-
 const drawerWidth = 200;
-
 export const PermanentDrawerLeft= ({name}) => {
-
   const sidebarItems = [
     { text: "Profile", link: "/profile", icon: <PersonIcon /> },
     { text: "OKR's", link: "/addokr", icon: <CheckCircleOutlineIcon /> },
     { text: "Inbox", link: "#", icon: <InboxIcon /> },
-    { text: "Teams", link: "/team", icon: <PeopleIcon /> }
+    { text: "Teams", link: "/team", icon: <PeopleIcon /> },
+    
   ];
 
   if (name === "Sushant Gupta" || name === "Ankit Mogha") {

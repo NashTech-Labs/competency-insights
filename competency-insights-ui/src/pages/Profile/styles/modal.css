@@ -12,7 +12,7 @@
     align-items: center;
   }
   
-  .hidden {
+  .modal-hidden {
     display: none;
   }
   
@@ -40,7 +40,7 @@
   }
   
   /* Button styles */
-  .button {
+  .modal-button {
     display: inline-block;
     font-weight: 400;
     text-align: center;
@@ -55,29 +55,29 @@
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   }
   
-  .button:focus,
-  .button:hover {
+  .modal-button:focus,
+  .modal-button:hover {
     outline: none;
   }
   
-  .button.bg-red-500 {
+  .modal-button.bg-red-500 {
     color: white;
     background-color: #ef4444;
     border-color: #ef4444;
   }
   
-  .button.bg-red-500:hover {
+  .modal-button.bg-red-500:hover {
     background-color: #dc2626;
     border-color: #dc2626;
   }
   
-  .button.bg-green-500 {
+  .modal-button.bg-green-500 {
     color: white;
     background-color: #10b981;
     border-color: #10b981;
   }
   
-  .button.bg-green-500:hover {
+  .modal-button.bg-green-500:hover {
     background-color: #059669;
     border-color: #059669;
   }
