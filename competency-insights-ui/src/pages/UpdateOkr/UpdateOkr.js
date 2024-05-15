@@ -31,7 +31,7 @@ const statuses = [
   'Under Review',
   'Published',
 ];
-export const UpdateOkr = () => {
+export const UpdateOkr = ({emailAddress}) => {
   
   const currentDate = new Date().toISOString().split('T')[0];
   const navigate = useNavigate();
