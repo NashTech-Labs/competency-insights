@@ -14,7 +14,8 @@ export const ProfileDetails = () => {
     const { user, okr } = useDataProvider()
 
     const getCategory = async () => {
-        const categoriesData = await UseDataFetching('Data/categories.json');
+       
+        const categoriesData =await UseDataFetching(`${process.env.REACT_APP_GET_CATEGORIES}`)
         if (categoriesData) {
             setCategories(categoriesData);
         }

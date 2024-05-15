@@ -5,27 +5,15 @@ import { useMsal } from '@azure/msal-react';
 
 // Create a context
 const EmployeeContext = createContext();
-export const DataProvider = ({ children }) => {
+export const DataProvider = ({ children, email }) => {
   const [user, setUser] = useState([]);
   const [okr, setOKR] = useState([]);
   const [studioData, setStudioData] = useState([]);
   const [loading, setLoading] = useState(true);
   const { accounts } = useMsal();
-  const getEmailFromAzureDirectory =async() =>{
-    try {
-      if (accounts && accounts.length > 0) {
-        const username = accounts[0].username;
-         return username;
-      }
-      
-    } catch (error) {
-      console.error("Error while fetching username:", error);
-    }
-  }
-
   // Separate function to fetch employee data
   
-  const fetchEmployeeData = async (email) => {
+  const fetchEmployeeData = async () => {
     try {
       const profileUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/${encodeURIComponent(email)}`;
       const data = await UseDataFetching(profileUrl)
@@ -39,9 +27,9 @@ export const DataProvider = ({ children }) => {
   };
   
   // Separate function to fetch OKR data
-  const fetchOKRData = async (email) => {
+  const fetchOKRData = async () => {
     try {
-      const okrUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_GET_OKR_PAGE_URL}/email/${encodeURIComponent(email)}`;
+      const okrUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_GET_OKR_BY_EMAIL}/${encodeURIComponent(email)}`;
       const okrdata= await UseDataFetching(okrUrl);
       if (!okrdata) {
         throw new Error(`Failed to fetch okrdata`);
@@ -70,9 +58,8 @@ export const DataProvider = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-       const email = await getEmailFromAzureDirectory();
-        await fetchEmployeeData(email);
-        await fetchOKRData(email);
+        await fetchEmployeeData();
+        await fetchOKRData();
         setLoading(false);
       } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
@@ -81,8 +68,7 @@ export const DataProvider = ({ children }) => {
   
     fetchData();
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [email]);
   
   return (
     <EmployeeContext.Provider value={{ user, okr, studioData, fetchStudioData ,fetchOKRData }}>
