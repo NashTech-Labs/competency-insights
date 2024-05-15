@@ -25,21 +25,22 @@ public class NasherController {
     private final PasGo1Service pasGo1Service;
     private static final Log log = LogFactory.getLog(NasherController.class);
 
-    @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
+
+   @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
     @GetMapping("/nashers")
     public Flux<Nasher> getAllNasher() {
         log.info("Enter into NasherController: Get all Nashers request");
         return processor.getNashers();
     }
 
-    @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
+   @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
     @GetMapping("/nasher/{empId}")
     public Mono<Nasher> getNasherById(@PathVariable String empId) {
         log.info("Enter into NasherController: Get Nasher by employee Id: " + empId);
         return processor.getNasherInfo(empId);
     }
 
-    @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
+   @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
     @GetMapping("/nasher/email/{email}")
     public Mono<Nasher> getNasherByEmail(@PathVariable String email) {
         log.info("Enter into NasherController: Get Nasher by email: " +  email);

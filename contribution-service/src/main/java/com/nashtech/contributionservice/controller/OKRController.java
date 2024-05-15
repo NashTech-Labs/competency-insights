@@ -52,6 +52,8 @@ public class OKRController {
         }
     }
 
+
+
     @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
     @GetMapping(value = "/nasher/okrdata", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getOKRData() {
@@ -76,6 +78,7 @@ public class OKRController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting OKR data");
         }
     }
+
 
     @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
     @GetMapping(value = "/nasher/okrdata/email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)

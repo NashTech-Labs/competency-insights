@@ -4,79 +4,40 @@ import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
 import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
 import { Contribution } from "./components/Contribution";
 import { PermanentDrawerLeft } from "../../components/Layout/NavBar";
-import { SkeletonProfile } from "../../components/Layout/SkeletonProfile";
-import useDataFetching from "../../services/useDataFetching";
-import {useMsal} from "@azure/msal-react";
+import { useDataProvider } from '../../services/dataService';
+import UseDataFetching from "../../services/useDataFetching";
 
-export const ProfileDetails = ({ emailAddress, name }) => {
-    const [user, setUser] = useState(null);
-    const [okrs, setOKR] = useState(null);
+export const ProfileDetails = () => {
+
     const [categories, setCategories] = useState({});
-    const [category, setCategory] = useState("Blogs");
-    const { instance } = useMsal();
-    const { data: categoriesData, isLoading: categoriesIsLoading } = useDataFetching('Data/categories.json', instance);
+    const [category, setCategory] = useState("Blog");
+    const { user, okr } = useDataProvider()
 
+    const getCategory = async () => {
+       
+        const categoriesData =await UseDataFetching(`${process.env.REACT_APP_GET_CATEGORIES}`)
+        if (categoriesData) {
+            setCategories(categoriesData);
+        }
+    }
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                if (emailAddress) {
-                    const storedUserData = localStorage.getItem("userData");
-                    const storedOkrData = localStorage.getItem("okrsData");
-                    if (storedUserData) {
-                        setUser(JSON.parse(storedUserData));
-                        setOKR(JSON.parse(storedOkrData));
-                    }
-                    else
-                    {
-                        const profilePageUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/${encodeURIComponent(emailAddress)}`;
-                        const getOkrDataUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_GET_OKR_PAGE_URL}/${encodeURIComponent(emailAddress)}`;
-                        const accessToken = sessionStorage.getItem("token");
-                        const response = await fetch(profilePageUrl, {
-                            headers: {
-                                Authorization: `Bearer ${accessToken}`,
-                            },
-                        });
-
-                        const okrsDataResponse = await fetch(getOkrDataUrl, {
-                            headers: {
-                                Authorization: `Bearer ${accessToken}`,
-                            },
-                        });
-                        if (response.ok) {
-                            const userData = await response.json();
-                            const okrsData = await okrsDataResponse.json();
-                            setUser(userData);
-                            setOKR(okrsData);
-                            localStorage.setItem("userData", JSON.stringify(userData));
-                            localStorage.setItem("okrsData" , JSON.stringify(okrsData));
-                        }
-                    }
-                }
-                else{
-                    setUser('loading');
-                }
+                getCategory();
             } catch (error) {
-                setUser(null);
                 console.error("Error fetching user data:", error);
             }
         };
         fetchUserData();
-    }, [emailAddress]);
-
-    useEffect(() => {
-        if (categoriesData) {
-            setCategories(categoriesData);
-        }
-    }, [categoriesData]);
+    }, []);
 
     const handleCategoryClick = (selectedCategory) => {
         setCategory(selectedCategory);
     };
 
     let content;
-    if (user === 'loading' || categoriesIsLoading) {
-        content = <SkeletonProfile />;
-    } else if (user === null) {
+
+    if (!user || user.length===0) {
         content = (
             <div className="flex justify-center items-center h-screen">
                 <img
@@ -166,26 +127,25 @@ export const ProfileDetails = ({ emailAddress, name }) => {
                         <div className="lg:order-2 lg:w-1/2 p-2">
                             <table className="w-full">
                                 <tbody>
-                                <tr>
-                                    {Object.keys(categories).map((key) => (
-                                        <th
-                                            key={key}
-                                            className={`text-sm p-1 cursor-pointer ${category === categories[key] ? "bg-gray-300" : ""}`}
-                                            onClick={() => handleCategoryClick(categories[key])}
-                                        >
-                                            {categories[key]}
-                                        </th>
-                                    ))}
-                                </tr>
+                                    <tr>
+                                        {Object.keys(categories).map((key) => (
+                                            <th
+                                                key={key}
+                                                className={`text-sm p-1 cursor-pointer ${category === categories[key] ? "bg-gray-300" : ""}`}
+                                                onClick={() => handleCategoryClick(categories[key])}
+                                            >
+                                                {categories[key]}
+                                            </th>
+                                        ))}
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
                     )}
                 </section>
-
-                {okrs && (
+                {okr.length!==0 && (
                     <div>
-                        <Contribution contributionType={category ? okrs.filter(okr => okr.activity === category) : okrs} />
+                        <Contribution contributionType={category ? okr.filter(okrs => okrs.activity === category) : okr} />
                     </div>
                 )}
             </>
@@ -194,8 +154,8 @@ export const ProfileDetails = ({ emailAddress, name }) => {
 
     return (
         <>
-            <PermanentDrawerLeft name={name} />
-            <section className="bg-gray-200 p-4 min-h-screen ml-60 px-20 mt-10">
+            <PermanentDrawerLeft name={user.name} />
+            <section className="bg-gray-200 p-4 min-h-screen ml-40 px-20">
                 {content}
             </section>
         </>
