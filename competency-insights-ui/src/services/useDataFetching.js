@@ -7,7 +7,7 @@ const UseDataFetching = async (url) => {
       }
     };
 
-    const dataResponse = await fetch(url);
+    const dataResponse = await fetch(url,requestOptions);
     if (!dataResponse.ok) {
       throw new Error('Failed to fetch data');
     }
