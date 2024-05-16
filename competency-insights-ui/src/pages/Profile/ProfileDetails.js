@@ -26,6 +26,7 @@ export const ProfileDetails = () => {
     const onRefresh=async()=>{
        await fetchEmployeeData();
        await fetchOKRData();
+       
     }
         
 
