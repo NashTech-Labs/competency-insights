@@ -6,12 +6,13 @@ import { Contribution } from "./components/Contribution";
 import { PermanentDrawerLeft } from "../../components/Layout/NavBar";
 import { useDataProvider } from '../../services/dataService';
 import UseDataFetching from "../../services/useDataFetching";
+import Refresh from "../Refresh";
 
 export const ProfileDetails = () => {
 
     const [categories, setCategories] = useState({});
     const [category, setCategory] = useState("Blog");
-    const { user, okr } = useDataProvider()
+    const { user, okr ,fetchOKRData,fetchEmployeeData} = useDataProvider()
 
     const getCategory = async () => {
        
@@ -20,6 +21,16 @@ export const ProfileDetails = () => {
             setCategories(categoriesData);
         }
     }
+
+    // Refreshing the okr and employee data on click 
+    const onRefresh=async()=>{
+       await fetchEmployeeData();
+       await fetchOKRData();
+       
+    }
+        
+
+    
     useEffect(() => {
         const fetchUserData = async () => {
             try {
@@ -74,11 +85,14 @@ export const ProfileDetails = () => {
                                 </div>
                             )}
                             {user.contact && (
-                                <div className="mr-4 mb-2">
+                                <div className="mr-44 mb-2">
                                     <CallOutlinedIcon />
                                     {user.contact}
                                 </div>
                             )}
+                              <div className="mr-2 mb-2 " onClick={()=>onRefresh()}>
+                                   <Refresh/>
+                                </div>
                             <hr className="w-full mt-4 mb-4" />
                         </div>
                         <div className="grid grid-cols-3 gap-4">

@@ -28,7 +28,7 @@ export const AppRouters = () => {
       </Routes>
        <DataProvider email={email}>
         <Routes>
-          <Route path="/profile" element={<ProtectedRoute><ProfileDetails /></ProtectedRoute>} />
+        <Route path="/profile" element={<ProtectedRoute><ProfileDetails /></ProtectedRoute>} />
           <Route path="/team" element={<ProtectedRoute><TeamPage  /></ProtectedRoute> }/>
           <Route path="/addokr" element={<ProtectedRoute><AddOkrPage /> </ProtectedRoute>}/>
           <Route path="/updateokr" element={<ProtectedRoute><UpdateOkr /></ProtectedRoute>}/>

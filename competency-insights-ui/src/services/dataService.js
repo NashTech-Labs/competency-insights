@@ -12,13 +12,11 @@ export const DataProvider = ({ children, email }) => {
   const [loading, setLoading] = useState(true);
   const { accounts } = useMsal();
   // Separate function to fetch employee data
-  
   const fetchEmployeeData = async () => {
     try {
       const profileUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_PROFILE_PAGE_URL}/${encodeURIComponent(email)}`;
       const data = await UseDataFetching(profileUrl)
       setUser(data);
-  
     } catch (error) {
       setLoading(false)
       console.error('There was a problem fetching employee data:', error);
@@ -67,11 +65,10 @@ export const DataProvider = ({ children, email }) => {
     };
   
     fetchData();
-
   }, [email]);
   
   return (
-    <EmployeeContext.Provider value={{ user, okr, studioData, fetchStudioData ,fetchOKRData }}>
+    <EmployeeContext.Provider value={{ user, okr, studioData, fetchStudioData ,fetchOKRData, fetchEmployeeData }}>
       {loading ? <SkeletonProfile/> : children}
     </EmployeeContext.Provider>
   );
