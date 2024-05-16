@@ -30,8 +30,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+
 
 @ContextConfiguration(classes = {NasherController.class})
 @ExtendWith(SpringExtension.class)
@@ -52,17 +51,18 @@ class NasherControllerTest {
     void testGetAllNasher() {
         // Arrange
         FirestoreRepository firestoreRepository = mock(FirestoreRepository.class);
-        Flux<Nasher> fromIterableResult = Flux.fromIterable(new ArrayList<>());
-        when(firestoreRepository.findAll()).thenReturn(fromIterableResult);
+        List<Nasher> nashers = new ArrayList<>();
+        when(firestoreRepository.findAll()).thenReturn(nashers);
         FirestoreProcessor processor = new FirestoreProcessor(firestoreRepository);
 
         // Act
-        Flux<Nasher> actualAllNasher = (new NasherController(processor, new PasGo1ServiceInMemory())).getAllNasher();
+        List<Nasher> actualAllNasher = (new NasherController(processor, new PasGo1ServiceInMemory())).getAllNasher();
 
         // Assert
         verify(firestoreRepository).findAll();
-        assertSame(fromIterableResult, actualAllNasher);
+        assertSame(nashers, actualAllNasher);
     }
+
 
     /**
      * Method under test: {@link NasherController#getNasherById(String)}
@@ -71,31 +71,30 @@ class NasherControllerTest {
     void testGetNasherById() {
         // Arrange
         FirestoreRepository firestoreRepository = mock(FirestoreRepository.class);
-        Mono<Nasher> justResult = Mono
-                .just(new Nasher(
-                        "42",
-                        "Name",
-                        "jane.doe@example.org",
-                        "Date of Birth",
-                        "Date of Joining",
-                        "Designation",
-                        "Reporting Manager",
-                        "Department",
-                        "Location",
-                        "Contact",
-                        List.of("Reporting Member 1", "Reporting Member 2"),
-                        new Contributions()
-                ));
+        Nasher expectedNasher = new Nasher(
+                "42",
+                "Name",
+                "jane.doe@example.org",
+                "Date of Birth",
+                "Date of Joining",
+                "Designation",
+                "Reporting Manager",
+                "Department",
+                "Location",
+                "Contact",
+                List.of("Reporting Member 1", "Reporting Member 2"),
+                new Contributions()
+        );
 
-        when(firestoreRepository.findByEmpId(Mockito.<String>any())).thenReturn(justResult);
+        when(firestoreRepository.findByEmpId("42")).thenReturn(expectedNasher);
         FirestoreProcessor processor = new FirestoreProcessor(firestoreRepository);
 
         // Act
-        Mono<Nasher> actualNasherById = (new NasherController(processor, new PasGo1ServiceInMemory())).getNasherById("42");
+        Nasher actualNasherById = (new NasherController(processor, new PasGo1ServiceInMemory())).getNasherById("42");
 
         // Assert
-        verify(firestoreRepository).findByEmpId(Mockito.<String>any());
-        assertSame(justResult, actualNasherById);
+        verify(firestoreRepository).findByEmpId("42");
+        assertSame(expectedNasher, actualNasherById);
     }
 
     /**
