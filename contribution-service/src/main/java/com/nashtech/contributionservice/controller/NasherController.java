@@ -26,8 +26,7 @@ public class NasherController {
         return processor.getNashers();
     }
 
-
-    @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
+   @PreAuthorize("hasAuthority('APPROLE_competency_insights_user')")
     @GetMapping("/nasher/{empId}")
     public Nasher getNasherById(@PathVariable String empId) {
         log.info("Enter into NasherController: Get Nasher by employee Id: " + empId);
