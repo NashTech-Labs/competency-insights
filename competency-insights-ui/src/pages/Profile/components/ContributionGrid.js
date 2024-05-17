@@ -5,9 +5,9 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 
 const ContributionGrid = ({ contributionType }) => {
   const columnDefs = [
-    { headerName: 'Title', field: 'title', width: 475 },
-    { headerName: 'Technology', field: 'radarTechnology', width: 475 },
-    { headerName: 'Status', field: 'status', width: 475 },
+    { headerName: 'Title', field: 'title', width: 500 },
+    { headerName: 'Technology', field: 'radarTechnology', width: 500 },
+    { headerName: 'Status', field: 'status', width: 500 },
   ];
 
   const rowData = contributionType.map((item, index) => ({
