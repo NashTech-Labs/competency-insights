@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
 import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
-import { Contribution } from "./components/Contribution";
 import { PermanentDrawerLeft } from "../../components/Layout/NavBar";
 import { useDataProvider } from '../../services/dataService';
 import UseDataFetching from "../../services/useDataFetching";
+import ContributionGrid from "./components/ContributionGrid";
 
 export const ProfileDetails = () => {
 
@@ -145,7 +145,7 @@ export const ProfileDetails = () => {
                 </section>
                 {okr.length!==0 && (
                     <div>
-                        <Contribution contributionType={category ? okr.filter(okrs => okrs.activity === category) : okr} />
+                        <ContributionGrid contributionType={category ? okr.filter(okrs=> okrs.activity === category) : okr} />
                     </div>
                 )}
             </>
