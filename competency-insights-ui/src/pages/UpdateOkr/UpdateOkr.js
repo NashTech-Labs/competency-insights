@@ -20,18 +20,18 @@ const StatusProps = {
 };
 
 const activities = [
-  'Blog',
+  'Blogs',
   'TechHub',
   'Certification',
   'Knolx',
 ];
 
 const statuses = [
-  'draft',
+  'Draft',
   'Under Review',
   'Published',
 ];
-export const UpdateOkr = ({emailAddress}) => {
+export const UpdateOkr = () => {
   
   const currentDate = new Date().toISOString().split('T')[0];
   const navigate = useNavigate();
@@ -44,7 +44,8 @@ export const UpdateOkr = ({emailAddress}) => {
   const [dueDate, setDueDate] = React.useState(currentDate);
   const [submitDate, setSubmitDate] = React.useState(currentDate);
   const [description, setDescription] = React.useState('');
-  const {user} =useDataProvider();
+  const {user, okr} =useDataProvider();
+  console.log("Log: ", okr)
   const handleActivityChange = (event) => {
     const {
       target: { value },
@@ -85,21 +86,15 @@ export const UpdateOkr = ({emailAddress}) => {
     setDescription(event.target.value);
   };
 
-  const okrDataUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_GET_OKR_PAGE_URL}/${emailAddress}`;
-
   useEffect(() => {
     const fetchTitles = async () => {
       try {
-        const response = await fetch(okrDataUrl);
-        if (!response.ok) {
-          throw new Error('Failed to fetch titles');
-        }
-        const data = await response.json();
-        console.log('Fetched Data:', data);
-        const dataArray = Array.isArray(data) ? data : [data];
-        console.log(dataArray);
         // Filter titles based on the selected activity
-        const filteredTitles = dataArray.filter(item => item.activity === activity).map(item => item.title);
+        console.log('OKR Data:', okr);
+        console.log('Selected Activity:', activity);
+
+        // Filter titles based on the selected activity
+        const filteredTitles = okr.filter(item => item.activity === activity).map(item => item.title);
 
         console.log('Filtered Titles:', filteredTitles);
   
@@ -114,18 +109,12 @@ export const UpdateOkr = ({emailAddress}) => {
     if (activity) {
       fetchTitles();
     }
-  }, [activity]);
+  }, [activity, okr]);
   
   useEffect(() => {
     const fetchDetails = async () => {
       try {
-        const response = await fetch(okrDataUrl);
-        if (!response.ok) {
-          throw new Error('Failed to fetch details');
-        }
-        const data = await response.json();
-        const dataArray = Array.isArray(data) ? data : [data];
-        const selectedDetails = dataArray.find(item => item.title === title);
+        const selectedDetails = okr.find(item => item.title === title);
         if (selectedDetails) {
           const { dueDate: fetchedDueDate, submissionDate: fetchedSubmissionDate, status: fetchedStatus, description: fetchedDescription } = selectedDetails;
           // Set fetched details
@@ -140,7 +129,7 @@ export const UpdateOkr = ({emailAddress}) => {
     };
   
     fetchDetails();
-  }, [title]);
+  }, [title, okr]);
   
 
   const updateOkrPageUrl = `${process.env.REACT_APP_BACKEND_APP_URI}${process.env.REACT_APP_UPDATE_OKR_PAGE_URL}`;
