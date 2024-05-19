@@ -20,7 +20,7 @@ const StatusProps = {
 };
 
 const activities = [
-  'Blogs',
+  'Blog',
   'TechHub',
   'Certification',
   'Knolx',
